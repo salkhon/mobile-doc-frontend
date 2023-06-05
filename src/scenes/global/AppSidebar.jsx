@@ -40,6 +40,7 @@ function Item(props) {
 			active={props.selected === props.title}
 			style={{
 				color: colors.grey[100],
+                margin: "-3px 1px -3px 1px"
 			}}
 			onClick={() => props.setSelected(props.title)}
 			icon={props.icon}
@@ -73,14 +74,6 @@ function AppSidebar(props) {
 			>
 				<Menu
 					iconShape="square"
-					menuItemStyles={{
-						icon: {
-							backgroundColor: "transparent",
-						},
-						subMenuContent: {
-							padding: "5px 35px 5px 20px",
-						},
-					}}
 				>
 					{/** LOGO AND MENU ICON */}
 					<MenuItem
