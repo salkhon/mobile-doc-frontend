@@ -13,7 +13,7 @@ import SearchIcon from "@mui/icons-material/Search.js";
 const Topbar = () => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
-	const colorMode = useContext(ColorModeContext);
+	const colorModeCtx = useContext(ColorModeContext);
 
 	return (
 		// like div, but allows convenient css
@@ -35,7 +35,7 @@ const Topbar = () => {
 
 			{/** ICONS */}
 			<Box display="flex">
-				<IconButton onClick={colorMode.toggleColorMode}>
+				<IconButton onClick={colorModeCtx.toggleColorMode}>
 					{theme.palette.mode === "dark" ? (
 						<LightModeOutlinedIcon />
 					) : (
