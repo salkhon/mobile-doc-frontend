@@ -31,7 +31,7 @@ import {
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 
-function Item(props) {
+function MItem(props) {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 
@@ -40,7 +40,7 @@ function Item(props) {
 			active={props.selected === props.title}
 			style={{
 				color: colors.grey[100],
-                margin: "-3px 1px -3px 1px"
+				margin: "-3px 1px -3px 1px",
 			}}
 			onClick={() => props.setSelected(props.title)}
 			icon={props.icon}
@@ -59,27 +59,25 @@ function AppSidebar(props) {
 	const [selected, setSelected] = useState("Dashboard"); // what page we are in
 
 	return (
-		<Box>
+		<Box marginRight="20px">
 			<Sidebar
 				collapsed={isCollapsed}
 				rootStyles={{
 					[`.${sidebarClasses.container}`]: {
 						background: `${colors.primary[400]}`,
-						height: "100%",
+                        height: "100vh"
 					},
 					[`.${menuClasses.icon}`]: {
 						backgroundColor: "transparent",
 					},
 				}}
 			>
-				<Menu
-					iconShape="square"
-				>
+				<Menu>
 					{/** LOGO AND MENU ICON */}
 					<MenuItem
 						onClick={() => setIsCollapsed(!isCollapsed)}
 						icon={isCollapsed ? <MenuOutlined /> : undefined}
-						rootStyles={{
+						style={{
 							margin: "10px 0 20px 0",
 							color: colors.grey[100],
 						}}
@@ -88,7 +86,7 @@ function AppSidebar(props) {
 							<Box
 								display="flex"
 								justifyContent="space-between"
-								alignItems="certed"
+								alignItems="center"
 								marginLeft="15px"
 							>
 								<Typography
@@ -128,7 +126,7 @@ function AppSidebar(props) {
 
 							<Box textAlign="center">
 								<Typography
-									variant="h2"
+									variant="h3"
 									color={colors.grey[100]}
 									fontWeight="bold"
 									style={{
@@ -149,7 +147,7 @@ function AppSidebar(props) {
 
 					{/** MENU ITEMS */}
 					<Box paddingLeft={isCollapsed ? undefined : "10%"}>
-						<Item
+						<MItem
 							title="Dashboard"
 							to="/"
 							icon={<HomeOutlined />}
@@ -165,21 +163,21 @@ function AppSidebar(props) {
 						>
 							Data
 						</Typography>
-						<Item
+						<MItem
 							title="Manage Team"
 							to="/team"
 							icon={<PeopleOutlined />}
 							selected={selected}
 							setSelected={setSelected}
 						/>
-						<Item
+						<MItem
 							title="Contacts Information"
 							to="/contacts"
 							icon={<ContactsOutlined />}
 							selected={selected}
 							setSelected={setSelected}
 						/>
-						<Item
+						<MItem
 							title="Invoices Balances"
 							to="/invoices"
 							icon={<ReceiptOutlined />}
@@ -195,21 +193,21 @@ function AppSidebar(props) {
 						>
 							Pages
 						</Typography>
-						<Item
+						<MItem
 							title="Profile Form"
 							to="/form"
 							icon={<PersonOutlined />}
 							selected={selected}
 							setSelected={setSelected}
 						/>
-						<Item
+						<MItem
 							title="Calendar"
 							to="/calendar"
 							icon={<CalendarTodayOutlined />}
 							selected={selected}
 							setSelected={setSelected}
 						/>
-						<Item
+						<MItem
 							title="FAQ Page"
 							to="/faq"
 							icon={<HelpOutlined />}
@@ -225,28 +223,28 @@ function AppSidebar(props) {
 						>
 							Charts
 						</Typography>
-						<Item
+						<MItem
 							title="Bar Chart"
 							to="/bar"
 							icon={<BarChartOutlined />}
 							selected={selected}
 							setSelected={setSelected}
 						/>
-						<Item
+						<MItem
 							title="Pie Chart"
 							to="/pie"
 							icon={<PieChartOutlined />}
 							selected={selected}
 							setSelected={setSelected}
 						/>
-						<Item
+						<MItem
 							title="Line Chart"
 							to="/line"
 							icon={<TimelineOutlined />}
 							selected={selected}
 							setSelected={setSelected}
 						/>
-						<Item
+						<MItem
 							title="Geography Chart"
 							to="/geography"
 							icon={<MapOutlined />}

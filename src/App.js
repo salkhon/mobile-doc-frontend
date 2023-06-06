@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { ColorModeContext, useMode } from "./theme";
-import { CssBaseline, ThemeProvider } from "@mui/material";
+import { Box, CssBaseline, ThemeProvider } from "@mui/material";
 import Topbar from "./scenes/global/Topbar";
 import AppSidebar from "./scenes/global/AppSidebar"
 import Dashboard from "./scenes/dashboard"
 import { Route, Routes } from "react-router-dom";
+import Team from "./scenes/team";
 
 function App() {
 	const [theme, colorModeCtxVal] = useMode();
@@ -14,13 +15,13 @@ function App() {
 		<ColorModeContext.Provider value={colorModeCtxVal}>
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
-				<div className="app">
+				<Box className="app">
                     <AppSidebar isSidebar={isSidebar} />
 					<main className="content">
 						<Topbar />
                         <Routes>
                             <Route path="/" element={<Dashboard />} />
-                            <Route path="/team" element={<AppSidebar />} />
+                            <Route path="/team" element={<Team />} />
                             <Route path="/contacts" element={<Dashboard />} />
                             <Route path="/invoices" element={<Dashboard />} />
                             <Route path="/form" element={<Dashboard />} />
@@ -32,7 +33,7 @@ function App() {
                             <Route path="/geography" element={<Dashboard />} />
                         </Routes>
 					</main>
-				</div>
+				</Box>
 			</ThemeProvider>
 		</ColorModeContext.Provider>
 	);

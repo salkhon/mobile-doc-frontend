@@ -17,7 +17,7 @@ const Topbar = () => {
 
 	return (
 		// like div, but allows convenient css
-		<Box display="flex" justifyContent="space-between" padding={2}>
+		<Box display="flex" justifyContent="space-between" margin="20px">
 			{/** SEARCH BAR */}
 			<Box
 				display="flex"
