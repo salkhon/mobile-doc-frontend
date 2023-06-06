@@ -85,7 +85,33 @@ export default function Team() {
 		<Box margin="20px">
 			<Header title="TEAM" subtitle="Managing the Team Members" />
 
-			<Box margin="40px 0 0 0" height="75vh">
+			<Box
+				margin="40px 0 0 0"
+				height="75vh"
+				sx={{
+					".MuiDataGrid-root": {
+						border: "none",
+					},
+					".MuiDataGrid-cell": {
+						borderBottom: "none",
+					},
+					// can target classes defined in column names
+					".name-column--cell": {
+						colors: colors.greenAccent[300],
+					},
+					".MuiDataGrid-columnHeaders": {
+						backgroundColor: colors.blueAccent[700],
+						borderBottom: "none",
+					},
+					".MuiDataGrid-virtualScroller": {
+						backgroundColor: colors.primary[400],
+					},
+					".MuiDataGrid-footerContainer": {
+						borderTop: "none",
+						backgroundColor: colors.blueAccent[700],
+					},
+				}}
+			>
 				<DataGrid rows={mockDataTeam} columns={columns} />
 			</Box>
 		</Box>
