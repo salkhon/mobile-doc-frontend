@@ -71,7 +71,7 @@ export default function Team() {
 						{params.row.access === "user" && <LockOpenOutlined />}
 						<Typography
 							color={colors.grey[100]}
-							style={{ marginLeft: "5px" }}
+							style={{ marginLeft: "10px" }}
 						>
 							{params.row.access}
 						</Typography>

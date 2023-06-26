@@ -6,6 +6,8 @@ import AppSidebar from "./scenes/global/AppSidebar"
 import Dashboard from "./scenes/dashboard"
 import { Route, Routes } from "react-router-dom";
 import Team from "./scenes/team";
+import Contacts from "./scenes/contacts";
+import Invoices from "./scenes/invoices";
 
 function App() {
 	const [theme, colorModeCtxVal] = useMode();
@@ -22,8 +24,8 @@ function App() {
                         <Routes>
                             <Route path="/" element={<Dashboard />} />
                             <Route path="/team" element={<Team />} />
-                            <Route path="/contacts" element={<Dashboard />} />
-                            <Route path="/invoices" element={<Dashboard />} />
+                            <Route path="/contacts" element={<Contacts />} />
+                            <Route path="/invoices" element={<Invoices />} />
                             <Route path="/form" element={<Dashboard />} />
                             <Route path="/calendar" element={<Dashboard />} />
                             <Route path="/faq" element={<Dashboard />} />

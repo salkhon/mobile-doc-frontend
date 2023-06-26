@@ -201,13 +201,12 @@ export const useMode = () => {
 	const [mode, setMode] = useState("dark");
 
 	// context value init
-	const colorModeCtxVal = useMemo(
-		() => ({
+	const colorModeCtxVal = useMemo(() => {
+		return {
 			toggleColorMode: () =>
 				setMode((prev) => (prev === "light" ? "dark" : "light")),
-		}),
-		[]
-	);
+		};
+	}, []);
 
 	const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
 

@@ -1,11 +1,4 @@
-import {
-	Box,
-	IconButton,
-	Typography,
-	iconButtonClasses,
-	iconClasses,
-	useTheme,
-} from "@mui/material";
+import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import React, { useState } from "react";
 import {
 	Sidebar,
@@ -65,7 +58,7 @@ function AppSidebar(props) {
 				rootStyles={{
 					[`.${sidebarClasses.container}`]: {
 						background: `${colors.primary[400]}`,
-                        height: "100vh"
+						height: "100vh",
 					},
 					[`.${menuClasses.icon}`]: {
 						backgroundColor: "transparent",
@@ -146,7 +139,10 @@ function AppSidebar(props) {
 					)}
 
 					{/** MENU ITEMS */}
-					<Box paddingLeft={isCollapsed ? undefined : "10%"}>
+					<Box
+						paddingLeft={isCollapsed ? undefined : "10%"}
+						paddingTop={isCollapsed ? "184px" : undefined}
+					>
 						<MItem
 							title="Dashboard"
 							to="/"

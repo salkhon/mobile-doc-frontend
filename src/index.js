@@ -12,3 +12,8 @@ root.render(
 		</BrowserRouter>
 	</React.StrictMode>
 );
+
+/**
+ * Hooks: The purpose of react hooks is to replace class components with functional components. So react hooks 
+ * try to replicate class behaviors via function calls. 
+ */
