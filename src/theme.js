@@ -208,6 +208,7 @@ export const useMode = () => {
 		};
 	}, []);
 
+	// registering our theme settings with mui
 	const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
 
 	return [theme, colorModeCtxVal];
