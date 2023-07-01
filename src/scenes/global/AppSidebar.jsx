@@ -82,11 +82,20 @@ function AppSidebar(props) {
 								alignItems="center"
 								marginLeft="15px"
 							>
-								<Typography
+								<Box
+									component="img"
+									sx={{
+										height: 50,
+										width: 50,
+									}}
+									alt="pokedoc logo"
+									src="./pokedoc-logo.ico"
+								/>
+                                <Typography
 									variant="h3"
 									color={colors.grey[100]}
 								>
-									ADMINS
+									PokéDoc
 								</Typography>
 								<IconButton
 									onClick={() => setIsCollapsed(!isCollapsed)}
