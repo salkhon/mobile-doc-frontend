@@ -33,3 +33,22 @@ body,
 ::-webkit-scrollbar-track:hover {
 	background: #555;
 }
+
+/* Full Calendar */
+:root {
+    --fc-list-event-hover-bg-color: #1F2A40;
+    --fc-list-day-cushion-bg-color: #111;
+    --fc-cell-shaded-bg-color: #111;
+    --fc-today-bg-color: #0b101b;
+}
+
+.fc-theme-standard {
+
+    & .fc-list {
+        border: 1px solid var(--fc-border-color);
+    }
+    & .fc-list-day-cushion {
+        background-color: #0b101b;
+    }
+  
+}

@@ -71,7 +71,7 @@ export default function Calendar() {
 							<ListItem
 								key={event.id}
 								style={{
-									backgroundColor: colors.greenAccent[500],
+									backgroundColor: colors.blueAccent[400],
 									margin: "10px 0",
 									borderRadius: "2px",
 								}}
@@ -112,6 +112,13 @@ export default function Calendar() {
 						selectable={true}
 						selectMirror={true}
 						dayMaxEvents={true}
+						nowIndicator={true}
+						slotDuration="00:15:00"
+						slotMinTime="08:00:00"
+						slotMaxTime="22:00:00"
+						scrollTime={new Date().toLocaleTimeString("en-US", {
+							hour12: false,
+						})}
 						select={handleDateClick}
 						eventClick={handleEventClick}
 						eventsSet={(events) => setCurrentEvents(events)}
@@ -127,6 +134,7 @@ export default function Calendar() {
 								date: "2023-07-28",
 							},
 						]}
+						themeSystem={theme}
 					/>
 				</Box>
 			</Box>

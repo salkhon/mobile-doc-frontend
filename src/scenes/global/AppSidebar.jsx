@@ -63,6 +63,12 @@ function AppSidebar(props) {
 					[`.${menuClasses.icon}`]: {
 						backgroundColor: "transparent",
 					},
+					[`.${menuClasses.button}`]: {
+						backgroundColor: "transparent",
+						":hover": {
+							backgroundColor: `${colors.primary[500]} !important`,
+						},
+					},
 				}}
 			>
 				<Menu>
@@ -89,9 +95,9 @@ function AppSidebar(props) {
 										width: 50,
 									}}
 									alt="pokedoc logo"
-									src="./pokedoc-logo.ico"
+									src="./pokedoc-logo.png"
 								/>
-                                <Typography
+								<Typography
 									variant="h3"
 									color={colors.grey[100]}
 								>
