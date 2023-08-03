@@ -29,13 +29,17 @@ export default function Calendar() {
 		const calendarApi = selected.view.calendar;
 		calendarApi.unselect();
 
+		// default time
+		const startDate = new Date(selected.startStr);
+		startDate.setHours(8);
+
 		if (title) {
 			calendarApi.addEvent({
 				id: `${selected.dateStr}-${title}`,
 				title,
-				start: selected.startStr,
-				end: selected.endStr,
-				allDay: selected.allDay,
+				start: startDate.toISOString(),
+				// end: selected.endStr,
+				// allDay: selected.allDay,
 			});
 		}
 	}
@@ -64,9 +68,17 @@ export default function Calendar() {
 					bgcolor={colors.primary[400]}
 					padding="15px"
 					borderRadius="4px"
+					sx={{
+						height: "75vh",
+					}}
 				>
 					<Typography variant="h5"> Events </Typography>
-					<List>
+					<List
+						sx={{
+							height: "95%",
+							overflow: "auto",
+						}}
+					>
 						{currentEvents.map((event) => (
 							<ListItem
 								key={event.id}
@@ -92,6 +104,7 @@ export default function Calendar() {
 						))}
 					</List>
 				</Box>
+
 				{/* CALENDAR */}
 				<Box flex="1 1 100%" marginLeft="15px">
 					<FullCalendar
@@ -122,18 +135,9 @@ export default function Calendar() {
 						select={handleDateClick}
 						eventClick={handleEventClick}
 						eventsSet={(events) => setCurrentEvents(events)}
-						initialEvents={[
-							{
-								id: "1234",
-								title: "All-day event",
-								date: "2023-07-14",
-							},
-							{
-								id: "4321",
-								title: "Timed event",
-								date: "2023-07-28",
-							},
-						]}
+						defaultTimedEventDuration={"00:15:00"}
+						defaultAllDay={false}
+						initialEvents={[]}
 						themeSystem={theme}
 					/>
 				</Box>
