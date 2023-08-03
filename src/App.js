@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { ColorModeContext, useMode } from "./theme";
 import { Box, CssBaseline, ThemeProvider } from "@mui/material";
-import Topbar from "./scenes/global/Topbar";
-import AppSidebar from "./scenes/global/AppSidebar";
-import Dashboard from "./scenes/dashboard";
+import Topbar from "./components/global/Topbar";
+import AppSidebar from "./components/global/AppSidebar";
+import Dashboard from "./components/dashboard";
 import { Route, Routes } from "react-router-dom";
-import Team from "./scenes/team";
-import Contacts from "./scenes/contacts";
-import Invoices from "./scenes/invoices";
-import Form from "./scenes/form";
-import Calendar from "./scenes/calendar";
+import Team from "./components/team";
+import Contacts from "./components/contacts";
+import Invoices from "./components/invoices";
+import Form from "./components/form";
+import Calendar from "./components/calendar";
 
 function App() {
     const [theme, colorModeCtxVal] = useMode();

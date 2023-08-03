@@ -13,7 +13,7 @@ import listPlugin from "@fullcalendar/list";
 import interactionPlugin from "@fullcalendar/interaction";
 import { tokens } from "../../theme";
 import React, { useState } from "react";
-import Header from "../../components/Header";
+import Header from "../global/Header";
 
 export default function Calendar() {
 	const theme = useTheme();
@@ -30,11 +30,9 @@ export default function Calendar() {
 
 		if (title) {
 			calendarApi.addEvent({
-				id: `${selected.dateStr}-${title}`,
-				title,
+				id: `${selected.startStr}-${title}`,
+				title: title, // todo: put patient (for doctor) or doctor (for patient) name
 				start: selected.startStr,
-				// end: selected.endStr,
-				// allDay: selected.allDay,
 			});
 		}
 	}
@@ -49,6 +47,10 @@ export default function Calendar() {
 			selected.event.remove();
 		}
 	}
+
+    function handleEventDrop(eventDropInfo) {
+
+    }
 
 	return (
 		<Box margin="20px">
@@ -140,7 +142,7 @@ export default function Calendar() {
 						})}
 						select={handleDateClick}
 						eventClick={handleEventClick}
-						eventDrop={(event) => console.log(event)}
+						eventDrop={handleEventDrop}
 						eventsSet={(events) => setCurrentEvents(events)}
 						defaultTimedEventDuration={"00:15:00"}
                         firstDay={6}

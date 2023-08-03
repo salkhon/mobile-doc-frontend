@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Typography, useTheme } from "@mui/material";
 import { mockDataInvoices } from "../../data/mockData"; // normally through API calls
 import { tokens } from "../../theme";
-import Header from "../../components/Header";
+import Header from "../global/Header";
 import { DataGrid} from "@mui/x-data-grid"; // can add extra filters
 
 export default function Invoices() {

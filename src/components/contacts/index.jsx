@@ -2,7 +2,7 @@ import React from "react";
 import { Box } from "@mui/material";
 import { mockDataContacts } from "../../data/mockData"; // normally through API calls
 import { tokens } from "../../theme";
-import Header from "../../components/Header";
+import Header from "../global/Header";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid"; // can add extra filters
 import { useTheme } from "@mui/material";
 
