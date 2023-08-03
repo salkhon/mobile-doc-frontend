@@ -7,7 +7,6 @@ import {
 	useTheme,
 } from "@mui/material";
 import FullCalendar from "@fullcalendar/react";
-import { formatDate } from "@fullcalendar/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
@@ -29,15 +28,11 @@ export default function Calendar() {
 		const calendarApi = selected.view.calendar;
 		calendarApi.unselect();
 
-		// default time
-		const startDate = new Date(selected.startStr);
-		startDate.setHours(8);
-
 		if (title) {
 			calendarApi.addEvent({
 				id: `${selected.dateStr}-${title}`,
 				title,
-				start: startDate.toISOString(),
+				start: selected.startStr,
 				// end: selected.endStr,
 				// allDay: selected.allDay,
 			});
@@ -92,11 +87,18 @@ export default function Calendar() {
 									primary={event.title}
 									secondary={
 										<Typography>
-											{formatDate(event.start, {
-												year: "numeric",
-												month: "short",
-												day: "numeric",
-											})}
+											{event.start.toLocaleDateString(
+												"en-us",
+												{
+													weekday: "short",
+													year: "2-digit",
+													month: "short",
+													day: "numeric",
+													hour: "numeric",
+													minute: "numeric",
+													hour12: true,
+												}
+											)}
 										</Typography>
 									}
 								/>
@@ -120,12 +122,16 @@ export default function Calendar() {
 							center: "title",
 							right: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
 						}}
-						initialView="dayGridMonth"
+						initialView="timeGridWeek"
 						editable={true}
 						selectable={true}
 						selectMirror={true}
 						dayMaxEvents={true}
 						nowIndicator={true}
+						eventDurationEditable={false}
+						selectOverlap={false}
+						eventOverlap={false}
+						slotEventOverlap={false}
 						slotDuration="00:15:00"
 						slotMinTime="08:00:00"
 						slotMaxTime="22:00:00"
@@ -134,8 +140,10 @@ export default function Calendar() {
 						})}
 						select={handleDateClick}
 						eventClick={handleEventClick}
+						eventDrop={(event) => console.log(event)}
 						eventsSet={(events) => setCurrentEvents(events)}
 						defaultTimedEventDuration={"00:15:00"}
+                        firstDay={6}
 						defaultAllDay={false}
 						initialEvents={[]}
 						themeSystem={theme}
