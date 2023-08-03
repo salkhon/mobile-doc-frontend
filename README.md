@@ -1,3 +1,6 @@
+# Netlify Deployment Status
+[![Netlify Status](https://api.netlify.com/api/v1/badges/3ea121d8-2c6e-4a53-a069-efd13c47e9a6/deploy-status)](https://app.netlify.com/sites/pokedoc/deploys)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
