@@ -23,6 +23,7 @@ import {
 	TimelineOutlined,
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function MItem(props) {
 	const theme = useTheme();
@@ -47,6 +48,7 @@ function MItem(props) {
 function AppSidebar(props) {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
+	const { user } = useAuth0();
 
 	const [isCollapsed, setIsCollapsed] = useState(false);
 	const [selected, setSelected] = useState("Dashboard"); // what page we are in
@@ -141,7 +143,7 @@ function AppSidebar(props) {
 										margin: "10px 0 0 0",
 									}}
 								>
-									Salman Khondker
+									{user?.email}
 								</Typography>
 								<Typography
 									variant="h5"
