@@ -11,8 +11,8 @@ export function LoginPage() {
 			margin="20px"
 		>
 			<Header
-				title="LoginPage"
-				subtitle="Welcome to your LoginPage"
+				title="Login Page"
+				subtitle="Welcome to your Login Page"
 			/>
 		</Box>
 	);

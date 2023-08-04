@@ -25,6 +25,7 @@ const Topbar = () => {
 		// like div, but allows convenient css
 		<Box display="flex" justifyContent="space-between" margin="20px">
 			{/** SEARCH BAR */}
+			{}
 			<Box
 				display="flex"
 				bgcolor={colors.primary[400]}
@@ -51,7 +52,7 @@ const Topbar = () => {
 						<DarkModeOutlinedIcon />
 					)}
 				</IconButton>
-				{isAuthenticated && (
+				{isAuthenticated ? (
 					<>
 						<IconButton>
 							<NotificationsOutlinedIcon />
@@ -64,13 +65,12 @@ const Topbar = () => {
 						<IconButton>
 							<PersonOutlinedIcon />
 						</IconButton>
+						<LogoutButton />
 					</>
-				)}
-				{isAuthenticated ? (
-					<LogoutButton />
 				) : (
 					<>
-						<LoginButton /> <SignupButton />
+						<LoginButton />
+						<SignupButton />
 					</>
 				)}
 			</Box>

@@ -4,16 +4,30 @@ import { Box } from "@mui/material";
 
 export function LandingPage() {
 	return (
-		<Box
-			display="flex"
-			justifyContent="space-between"
-			alignItems="center"
-			margin="20px"
-		>
-			<Header
-				title="LandingPage"
-				subtitle="Welcome to your LandingPage"
-			/>
-		</Box>
+		<>
+			<Box display="flex" justifyContent="center" margin="20px">
+				<Box
+					component="img"
+					sx={{
+						height: 50,
+						width: 50,
+						marginRight: "20px",
+					}}
+					alt="pokedoc logo"
+					src="./pokedoc-logo.png"
+				/>
+				<Header
+					title="PokéDoc"
+					subtitle="Medical treatment in your pocket"
+				/>
+			</Box>
+			<Box display="flex" justifyContent="center">
+				<Box
+					component="img"
+					alt="clown"
+					src="assets/teleclowndoc1.jpg"
+				/>
+			</Box>
+		</>
 	);
 }
