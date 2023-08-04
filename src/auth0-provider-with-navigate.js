@@ -3,30 +3,32 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 export function Auth0ProviderWithNavigate({ children }) {
-	const navigate = useNavigate();
-    
-	function onRedirectCallback(appState) {
-		navigate(appState?.returnTo || window.location.pathname);
-	}
+    const navigate = useNavigate();
 
-	const domain = process.env.REACT_APP_AUTH0_DOMAIN;
-	const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
-	const redirectUri = process.env.REACT_APP_AUTH0_CALLBACK_URL;
+    function onRedirectCallback(appState) {
+        navigate(appState?.returnTo || window.location.pathname);
+    }
 
-	if (!(domain && clientId && redirectUri)) {
-		return null;
-	}
+    const domain = process.env.REACT_APP_AUTH0_DOMAIN;
+    const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
+    const redirectUri = process.env.REACT_APP_AUTH0_CALLBACK_URL;
 
-	return (
-		<Auth0Provider
-			domain={domain}
-			clientId={clientId}
-			authorizationParams={{
-				redirect_uri: redirectUri,
-			}}
-			onRedirectCallback={onRedirectCallback}
-		>
-			{children}
-		</Auth0Provider>
-	);
+    if (!(domain && clientId && redirectUri)) {
+        return null;
+    }
+
+    return (
+        <Auth0Provider
+            domain={domain}
+            clientId={clientId}
+            authorizationParams={{
+                redirect_uri: redirectUri,
+            }}
+            onRedirectCallback={onRedirectCallback}
+            useRefreshTokens
+            cacheLocation="localstorage"
+        >
+            {children}
+        </Auth0Provider>
+    );
 }
