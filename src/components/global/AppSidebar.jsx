@@ -160,7 +160,7 @@ function AppSidebar(props) {
 					>
 						<MItem
 							title="Dashboard"
-							to="/"
+							to="/dashboard"
 							icon={<HomeOutlined />}
 							selected={selected}
 							setSelected={setSelected}

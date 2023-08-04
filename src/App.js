@@ -12,7 +12,6 @@ import Form from "./components/form";
 import Calendar from "./components/calendar";
 import { useAuth0 } from "@auth0/auth0-react";
 import { LandingPage } from "./components/landing";
-import { LoginPage } from "./components/login";
 import { PageLoader } from "./components/pageloader";
 import { AuthenticationGuard } from "./components/authentication-guard";
 
@@ -40,7 +39,6 @@ function App() {
                                 <Topbar />
                                 <Routes>
                                     <Route path="/" element={<LandingPage />} />
-                                    <Route path="/login" element={<LoginPage />} />
                                     <Route path="/dashboard" element={
                                         <AuthenticationGuard component={Dashboard}></AuthenticationGuard>} />
                                     <Route path="/team" element={
