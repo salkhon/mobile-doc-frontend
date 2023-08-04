@@ -10,24 +10,32 @@ import Contacts from "./components/contacts";
 import Invoices from "./components/invoices";
 import Form from "./components/form";
 import Calendar from "./components/calendar";
+import { useAuth0 } from "@auth0/auth0-react";
+import { LandingPage } from "./components/landing";
+import { LoginPage } from "./components/login";
 
 function App() {
     const [theme, colorModeCtxVal] = useMode();
     const [isSidebar, setIsSidebar] = useState(true);
+    const { isAuthenticated } = useAuth0();
 
     return (
         <ColorModeContext.Provider value={colorModeCtxVal}>
             <ThemeProvider theme={theme}>
                 <CssBaseline />
                 <Box className="app">
-                    <AppSidebar
-                        isSidebar={isSidebar}
-                        setIsSidebar={setIsSidebar}
-                    />
+                    {isAuthenticated && (
+                        <AppSidebar
+                            isSidebar={isSidebar}
+                            setIsSidebar={setIsSidebar}
+                        />
+                    )}
                     <main className="content">
                         <Topbar />
                         <Routes>
-                            <Route path="/" element={<Dashboard />} />
+                            <Route path="/" element={<LandingPage />} />
+                            <Route path="/login" element={<LoginPage />} />
+                            <Route path="/dashboard" element={<Dashboard />} />
                             <Route path="/team" element={<Team />} />
                             <Route path="/contacts" element={<Contacts />} />
                             <Route path="/invoices" element={<Invoices />} />
