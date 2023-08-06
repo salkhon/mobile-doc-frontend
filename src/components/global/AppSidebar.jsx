@@ -163,13 +163,21 @@ function AppSidebar(props) {
 						paddingLeft={isCollapsed ? undefined : "10%"}
 						paddingTop={isCollapsed ? "184px" : undefined}
 					>
-						<MItem
-							title="New Appointment"
-							to="/newsession"
-							icon={<AddOutlinedIcon />}
-							selected={selected}
-							setSelected={setSelected}
-						/>
+						{user.userType === "patient" && (
+							<Box
+								sx={{
+									backgroundColor: colors.greenAccent[600],
+								}}
+							>
+								<MItem
+									title="New Appointment"
+									to="/newsession"
+									icon={<AddOutlinedIcon />}
+									selected={selected}
+									setSelected={setSelected}
+								/>
+							</Box>
+						)}
 						<MItem
 							title="Dashboard"
 							to="/dashboard"

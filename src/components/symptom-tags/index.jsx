@@ -30,14 +30,16 @@ export default function SymptomTags({ setSymptoms }) {
 }
 
 const symptoms = [
-	"Fever",
-	"Cough",
-	"Shortness of breath",
-	"Fatigue",
-	"Headache",
-	"Muscle aches",
-	"Sore throat",
-	"Loss of taste or smell",
-	"Nausea or vomiting",
-	"Diarrhea",
+	"fever",
+	"cough",
+	"shortness of breath",
+	"fatigue",
+	"headache",
+	"muscle aches",
+	"sore throat",
+	"loss of taste or smell",
+	"nausea or vomiting",
+	"diarrhea",
+    "nausea", 
+    "chills",
 ];

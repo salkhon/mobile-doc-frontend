@@ -3,7 +3,7 @@ import { Box, Typography, useTheme } from "@mui/material";
 import { mockDataInvoices } from "../../data/mockData"; // normally through API calls
 import { tokens } from "../../theme";
 import Header from "../global/Header";
-import { DataGrid} from "@mui/x-data-grid"; // can add extra filters
+import { DataGrid } from "@mui/x-data-grid"; // can add extra filters
 
 export default function Invoices() {
 	const theme = useTheme();
@@ -85,8 +85,8 @@ export default function Invoices() {
 				<DataGrid
 					rows={mockDataInvoices}
 					columns={columns}
-					checkboxSelection={true} // you can have action button on the footer, and MUI will give you the 
-                    // selected items, and you can make an API call or somtething.
+					checkboxSelection={true} // you can have action button on the footer, and MUI will give you the
+					// selected items, and you can make an API call or somtething.
 				/>
 			</Box>
 		</Box>
