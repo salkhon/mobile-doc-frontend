@@ -5,6 +5,7 @@ import { UserContext } from "../login/UserContext";
 import Header from "../global/Header";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
+import { useNavigate } from "react-router-dom";
 
 export default function NewSession() {
 	const theme = useTheme();
@@ -15,6 +16,9 @@ export default function NewSession() {
 
 	const [symptoms, setSymptoms] = useState([]);
 	const [suggestedDoctors, setSuggestedDoctors] = useState([]);
+	const [selectedDoctorId, setSelectedDoctorId] = useState(null);
+
+	const navigate = useNavigate();
 
 	// todo: write handlers
 
@@ -69,6 +73,18 @@ export default function NewSession() {
 			.catch((err) =>
 				console.error("Error fetching new session id", err)
 			);
+	};
+
+	const handleDoctorRowSelection = (selection) => {
+		console.log(selection);
+		setSelectedDoctorId(selection[0]);
+	};
+
+	const handleBookAppointment = (event) => {
+		console.log(
+			`Update session ${sessionId} with doctor ${selectedDoctorId} and patient ${user.id}`
+		);
+		navigate("/calendar");
 	};
 	//todo: render suggested doctors after you get session id
 
@@ -142,6 +158,7 @@ export default function NewSession() {
 							rows={suggestedDoctors}
 							columns={columns}
 							getRowId={(row) => row["doctor_id"]}
+							onRowSelectionModelChange={handleDoctorRowSelection}
 							slots={{
 								toolbar: GridToolbar, // you can customize this as well!
 							}}
@@ -150,6 +167,18 @@ export default function NewSession() {
 							}}
 						/>
 					</Box>
+
+					{selectedDoctorId && (
+						<Box display="flex" marginTop="10px">
+							<Button
+								variant="contained"
+								color="secondary"
+								onClick={handleBookAppointment}
+							>
+								Book Appointment
+							</Button>
+						</Box>
+					)}
 				</Box>
 			)}
 		</Box>

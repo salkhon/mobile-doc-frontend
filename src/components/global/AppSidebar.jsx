@@ -80,7 +80,7 @@ function AppSidebar(props) {
 						onClick={() => setIsCollapsed(!isCollapsed)}
 						icon={isCollapsed ? <MenuOutlined /> : undefined}
 						style={{
-							margin: "10px 0 20px 0",
+							margin: "10px 0 10px 0",
 							color: colors.grey[100],
 						}}
 					>
