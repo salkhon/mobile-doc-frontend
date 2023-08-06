@@ -10,62 +10,47 @@ import Contacts from "./components/contacts";
 import Invoices from "./components/invoices";
 import Form from "./components/form";
 import Calendar from "./components/calendar";
-import { useAuth0 } from "@auth0/auth0-react";
-import { LandingPage } from "./components/landing";
-import { PageLoader } from "./components/pageloader";
-import { AuthenticationGuard } from "./components/authentication-guard";
+import { LoginPage } from "./components/login";
+import { UserContext } from "./components/login/UserContext"
+import NewSession from "./components/new-session";
 
 function App() {
     const [theme, colorModeCtxVal] = useMode();
     const [isSidebar, setIsSidebar] = useState(true);
-    const { isAuthenticated, isLoading } = useAuth0();
+    const [user, setUser] = useState(null);
 
     return (
         <ColorModeContext.Provider value={colorModeCtxVal}>
             <ThemeProvider theme={theme}>
                 <CssBaseline />
-                <Box className="app">
-                    {isAuthenticated && (
-                        <AppSidebar
-                            isSidebar={isSidebar}
-                            setIsSidebar={setIsSidebar}
-                        />
-                    )}
-                    <main className="content">
-                        {isLoading ? (
-                            <PageLoader />
-                        ) : (
-                            <>
-                                <Topbar />
-                                <Routes>
-                                    <Route path="/" element={<LandingPage />} />
-                                    <Route path="/dashboard" element={
-                                        <AuthenticationGuard component={Dashboard}></AuthenticationGuard>} />
-                                    <Route path="/team" element={
-                                        <AuthenticationGuard component={Team}></AuthenticationGuard>} />
-                                    <Route path="/contacts" element={
-                                        <AuthenticationGuard component={Contacts}></AuthenticationGuard>} />
-                                    <Route path="/invoices" element={
-                                        <AuthenticationGuard component={Invoices}></AuthenticationGuard>} />
-                                    <Route path="/form" element={
-                                        <AuthenticationGuard component={Form}></AuthenticationGuard>} />
-                                    <Route path="/calendar" element={
-                                        <AuthenticationGuard component={Calendar}></AuthenticationGuard>} />
-                                    <Route path="/faq" element={
-                                        <AuthenticationGuard component={Dashboard}></AuthenticationGuard>} />
-                                    <Route path="/bar" element={
-                                        <AuthenticationGuard component={Dashboard}></AuthenticationGuard>} />
-                                    <Route path="/pie" element={
-                                        <AuthenticationGuard component={Dashboard}></AuthenticationGuard>} />
-                                    <Route path="/line" element={
-                                        <AuthenticationGuard component={Dashboard}></AuthenticationGuard>} />
-                                    <Route path="/geography" element={
-                                        <AuthenticationGuard component={Dashboard}></AuthenticationGuard>} />
-                                </Routes>
-                            </>
+                <UserContext.Provider value={ user }>
+                    <Box className="app">
+                        {user && (
+                            <AppSidebar
+                                isSidebar={isSidebar}
+                                setIsSidebar={setIsSidebar}
+                            />
                         )}
-                    </main>
-                </Box>
+                        <main className="content">
+                            <Topbar />
+                            <Routes>
+                                <Route path="/" element={<LoginPage setUser={setUser} />} />
+                                <Route path="/newsession" element={<NewSession />} />
+                                <Route path="/dashboard" element={<Dashboard />} />
+                                <Route path="/team" element={<Team />} />
+                                <Route path="/contacts" element={<Contacts />} />
+                                <Route path="/invoices" element={<Invoices />} />
+                                <Route path="/form" element={<Form />} />
+                                <Route path="/calendar" element={<Calendar />} />
+                                <Route path="/faq" element={<Dashboard />} />
+                                <Route path="/bar" element={<Dashboard />} />
+                                <Route path="/pie" element={<Dashboard />} />
+                                <Route path="/line" element={<Dashboard />} />
+                                <Route path="/geography" element={<Dashboard />} />
+                            </Routes>
+                        </main>
+                    </Box>
+                </UserContext.Provider>
             </ThemeProvider>
         </ColorModeContext.Provider>
     );

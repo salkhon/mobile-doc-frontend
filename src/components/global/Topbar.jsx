@@ -9,23 +9,17 @@ import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined.js";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined.js";
 import SearchIcon from "@mui/icons-material/Search.js";
-import { LogoutButton } from "../buttons/logout-button.jsx";
-import { LoginButton } from "../buttons/login-button.jsx";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import { useAuth0 } from "@auth0/auth0-react";
-import { SignupButton } from "../buttons/signup-button.jsx";
 
-const Topbar = () => {
+function Topbar() {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 	const colorModeCtx = useContext(ColorModeContext);
-	const { isAuthenticated } = useAuth0();
 
 	return (
 		// like div, but allows convenient css
 		<Box display="flex" justifyContent="space-between" margin="20px">
 			{/** SEARCH BAR */}
-			{}
 			<Box
 				display="flex"
 				bgcolor={colors.primary[400]}
@@ -52,30 +46,20 @@ const Topbar = () => {
 						<DarkModeOutlinedIcon />
 					)}
 				</IconButton>
-				{isAuthenticated ? (
-					<>
-						<IconButton>
-							<NotificationsOutlinedIcon />
-						</IconButton>
+				<IconButton>
+					<NotificationsOutlinedIcon />
+				</IconButton>
 
-						<IconButton>
-							<SettingsOutlinedIcon />
-						</IconButton>
+				<IconButton>
+					<SettingsOutlinedIcon />
+				</IconButton>
 
-						<IconButton>
-							<PersonOutlinedIcon />
-						</IconButton>
-						<LogoutButton />
-					</>
-				) : (
-					<>
-						<LoginButton />
-						<SignupButton />
-					</>
-				)}
+				<IconButton>
+					<PersonOutlinedIcon />
+				</IconButton>
 			</Box>
 		</Box>
 	);
-};
+}
 
 export default Topbar;

@@ -1,5 +1,5 @@
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
 	Sidebar,
 	Menu,
@@ -22,8 +22,9 @@ import {
 	ReceiptOutlined,
 	TimelineOutlined,
 } from "@mui/icons-material";
+import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { Link } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
+import { UserContext } from "../login/UserContext";
 
 function MItem(props) {
 	const theme = useTheme();
@@ -48,7 +49,7 @@ function MItem(props) {
 function AppSidebar(props) {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
-	const { user } = useAuth0();
+	const user = useContext(UserContext);
 
 	const [isCollapsed, setIsCollapsed] = useState(false);
 	const [selected, setSelected] = useState("Dashboard"); // what page we are in
@@ -143,13 +144,15 @@ function AppSidebar(props) {
 										margin: "10px 0 0 0",
 									}}
 								>
-									{user?.email}
+									{user?.userType === "patient"
+										? "Patient: 0001"
+										: "Doctor: BD001"}
 								</Typography>
 								<Typography
 									variant="h5"
 									color={colors.greenAccent[500]}
 								>
-									Patient
+									{user?.userType}
 								</Typography>
 							</Box>
 						</Box>
@@ -160,6 +163,13 @@ function AppSidebar(props) {
 						paddingLeft={isCollapsed ? undefined : "10%"}
 						paddingTop={isCollapsed ? "184px" : undefined}
 					>
+						<MItem
+							title="New Appointment"
+							to="/newsession"
+							icon={<AddOutlinedIcon />}
+							selected={selected}
+							setSelected={setSelected}
+						/>
 						<MItem
 							title="Dashboard"
 							to="/dashboard"
