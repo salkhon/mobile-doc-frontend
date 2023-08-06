@@ -27,7 +27,7 @@ export default function NewSession() {
 		console.log(symptoms);
 		let newSessionId = "";
 		// create new session
-		fetch(`https://mobile-doc-backend.el.r.appspot.com/${user.id}`)
+		fetch(`https://mobile-doc-backend.el.r.appspot.com/session/new/${user.id}`)
 			.then((resp) => resp.json())
 			.then((data) => {
 				console.log("Session created", data["created_session_id"]);
@@ -40,7 +40,7 @@ export default function NewSession() {
 				return Promise.all(
 					symptoms.map((symptom) =>
 						fetch(
-							`https://mobile-doc-backend.el.r.appspot.com/${newSessionId}`,
+							`https://mobile-doc-backend.el.r.appspot.com/session/symptoms/${newSessionId}`,
 							{
 								method: "POST",
 								headers: {
@@ -60,7 +60,7 @@ export default function NewSession() {
 				// GET the suggested doctors for the given symptoms in the sesion
 				console.log(_);
 				return fetch(
-					`https://mobile-doc-backend.el.r.appspot.com/${newSessionId}`,
+					`https://mobile-doc-backend.el.r.appspot.com/session/suggested_doctors/${newSessionId}`,
 					{ mode: "cors" }
 				);
 			})
