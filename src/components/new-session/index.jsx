@@ -1,5 +1,5 @@
 import { Box, Button, Typography, useTheme } from "@mui/material";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import SymptomTags from "../symptom-tags";
 import { UserContext } from "../login/UserContext";
 import Header from "../global/Header";
