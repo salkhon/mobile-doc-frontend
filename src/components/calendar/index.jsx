@@ -18,7 +18,9 @@ import Header from "../global/Header";
 export default function Calendar() {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
-	// list of events that we can save in our calendar
+	// list of events that we can save in our calendar, events are being set by the FullCalender component
+    // with this setter passed in as a prop `eventsSet`. This setter is called whenever there is a change in the 
+    // internal `calendar` event list. 
 	const [currentEvents, setCurrentEvents] = useState([]);
 
 	function handleDateClick(selected) {
@@ -49,7 +51,7 @@ export default function Calendar() {
 	}
 
     function handleEventDrop(eventDropInfo) {
-
+        // todo: display modal and confirm reshedule
     }
 
 	return (
