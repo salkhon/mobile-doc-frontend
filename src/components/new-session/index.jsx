@@ -97,18 +97,27 @@ export default function NewSession() {
 		);
 
 		// update session doctor id
-		// fetch(`${BASE_URL}/session/update_session_doctor/{session_id}`)
-		// update session time
-		fetch(`${BASE_URL}/session/update_session_time/${sessionId}`, {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({
-				start_time: getFormattedDateTime(appointmentTime),
-				end_time: getFormattedDateTime(appointmentTime),
-			}),
-		}).then((_) => {
-			navigate("/calendar");
-		});
+		fetch(
+			`${BASE_URL}/session/update_session_doctor/${sessionId}/?input_doctor_id=${selectedDoctorId}`,
+			{
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+			}
+		)
+			.then((_) => {
+				// update session time
+				fetch(`${BASE_URL}/session/update_session_time/${sessionId}`, {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({
+						start_time: getFormattedDateTime(appointmentTime),
+						end_time: getFormattedDateTime(appointmentTime),
+					}),
+				});
+			})
+			.then((_) => {
+				navigate("/calendar");
+			});
 	};
 
 	return (
