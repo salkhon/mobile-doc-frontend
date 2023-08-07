@@ -1,4 +1,10 @@
-import { Box, Button, Typography, useTheme } from "@mui/material";
+import {
+	Box,
+	Button,
+	Typography,
+	useTheme,
+	CircularProgress,
+} from "@mui/material";
 import React, { useContext, useState } from "react";
 import SymptomTags from "../symptom-tags";
 import { UserContext } from "../login/UserContext";
@@ -6,6 +12,9 @@ import Header from "../global/Header";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { useNavigate } from "react-router-dom";
+import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 
 export default function NewSession() {
 	const theme = useTheme();
@@ -16,16 +25,18 @@ export default function NewSession() {
 
 	const [symptoms, setSymptoms] = useState([]);
 	const [suggestedDoctors, setSuggestedDoctors] = useState([]);
+	const [isSuggestedDoctorsLoading, setIsSuggestedDoctorsLoading] =
+		useState(false);
 	const [selectedDoctorId, setSelectedDoctorId] = useState(null);
+	const [appointmentTime, setAppointmentTime] = useState(null);
 
 	const navigate = useNavigate();
-
-	// todo: write handlers
 
 	const handleSymptomSubmit = (event) => {
 		// create new session and POST symptoms and get suggested doctors
 		console.log(symptoms);
 		let newSessionId = "";
+		setIsSuggestedDoctorsLoading(true);
 		// create new session
 		fetch(`${BASE_URL}/session/new/${user.id}`)
 			.then((resp) => resp.json())
@@ -39,20 +50,17 @@ export default function NewSession() {
 				console.log("POSTing symptoms on session", newSessionId);
 				return Promise.all(
 					symptoms.map((symptom) =>
-						fetch(
-							`${BASE_URL}/session/symptoms/${newSessionId}`,
-							{
-								method: "POST",
-								headers: {
-									"Content-Type": "application/json",
-								},
-								body: JSON.stringify({
-									symptom_name: symptom,
-									duration: 1,
-									added_by: "patient",
-								}),
-							}
-						)
+						fetch(`${BASE_URL}/session/symptoms/${newSessionId}`, {
+							method: "POST",
+							headers: {
+								"Content-Type": "application/json",
+							},
+							body: JSON.stringify({
+								symptom_name: symptom,
+								duration: 1,
+								added_by: "patient",
+							}),
+						})
 					)
 				);
 			})
@@ -66,9 +74,11 @@ export default function NewSession() {
 			})
 			.then((resp) => resp.json())
 			.then((resp) => {
+				// assign the fetched doctors list to the suggested doctors state
 				console.log(resp);
 				setSuggestedDoctors(resp["suggested_doctors"]);
 				console.log(resp["suggested_doctors"]);
+				setIsSuggestedDoctorsLoading(false);
 			})
 			.catch((err) =>
 				console.error("Error fetching new session id", err)
@@ -81,12 +91,25 @@ export default function NewSession() {
 	};
 
 	const handleBookAppointment = (event) => {
+		const datetime = getFormattedDateTime(appointmentTime);
 		console.log(
-			`Update session ${sessionId} with doctor ${selectedDoctorId} and patient ${user.id}`
+			`Update session ${sessionId} with doctor ${selectedDoctorId} and patient ${user.id} at time ${datetime}`
 		);
-		navigate("/calendar");
+
+		// update session doctor id
+		// fetch(`${BASE_URL}/session/update_session_doctor/{session_id}`)
+		// update session time
+		fetch(`${BASE_URL}/session/update_session_time/${sessionId}`, {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				start_time: getFormattedDateTime(appointmentTime),
+				end_time: getFormattedDateTime(appointmentTime),
+			}),
+		}).then((_) => {
+			navigate("/calendar");
+		});
 	};
-	//todo: render suggested doctors after you get session id
 
 	return (
 		<Box>
@@ -115,8 +138,18 @@ export default function NewSession() {
 						variant="contained"
 						color="secondary"
 						onClick={handleSymptomSubmit}
+						disabled={isSuggestedDoctorsLoading}
 					>
-						Submit
+						{isSuggestedDoctorsLoading ? (
+							<CircularProgress
+								size={20}
+								sx={{
+									color: colors.greenAccent[300],
+								}}
+							></CircularProgress>
+						) : (
+							"Submit"
+						)}
 					</Button>
 				</Box>
 			</Box>
@@ -124,7 +157,9 @@ export default function NewSession() {
 			{/** DOCTOR SUGGESTIONS */}
 			{sessionId && (
 				<Box margin="20px">
-					<Header title="Suggested Doctors" />
+					<Box margin="10px" display="flex">
+						<Typography variant="h3">Suggested Doctors</Typography>
+					</Box>
 					<Box
 						margin="5px 0 0 0"
 						sx={{
@@ -164,19 +199,47 @@ export default function NewSession() {
 							}}
 							sx={{
 								height: "50vh",
+								"& .Mui-selected": {
+									backgroundColor:
+										colors.primary[500] + " !important",
+								},
 							}}
 						/>
 					</Box>
 
 					{selectedDoctorId && (
-						<Box display="flex" marginTop="10px">
-							<Button
-								variant="contained"
-								color="secondary"
-								onClick={handleBookAppointment}
-							>
-								Book Appointment
-							</Button>
+						<Box
+							display="flex"
+							marginTop="10px"
+							justifyContent="center"
+						>
+							<Box margin="15px">
+								<Button
+									variant="contained"
+									color="secondary"
+									onClick={handleBookAppointment}
+								>
+									Book Appointment
+								</Button>
+							</Box>
+							<Box>
+								<LocalizationProvider
+									dateAdapter={AdapterDayjs}
+								>
+									<DemoContainer
+										components={["DateTimePicker"]}
+									>
+										<DateTimePicker
+											label="Basic date time picker"
+											onChange={(val) =>
+												setAppointmentTime(
+													new Date(val)
+												)
+											}
+										/>
+									</DemoContainer>
+								</LocalizationProvider>
+							</Box>
 						</Box>
 					)}
 				</Box>
@@ -219,3 +282,13 @@ const columns = [
 ];
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
+
+function getFormattedDateTime(date) {
+	const year = date.getFullYear();
+	const month = String(date.getMonth() + 1).padStart(2, "0");
+	const day = String(date.getDate()).padStart(2, "0");
+	const hour = String(date.getHours()).padStart(2, "0");
+	const minute = String(date.getMinutes()).padStart(2, "0");
+
+	return `${year}-${month}-${day} ${hour}:${minute}`;
+}

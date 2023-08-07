@@ -40,6 +40,6 @@ const symptoms = [
 	"loss of taste or smell",
 	"nausea or vomiting",
 	"diarrhea",
-    "nausea", 
-    "chills",
+	"nausea",
+	"chills",
 ];

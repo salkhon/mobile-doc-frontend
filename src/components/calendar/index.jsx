@@ -12,16 +12,32 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
 import interactionPlugin from "@fullcalendar/interaction";
 import { tokens } from "../../theme";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Header from "../global/Header";
+import { UserContext } from "../login/UserContext";
 
 export default function Calendar() {
 	const theme = useTheme();
+	const user = useContext(UserContext);
 	const colors = tokens(theme.palette.mode);
 	// list of events that we can save in our calendar, events are being set by the FullCalender component
-    // with this setter passed in as a prop `eventsSet`. This setter is called whenever there is a change in the 
-    // internal `calendar` event list. 
+	// with this setter passed in as a prop `eventsSet`. This setter is called whenever there is a change in the
+	// internal `calendar` event list.
 	const [currentEvents, setCurrentEvents] = useState([]);
+
+	useEffect(() => {
+		// todo: do for patient
+		if (user.userType === "patient") {
+			return;
+		}
+		// fetch all schedules for this user
+		fetch(`${BASE_URL}/doctor/${user.id}`)
+			.then((resp) => resp.json())
+			.then((resp) => {
+				console.dir("Fetched user schedule ", resp.doctor.calendar);
+				setCurrentEvents(resp.doctor.calendar);
+			});
+	});
 
 	function handleDateClick(selected) {
 		// fullCalendar provides you with `selected`
@@ -50,9 +66,9 @@ export default function Calendar() {
 		}
 	}
 
-    function handleEventDrop(eventDropInfo) {
-        // todo: display modal and confirm reshedule
-    }
+	function handleEventDrop(eventDropInfo) {
+		// todo: display modal and confirm reshedule
+	}
 
 	return (
 		<Box margin="20px">
@@ -80,7 +96,7 @@ export default function Calendar() {
 					>
 						{currentEvents.map((event) => (
 							<ListItem
-								key={event.id}
+								key={event.session_id}
 								style={{
 									backgroundColor: colors.blueAccent[400],
 									margin: "10px 0",
@@ -88,21 +104,20 @@ export default function Calendar() {
 								}}
 							>
 								<ListItemText
-									primary={event.title}
+									primary={event.session_id}
 									secondary={
 										<Typography>
-											{event.start.toLocaleDateString(
-												"en-us",
-												{
-													weekday: "short",
-													year: "2-digit",
-													month: "short",
-													day: "numeric",
-													hour: "numeric",
-													minute: "numeric",
-													hour12: true,
-												}
-											)}
+											{new Date(
+												event.session_starttime
+											).toLocaleDateString("en-us", {
+												weekday: "short",
+												year: "2-digit",
+												month: "short",
+												day: "numeric",
+												hour: "numeric",
+												minute: "numeric",
+												hour12: true,
+											})}
 										</Typography>
 									}
 								/>
@@ -145,9 +160,16 @@ export default function Calendar() {
 						select={handleDateClick}
 						eventClick={handleEventClick}
 						eventDrop={handleEventDrop}
-						eventsSet={(events) => setCurrentEvents(events)}
+						events={currentEvents.map((event) => {
+							return {
+								id: event.session_id,
+								title: event.session_id,
+								start: new Date(event.session_starttime),
+							};
+						})}
+						// eventsSet={(events) => setCurrentEvents(events)}
 						defaultTimedEventDuration={"00:15:00"}
-                        firstDay={6}
+						firstDay={6}
 						defaultAllDay={false}
 						initialEvents={[]}
 						themeSystem={theme}
@@ -157,3 +179,5 @@ export default function Calendar() {
 		</Box>
 	);
 }
+
+const BASE_URL = process.env.REACT_APP_BASE_URL;
