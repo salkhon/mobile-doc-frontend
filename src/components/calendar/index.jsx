@@ -26,17 +26,34 @@ export default function Calendar() {
 	const [currentEvents, setCurrentEvents] = useState([]);
 
 	useEffect(() => {
-		// todo: do for patient
-		if (user.userType === "patient") {
-			return;
-		}
 		// fetch all schedules for this user
-		fetch(`${BASE_URL}/doctor/${user.id}`)
-			.then((resp) => resp.json())
-			.then((resp) => {
-				console.dir("Fetched user schedule ", resp.doctor.calendar);
-				setCurrentEvents(resp.doctor.calendar);
-			});
+		if (user.userType === "patient") {
+			console.log(user.id);
+			fetch(`${BASE_URL}/patient/EHR/${user.id}`)
+				.then((resp) => resp.json())
+				.then((resp) => {
+					console.dir("Fetched user schedule for patient ", resp);
+					let sessions = resp.patient_details.patient_sessions;
+					sessions = sessions.map((session) => {
+						return {
+							session_id: session.session_id,
+							session_starttime: session.start_time,
+							session_endtime: session.end_time,
+						};
+					});
+					setCurrentEvents(sessions);
+				});
+		} else {
+			fetch(`${BASE_URL}/doctor/${user.id}`)
+				.then((resp) => resp.json())
+				.then((resp) => {
+					console.dir(
+						"Fetched user schedule for doctor ",
+						resp.doctor.calendar
+					);
+					setCurrentEvents(resp.doctor.calendar);
+				});
+		}
 	});
 
 	function handleDateClick(selected) {
