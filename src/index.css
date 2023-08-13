@@ -8,6 +8,9 @@ body,
 	height: 100%;
 	width: 100%;
 	font-family: "Source Sans Prod", sans-serif;
+	overflow: auto;
+	scrollbar-width: thin;
+	scroll-behavior: smooth;
 }
 
 .app {
@@ -17,38 +20,33 @@ body,
 
 ::-webkit-scrollbar {
 	width: 10px;
+	background-color: transparent;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-	background: #e0e0e0;
+	background: transparent;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-	background: #888;
-}
-
-/* Handle on Hover */
-::-webkit-scrollbar-track:hover {
-	background: #555;
+	background: #353f57;
+	border-radius: 5px;
 }
 
 /* Full Calendar */
 :root {
-    --fc-list-event-hover-bg-color: #1F2A40;
-    --fc-list-day-cushion-bg-color: #111;
-    --fc-cell-shaded-bg-color: #111;
-    --fc-today-bg-color: #0b101b;
+	--fc-list-event-hover-bg-color: #1f2a40;
+	--fc-list-day-cushion-bg-color: #111;
+	--fc-cell-shaded-bg-color: #111;
+	--fc-today-bg-color: #0b101b;
 }
 
 .fc-theme-standard {
-
-    & .fc-list {
-        border: 1px solid var(--fc-border-color);
-    }
-    & .fc-list-day-cushion {
-        background-color: #0b101b;
-    }
-  
+	& .fc-list {
+		border: 1px solid var(--fc-border-color);
+	}
+	& .fc-list-day-cushion {
+		background-color: #0b101b;
+	}
 }

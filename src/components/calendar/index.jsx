@@ -15,15 +15,14 @@ import { tokens } from "../../theme";
 import React, { useContext, useEffect, useState } from "react";
 import Header from "../global/Header";
 import { UserContext } from "../login/UserContext";
+import LoadingBackdrop from "../loading";
 
 export default function Calendar() {
 	const theme = useTheme();
 	const user = useContext(UserContext);
 	const colors = tokens(theme.palette.mode);
-	// list of events that we can save in our calendar, events are being set by the FullCalender component
-	// with this setter passed in as a prop `eventsSet`. This setter is called whenever there is a change in the
-	// internal `calendar` event list.
-	const [currentEvents, setCurrentEvents] = useState([]);
+
+	const [currentEvents, setCurrentEvents] = useState(null);
 
 	useEffect(() => {
 		// fetch all schedules for this user
@@ -88,6 +87,10 @@ export default function Calendar() {
 
 	function handleEventDrop(eventDropInfo) {
 		// todo: display modal and confirm reshedule
+	}
+
+	if (!currentEvents) {
+		return <LoadingBackdrop />;
 	}
 
 	return (

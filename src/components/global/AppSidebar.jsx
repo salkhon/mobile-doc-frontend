@@ -1,4 +1,4 @@
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import React, { useContext, useState } from "react";
 import {
 	Sidebar,
@@ -23,7 +23,7 @@ import {
 	TimelineOutlined,
 } from "@mui/icons-material";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../login/UserContext";
 
 function MItem(props) {
@@ -53,11 +53,13 @@ function AppSidebar(props) {
 
 	const [isCollapsed, setIsCollapsed] = useState(false);
 	const [selected, setSelected] = useState("Dashboard"); // what page we are in
+	const navigate = useNavigate();
 
 	return (
 		<Box marginRight="20px">
 			<Sidebar
 				collapsed={isCollapsed}
+                transitionDuration={300}
 				rootStyles={{
 					[`.${sidebarClasses.container}`]: {
 						background: `${colors.primary[400]}`,
@@ -165,17 +167,18 @@ function AppSidebar(props) {
 					>
 						{user.userType === "patient" && (
 							<Box
-								sx={{
-									backgroundColor: colors.greenAccent[600],
-								}}
+								display="flex"
+								justifyContent="center"
+								margin="10px"
 							>
-								<MItem
-									title="New Appointment"
-									to="/newsession"
-									icon={<AddOutlinedIcon />}
-									selected={selected}
-									setSelected={setSelected}
-								/>
+								<Button
+									variant="contained"
+									color="secondary"
+									onClick={() => navigate("/newsession")}
+								>
+									<AddOutlinedIcon />
+									{!isCollapsed && "New Appointment"}
+								</Button>
 							</Box>
 						)}
 						<MItem
