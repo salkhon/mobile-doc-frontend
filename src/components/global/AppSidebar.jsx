@@ -59,7 +59,7 @@ function AppSidebar(props) {
 		<Box marginRight="20px">
 			<Sidebar
 				collapsed={isCollapsed}
-                transitionDuration={300}
+				transitionDuration={300}
 				rootStyles={{
 					[`.${sidebarClasses.container}`]: {
 						background: `${colors.primary[400]}`,
@@ -146,9 +146,7 @@ function AppSidebar(props) {
 										margin: "10px 0 0 0",
 									}}
 								>
-									{user?.userType === "patient"
-										? "Patient: 0001"
-										: "Doctor: BD001"}
+									{user.name}
 								</Typography>
 								<Typography
 									variant="h5"

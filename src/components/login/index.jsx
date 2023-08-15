@@ -18,6 +18,7 @@ export function LoginPage({ setUser }) {
 		setUser({
 			userType: type,
 			id: type === "patient" ? "0001" : "BD001",
+			name: type === "patient" ? "Salman" : "Dr. Salman",
 			token: "",
 		});
 		navigate("/dashboard");

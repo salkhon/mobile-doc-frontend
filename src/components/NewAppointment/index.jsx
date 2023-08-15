@@ -1,17 +1,17 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { UserContext } from "../login/UserContext";
 import Header from "../global/Header";
 import { useNavigate } from "react-router-dom";
-import DoctorSuggestionTable from "../doctor-suggestions";
+import DoctorSuggestionTable from "./DoctorSuggestionTable";
 import { SymptomsInput } from "./SymptomsInput";
 import {
 	fetchPostSessionDoctorAndTime,
 	fetchSuggestedDoctorsWithGivenSymptoms,
 } from "../../api/appoinment";
-import { BookingConfirm } from "./BookingConfirm";
+import { AppointmentCard } from "./AppointmentCard";
 
-export default function NewSession() {
+export default function NewAppointment() {
 	const user = useContext(UserContext);
 
 	const [sessionId, setSessionId] = useState(null);
@@ -20,7 +20,8 @@ export default function NewSession() {
 	const [isSuggestedDoctorsLoading, setIsSuggestedDoctorsLoading] =
 		useState(false);
 
-	const [selectedDoctorId, setSelectedDoctorId] = useState(null);
+	const [selectedDoctor, setSelectedDoctor] = useState(null);
+	const [appointmentTime, setAppointmentTime] = useState(null);
 
 	const navigate = useNavigate();
 
@@ -37,12 +38,22 @@ export default function NewSession() {
 		);
 	};
 
-	const handleBookAppointment = (event, appointmentTime) => {
+	const handleDoctorSelection = (selection) => {
+		const selectedDoctor = suggestedDoctors?.find(
+			(doc) => doc.doctor_id === selection[0]
+		);
+		console.log("selected", selectedDoctor);
+		setSelectedDoctor(selectedDoctor);
+	};
+
+	const handleBookAppointment = (eve) => {
 		const datetime = getFormattedDateTime(appointmentTime);
 		// update session doctor id
+		console.log(selectedDoctor);
 		fetchPostSessionDoctorAndTime(
 			sessionId,
-			selectedDoctorId,
+			// @ts-ignore
+			selectedDoctor?.doctor_id,
 			datetime,
 			navigate
 		);
@@ -65,23 +76,40 @@ export default function NewSession() {
 				isDoctorsLoading={isSuggestedDoctorsLoading}
 			/>
 
-			{/** DOCTOR SUGGESTIONS */}
-			{suggestedDoctors && (
-				<Box margin="20px">
-					<Box margin="10px" display="flex">
-						<Typography variant="h3">Suggested Doctors</Typography>
-					</Box>
+			{/** DOCTOR SUGGESTIONS and APPOINTMENT CARD */}
+			<Box margin="20px">
+				{suggestedDoctors && (
 					<DoctorSuggestionTable
 						suggestedDoctors={suggestedDoctors}
-						handleDoctorRowSelection={(selection) =>
-							setSelectedDoctorId(selection[0])
-						}
+						handleDoctorRowSelection={handleDoctorSelection}
 					/>
-					{selectedDoctorId && (
-						<BookingConfirm
-							handleBookAppointment={handleBookAppointment}
-						/>
-					)}
+				)}
+			</Box>
+
+			{/* CONFIRM APPOINTMENT */}
+			{selectedDoctor && (
+				<Box
+					margin="20px"
+					display="flex"
+					justifyContent="space-between"
+				>
+					<AppointmentCard
+						doctor={selectedDoctor}
+						patient={user.name}
+						setAppointmentTime={setAppointmentTime}
+					/>
+					<Button
+						variant="contained"
+						color="secondary"
+						onClick={handleBookAppointment}
+						disabled={!appointmentTime}
+						sx={{
+							height: "50px",
+							margin: "80px 10px 0 0",
+						}}
+					>
+						Book Appointment
+					</Button>
 				</Box>
 			)}
 		</Box>

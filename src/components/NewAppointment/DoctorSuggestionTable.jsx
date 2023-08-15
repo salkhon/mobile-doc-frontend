@@ -1,5 +1,5 @@
 import React from "react";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { tokens } from "../../theme";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid"; // can add extra filters
 import { useTheme } from "@mui/material";
@@ -38,6 +38,9 @@ export default function DoctorSuggestionTable({ suggestedDoctors, handleDoctorRo
 				},
 			}}
 		>
+            <Box margin="10px" display="flex" flexDirection="column" height="40vh" >
+				<Typography variant="h3">Suggested Doctors</Typography>
+			
 			<DataGrid
 				rows={suggestedDoctors}
 				columns={columns}
@@ -47,12 +50,11 @@ export default function DoctorSuggestionTable({ suggestedDoctors, handleDoctorRo
 					toolbar: GridToolbar, // you can customize this as well!
 				}}
 				sx={{
-					height: "50vh",
 					"& .Mui-selected": {
 						backgroundColor: colors.primary[500] + " !important",
 					},
 				}}
-			/>
+			/></Box>
 		</Box>
 	);
 }

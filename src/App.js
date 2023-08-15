@@ -12,7 +12,7 @@ import Form from "./components/form";
 import Calendar from "./components/calendar";
 import { LoginPage } from "./components/login";
 import { UserContext } from "./components/login/UserContext"
-import NewSession from "./components/new-session";
+import NewAppointment from "./components/NewAppointment";
 
 function App() {
     const [theme, colorModeCtxVal] = useMode();
@@ -35,7 +35,7 @@ function App() {
                             <Topbar />
                             <Routes>
                                 <Route path="/" element={<LoginPage setUser={setUser} />} />
-                                <Route path="/newsession" element={<NewSession />} />
+                                <Route path="/newsession" element={<NewAppointment />} />
                                 <Route path="/dashboard" element={<Dashboard />} />
                                 <Route path="/team" element={<Team />} />
                                 <Route path="/contacts" element={<Contacts />} />
