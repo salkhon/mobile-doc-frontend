@@ -74,7 +74,7 @@ export function AppointmentDatepicker({ setAppointmentTime, doctor }) {
 							label="Appointment Time Picker"
 							shouldDisableDate={isDateDisabled}
 							shouldDisableTime={isTimeDisabled}
-							// disablePast
+							disablePast
 							views={["year", "month", "day", "hours", "minutes"]}
 							onChange={(val) => {
 								setAppointmentTime(new Date(val));
