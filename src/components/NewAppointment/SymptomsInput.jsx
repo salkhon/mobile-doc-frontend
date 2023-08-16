@@ -1,18 +1,9 @@
-import {
-	Box,
-	Button,
-	CircularProgress,
-	Typography,
-	useTheme,
-} from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React, { useState } from "react";
 import SymptomTags from "./SymptomTags";
-import { tokens } from "../../theme";
+import { LoadingButton } from "./LoadingButton";
 
 export function SymptomsInput({ onSymptomsSubmission, isDoctorsLoading }) {
-	const theme = useTheme();
-	const colors = tokens(theme.palette.mode);
-
 	const [symptoms, setSymptoms] = useState(null);
 
 	return (
@@ -23,23 +14,12 @@ export function SymptomsInput({ onSymptomsSubmission, isDoctorsLoading }) {
 			<Box margin="10px" display="flex">
 				<SymptomTags setSymptoms={setSymptoms} />
 				<Box marginTop="10px" marginLeft="20px">
-					<Button
-						variant="contained"
-						color="secondary"
-						onClick={(ev) => onSymptomsSubmission(ev, symptoms)}
-						disabled={isDoctorsLoading}
+					<LoadingButton
+						isLoading={isDoctorsLoading}
+						onClick={(e) => onSymptomsSubmission(e, symptoms)}
 					>
-						{isDoctorsLoading ? (
-							<CircularProgress
-								size={20}
-								sx={{
-									color: colors.greenAccent[300],
-								}}
-							></CircularProgress>
-						) : (
-							"Submit"
-						)}
-					</Button>
+						Submit
+					</LoadingButton>
 				</Box>
 			</Box>
 		</Box>

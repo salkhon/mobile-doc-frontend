@@ -9,7 +9,7 @@ import Team from "./components/team";
 import Contacts from "./components/contacts";
 import Invoices from "./components/invoices";
 import Form from "./components/form";
-import Calendar from "./components/calendar";
+import Calendar from "./components/Calendar";
 import { LoginPage } from "./components/login";
 import { UserContext } from "./components/login/UserContext"
 import NewAppointment from "./components/NewAppointment";

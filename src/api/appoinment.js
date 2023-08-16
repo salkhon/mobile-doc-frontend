@@ -64,3 +64,43 @@ export async function fetchPostSessionDoctorAndTime(sessionId, selectedDoctorId,
     console.log("POSTed appointment time", resp);
     navigate("/calendar");
 }
+
+export async function fetchUserAppointments(user, setAppointments) {
+    let resp;
+    if (user.userType === "patient") {
+        resp = await fetch(`${BASE_URL}/patient/EHR/${user.id}`);
+        resp = await resp.json();
+        setAppointments(resp.patient_sessions);
+    } else if (user.userType === "doctor") {
+        resp = await fetch(`${BASE_URL}/doctor/${user.id}`)
+        resp = await resp.json();
+        let convertedDoctorSessions = resp.doctor.calendar.map(session => ({
+            start_time: session.session_starttime,
+            end_time: session.session_endtime
+        }));
+        setAppointments(convertedDoctorSessions);
+    }
+}
+
+export async function fetchPostUpdateSessionTime(sessionId, startTimeStr) {
+    const startDate = new Date(startTimeStr)
+    await fetch(`${BASE_URL}/session/update_session_time/${sessionId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            start_time: getFormattedDateTime(startDate),
+            end_time: getFormattedDateTime(startDate)
+        }),
+    });
+}
+
+export function getFormattedDateTime(date) {
+    // dhrubo's time format
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const hour = String(date.getHours()).padStart(2, "0");
+    const minute = String(date.getMinutes()).padStart(2, "0");
+
+    return `${year}-${month}-${day} ${hour}:${minute}`;
+}

@@ -50,3 +50,17 @@ body,
 		background-color: #0b101b;
 	}
 }
+
+.fc-timegrid-slot {
+	height: 4.5em !important;
+	border-bottom: 0 !important;
+}
+
+.fc-event-title {
+	font-size: 1.6em !important;
+	word-wrap: break-word;
+}
+
+.fc-event-time {
+	font-size: 0 !important;
+}
