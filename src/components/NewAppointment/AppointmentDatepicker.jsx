@@ -5,8 +5,6 @@ import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import React from "react";
 
 export function AppointmentDatepicker({ setAppointmentTime, doctor }) {
-	console.log("datepicker got doctor", doctor);
-
 	function isDateDisabled(date) {
 		const dateWeekDayNameShort = new Intl.DateTimeFormat("en-US", {
 			weekday: "short",

@@ -5,7 +5,7 @@ import listPlugin from "@fullcalendar/list";
 import interactionPlugin from "@fullcalendar/interaction";
 import { useTheme } from "@mui/material";
 import React, { useContext } from "react";
-import { UserContext } from "../login/UserContext";
+import { UserContext } from "../LoginPage/UserContext";
 
 export default function AppointmentCalendar({
 	appointments,
@@ -13,7 +13,7 @@ export default function AppointmentCalendar({
 	handleEventClick,
 	handleEventDrop,
 }) {
-	const user = useContext(UserContext);
+	const { user } = useContext(UserContext);
 	const theme = useTheme();
 
 	function appointmentText(appointment) {

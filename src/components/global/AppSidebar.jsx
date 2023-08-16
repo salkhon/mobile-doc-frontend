@@ -24,7 +24,7 @@ import {
 } from "@mui/icons-material";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { Link, useNavigate } from "react-router-dom";
-import { UserContext } from "../login/UserContext";
+import { UserContext } from "../LoginPage/UserContext";
 
 function MItem(props) {
 	const theme = useTheme();
@@ -49,7 +49,7 @@ function MItem(props) {
 function AppSidebar(props) {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
-	const user = useContext(UserContext);
+	const { user } = useContext(UserContext);
 
 	const [isCollapsed, setIsCollapsed] = useState(false);
 	const [selected, setSelected] = useState("Dashboard"); // what page we are in

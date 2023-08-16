@@ -10,11 +10,17 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined.js";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined.js";
 import SearchIcon from "@mui/icons-material/Search.js";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../LoginPage/UserContext.jsx";
 
 function Topbar() {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 	const colorModeCtx = useContext(ColorModeContext);
+	const { setUser } = useContext(UserContext);
+
+	const navigate = useNavigate();
 
 	return (
 		// like div, but allows convenient css
@@ -56,6 +62,16 @@ function Topbar() {
 
 				<IconButton>
 					<PersonOutlinedIcon />
+				</IconButton>
+
+				<IconButton
+					onClick={() => {
+						localStorage.removeItem("pokedoc_token");
+						setUser(null);
+						navigate("/");
+					}}
+				>
+					<LogoutOutlinedIcon />
 				</IconButton>
 			</Box>
 		</Box>

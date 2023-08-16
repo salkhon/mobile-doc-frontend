@@ -2,10 +2,10 @@ import React from "react";
 import Header from "../global/Header";
 import { Box } from "@mui/material";
 import { useContext } from "react";
-import { UserContext } from "../login/UserContext";
+import { UserContext } from "../LoginPage/UserContext";
 
 export function Dashboard() {
-	const user = useContext(UserContext);
+	const { user } = useContext(UserContext);
 	return (
 		<Box
 			display="flex"

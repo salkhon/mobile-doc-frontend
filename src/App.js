@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ColorModeContext, useMode } from "./theme";
 import { Box, CssBaseline, ThemeProvider } from "@mui/material";
 import Topbar from "./components/global/Topbar";
@@ -10,8 +10,8 @@ import Contacts from "./components/contacts";
 import Invoices from "./components/invoices";
 import Form from "./components/form";
 import Calendar from "./components/Calendar";
-import { LoginPage } from "./components/login";
-import { UserContext } from "./components/login/UserContext"
+import { LoginPage } from "./components/LoginPage";
+import { UserContext } from "./components/LoginPage/UserContext"
 import NewAppointment from "./components/NewAppointment";
 
 function App() {
@@ -19,11 +19,30 @@ function App() {
     const [isSidebar, setIsSidebar] = useState(true);
     const [user, setUser] = useState(null);
 
+    useEffect(() => {
+        const token = localStorage.getItem("pokedoc_token");
+        if (token === "patient") {
+            setUser({
+                userType: "patient",
+                id: "0001",
+                name: "Salman",
+                token: "patient",
+            });
+        } else if (token === "doctor") {
+            setUser({
+                userType: "doctor",
+                id: "0001",
+                name: "Salman",
+                token: "doctor",
+            });
+        }
+    }, []);
+
     return (
         <ColorModeContext.Provider value={colorModeCtxVal}>
             <ThemeProvider theme={theme}>
                 <CssBaseline />
-                <UserContext.Provider value={ user }>
+                <UserContext.Provider value={{ user, setUser }}>
                     <Box className="app">
                         {user && (
                             <AppSidebar
@@ -32,7 +51,7 @@ function App() {
                             />
                         )}
                         <main className="content">
-                            <Topbar />
+                            {user && <Topbar />}
                             <Routes>
                                 <Route path="/" element={<LoginPage setUser={setUser} />} />
                                 <Route path="/newsession" element={<NewAppointment />} />

@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import React, { useState } from "react";
 import SymptomTags from "./SymptomTags";
-import { LoadingButton } from "./LoadingButton";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 export function SymptomsInput({ onSymptomsSubmission, isDoctorsLoading }) {
 	const [symptoms, setSymptoms] = useState(null);
@@ -15,7 +15,9 @@ export function SymptomsInput({ onSymptomsSubmission, isDoctorsLoading }) {
 				<SymptomTags setSymptoms={setSymptoms} />
 				<Box marginTop="10px" marginLeft="20px">
 					<LoadingButton
-						isLoading={isDoctorsLoading}
+						variant="contained"
+						color="secondary"
+						loading={isDoctorsLoading}
 						onClick={(e) => onSymptomsSubmission(e, symptoms)}
 					>
 						Submit

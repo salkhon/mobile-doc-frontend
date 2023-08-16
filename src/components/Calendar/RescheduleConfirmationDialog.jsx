@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Button, Dialog, DialogActions, DialogTitle } from "@mui/material";
-import { LoadingButton } from "../NewAppointment/LoadingButton";
+import LoadingButton from '@mui/lab/LoadingButton';
 
 export default function RescheduleConfirmationDialog({
 	isOpen,
@@ -37,7 +37,9 @@ export default function RescheduleConfirmationDialog({
 				</Button>
 				<Box width={90} marginLeft={2}>
 					<LoadingButton
-						isLoading={isRescheduleLoading}
+                        variant="contained"
+                        color="secondary"
+						loading={isRescheduleLoading}
 						onClick={handleConfirm}
 					>
 						Confirm

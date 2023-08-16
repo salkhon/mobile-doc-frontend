@@ -1,6 +1,6 @@
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
 import React, { useContext, useState } from "react";
-import { UserContext } from "../login/UserContext";
+import { UserContext } from "../LoginPage/UserContext";
 import Header from "../global/Header";
 import { useNavigate } from "react-router-dom";
 import DoctorSuggestionTable from "./DoctorSuggestionTable";
@@ -8,12 +8,13 @@ import { SymptomsInput } from "./SymptomsInput";
 import {
 	fetchPostSessionDoctorAndTime,
 	fetchSuggestedDoctorsWithGivenSymptoms,
-    getFormattedDateTime,
+	getFormattedDateTime,
 } from "../../api/appoinment";
 import { AppointmentCard } from "./AppointmentCard";
+import { LoadingButton } from "@mui/lab";
 
 export default function NewAppointment() {
-	const user = useContext(UserContext);
+	const { user } = useContext(UserContext);
 
 	const [sessionId, setSessionId] = useState(null);
 
@@ -99,18 +100,17 @@ export default function NewAppointment() {
 						patient={user.name}
 						setAppointmentTime={setAppointmentTime}
 					/>
-					<Button
+					<LoadingButton
 						variant="contained"
 						color="secondary"
 						onClick={handleBookAppointment}
 						disabled={!appointmentTime}
 						sx={{
-							height: "50px",
-							margin: "80px 10px 0 0",
+							margin: "100px 74px 30px 10px",
 						}}
 					>
 						Book Appointment
-					</Button>
+					</LoadingButton>
 				</Box>
 			)}
 		</Box>

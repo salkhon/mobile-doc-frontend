@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 
 import React, { useContext, useEffect, useState } from "react";
 import Header from "../global/Header";
-import { UserContext } from "../login/UserContext";
+import { UserContext } from "../LoginPage/UserContext";
 import LoadingBackdrop from "../loading";
 import {
 	fetchPostUpdateSessionTime,
@@ -12,7 +12,7 @@ import AppointmentCalendar from "./AppointmentCalendar";
 import RescheduleConfirmationDialog from "./RescheduleConfirmationDialog";
 
 export default function Calendar() {
-	const user = useContext(UserContext);
+	const { user } = useContext(UserContext);
 
 	const [appointments, setAppointments] = useState(null);
 
@@ -104,7 +104,7 @@ export default function Calendar() {
 			)
 		].start_time = rescheduleEventInfo?.oldEvent.startStr;
 		setAppointments(appointmentsCopy);
-        
+
 		setIsReschedDialogOpen(false);
 	}
 
