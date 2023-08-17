@@ -21,17 +21,17 @@ export function LoginPage() {
 	const colors = tokens(theme.palette.mode);
 
 	const location = useLocation();
-	const next = location.state || { from: { pathname: "/" } };
 
 	const navigate = useNavigate();
 
-	const { user, setUser } = useContext(UserContext);
+	const { setUser } = useContext(UserContext);
 
-	function handleSubmit(event) {
+	async function handleLogin(event) {
 		// todo: fetch auth
 		console.log(event);
 		event.preventDefault();
 
+		const next = location.state?.from?.pathname || "/dashboard";
 		if (event.target[0].value === "patient") {
 			setUser({
 				userType: "patient",
@@ -53,10 +53,6 @@ export function LoginPage() {
 		} else {
 			alert("Invalid credentials");
 		}
-	}
-
-	if (user) {
-		navigate("/dashboard");
 	}
 
 	return (
@@ -85,7 +81,7 @@ export function LoginPage() {
 				<Typography component="h1" variant="h3">
 					Log in
 				</Typography>
-				<Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+				<Box component="form" onSubmit={handleLogin} sx={{ mt: 1 }}>
 					<TextField
 						margin="normal"
 						required

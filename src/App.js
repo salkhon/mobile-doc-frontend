@@ -15,6 +15,7 @@ import { UserContext } from "./components/LoginPage/UserContext"
 import NewAppointment from "./components/NewAppointment";
 import BackgroundImage from "./components/global/BackgroundImage";
 import { LandingPage } from "./components/LandingPage";
+import { PrivateRoute } from "./components/PrivateRoute";
 
 function App() {
     const [theme, colorModeCtxVal] = useMode();
@@ -39,6 +40,8 @@ function App() {
                 name: "Salman",
                 token: "doctor",
             });
+        } else {
+            setUser(null);
         }
     }, [setUser]);
 
@@ -72,18 +75,18 @@ function App() {
                                 <Route path="/login" element={<LoginPage />} />
 
                                 {/* AUTH REQUIRED */}
-                                <Route path="/newsession" element={<NewAppointment />} />
-                                <Route path="/dashboard" element={<Dashboard />} />
-                                <Route path="/team" element={<Team />} />
-                                <Route path="/contacts" element={<Contacts />} />
-                                <Route path="/invoices" element={<Invoices />} />
-                                <Route path="/form" element={<Form />} />
-                                <Route path="/calendar" element={<Calendar />} />
-                                <Route path="/faq" element={<Dashboard />} />
-                                <Route path="/bar" element={<Dashboard />} />
-                                <Route path="/pie" element={<Dashboard />} />
-                                <Route path="/line" element={<Dashboard />} />
-                                <Route path="/geography" element={<Dashboard />} />
+                                <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+                                <Route path="/newsession" element={<PrivateRoute><NewAppointment /></PrivateRoute>} />
+                                <Route path="/team" element={<PrivateRoute><Team /></PrivateRoute>} />
+                                <Route path="/contacts" element={<PrivateRoute><Contacts /></PrivateRoute>} />
+                                <Route path="/invoices" element={<PrivateRoute><Invoices /></PrivateRoute>} />
+                                <Route path="/form" element={<PrivateRoute><Form /></PrivateRoute>} />
+                                <Route path="/calendar" element={<PrivateRoute><Calendar /></PrivateRoute>} />
+                                <Route path="/faq" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+                                <Route path="/bar" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+                                <Route path="/pie" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+                                <Route path="/line" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+                                <Route path="/geography" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
                             </Routes>
                         </main>
                     </Box>
