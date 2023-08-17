@@ -8,13 +8,13 @@ import { Auth0ProviderWithNavigate } from "./auth0-provider-with-navigate";
 const container = document.getElementById("root");
 const root = createRoot(container);
 root.render(
-	<React.StrictMode>
-		<BrowserRouter>
-			<Auth0ProviderWithNavigate>
-				<App />
-			</Auth0ProviderWithNavigate>
-		</BrowserRouter>
-	</React.StrictMode>
+    <React.StrictMode>
+        <BrowserRouter>
+            <Auth0ProviderWithNavigate>
+                <App />
+            </Auth0ProviderWithNavigate>
+        </BrowserRouter>
+    </React.StrictMode>
 );
 
 /**

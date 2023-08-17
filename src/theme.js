@@ -43,7 +43,7 @@ export function tokens(mode) {
                 200: "#f1b9b7",
                 300: "#e99592",
                 400: "#e2726e",
-                500: "#db4f4a",
+                500: "#FD2A43",
                 600: "#af3f3b",
                 700: "#832f2c",
                 800: "#58201e",
@@ -132,7 +132,7 @@ export function themeSettings(mode) {
                         main: colors.primary[500],
                     },
                     secondary: {
-                        main: colors.greenAccent[500],
+                        main: colors.redAccent[500],
                     },
                     neutral: {
                         dark: colors.grey[700],

@@ -9,16 +9,13 @@ export default function LoadingBackdrop() {
 	const colors = tokens(theme.palette.mode);
 
 	return (
-		<div>
-			<Backdrop
-				sx={{
-					color: colors.greenAccent[300],
-					zIndex: (theme) => theme.zIndex.drawer + 1,
-				}}
-				open={true}
-			>
-				<CircularProgress color="inherit" />
-			</Backdrop>
-		</div>
+		<Backdrop
+			sx={{
+				color: colors.greenAccent[300],
+			}}
+			open={true}
+		>
+			<CircularProgress color="inherit" />
+		</Backdrop>
 	);
 }

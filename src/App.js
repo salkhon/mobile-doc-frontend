@@ -13,13 +13,16 @@ import Calendar from "./components/Calendar";
 import { LoginPage } from "./components/LoginPage";
 import { UserContext } from "./components/LoginPage/UserContext"
 import NewAppointment from "./components/NewAppointment";
+import BackgroundImage from "./components/global/BackgroundImage";
 
 function App() {
     const [theme, colorModeCtxVal] = useMode();
+
     const [isSidebar, setIsSidebar] = useState(true);
     const [user, setUser] = useState(null);
 
     useEffect(() => {
+        console.log("setting user");
         const token = localStorage.getItem("pokedoc_token");
         if (token === "patient") {
             setUser({
@@ -36,24 +39,34 @@ function App() {
                 token: "doctor",
             });
         }
-    }, []);
+    }, [setUser]);
 
     return (
         <ColorModeContext.Provider value={colorModeCtxVal}>
             <ThemeProvider theme={theme}>
                 <CssBaseline />
+
                 <UserContext.Provider value={{ user, setUser }}>
+                    {/* BLURRED IMAGE IN THE BG */}
+                    <BackgroundImage />
+
+                    {/* MAIN APP */}
                     <Box className="app">
+                        {/* SIDE  BAR */}
                         {user && (
                             <AppSidebar
                                 isSidebar={isSidebar}
                                 setIsSidebar={setIsSidebar}
                             />
                         )}
-                        <main className="content">
+
+                        {/* APP CONTENT */}
+                        <main className="content" style={{
+                            backgroundColor: `rgba(19, 27, 45, ${user ? 0.9 : 0})`,
+                        }}>
                             {user && <Topbar />}
                             <Routes>
-                                <Route path="/" element={<LoginPage setUser={setUser} />} />
+                                <Route path="/" element={<LoginPage />} />
                                 <Route path="/newsession" element={<NewAppointment />} />
                                 <Route path="/dashboard" element={<Dashboard />} />
                                 <Route path="/team" element={<Team />} />
