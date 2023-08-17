@@ -14,6 +14,7 @@ import { LoginPage } from "./components/LoginPage";
 import { UserContext } from "./components/LoginPage/UserContext"
 import NewAppointment from "./components/NewAppointment";
 import BackgroundImage from "./components/global/BackgroundImage";
+import { LandingPage } from "./components/LandingPage";
 
 function App() {
     const [theme, colorModeCtxVal] = useMode();
@@ -66,7 +67,11 @@ function App() {
                         }}>
                             {user && <Topbar />}
                             <Routes>
-                                <Route path="/" element={<LoginPage />} />
+                                {/* PUBLIC */}
+                                <Route path="/" element={<LandingPage />} />
+                                <Route path="/login" element={<LoginPage />} />
+
+                                {/* AUTH REQUIRED */}
                                 <Route path="/newsession" element={<NewAppointment />} />
                                 <Route path="/dashboard" element={<Dashboard />} />
                                 <Route path="/team" element={<Team />} />

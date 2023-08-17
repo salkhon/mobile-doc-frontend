@@ -3,7 +3,7 @@ import { Box } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import Header from "../global/Header";
 import { UserContext } from "../LoginPage/UserContext";
-import LoadingBackdrop from "../loading";
+import LoadingBackdrop from "../global/LoadingBackdrop";
 import {
 	fetchPostUpdateSessionTime,
 	fetchUserAppointments,
