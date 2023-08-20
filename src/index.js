@@ -11,6 +11,7 @@ const queryClient = new QueryClient();
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL
 axios.defaults.headers.post["Content-Type"] = "application/json";
+axios.defaults.headers.get["Access-Control-Allow-Origin"] = "*";
 
 root.render(
     <React.StrictMode>

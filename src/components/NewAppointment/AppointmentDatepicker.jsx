@@ -13,11 +13,12 @@ export function AppointmentDatepicker({ setAppointmentTime, doctor }) {
 			.toLowerCase();
 
 		return !doctor.availability.some(
-			(sched) => sched.day_of_the_week === dateWeekDayNameShort
+			(sched) =>
+				sched.day_of_the_week === dateWeekDayNameShort &&
+				sched.day_start_times.length > 0
 		);
 	}
 
-	// todo: ultimately doctor will have a list of slots as his availability
 	function isTimeDisabled(value, view) {
 		if (value.minute() % 15 !== 0) {
 			return true;
@@ -29,34 +30,41 @@ export function AppointmentDatepicker({ setAppointmentTime, doctor }) {
 			.format(value.$d)
 			.toLowerCase();
 
-		const doctorScheduleThatDay = doctor.availability?.find(
-			(sched) => sched.day_of_the_week === dateWeekDayNameShort
-		);
-
 		const hr = value
 			.hour()
 			.toLocaleString("en-US", { minimumIntegerDigits: 2 });
 		const min = value
 			.minute()
 			.toLocaleString("en-US", { minimumIntegerDigits: 2 });
-		let timeString = `${hr}:${min}:00`;
+
+		const isSlotAvailableInDoctorScheduleThatDay =
+			doctor.availability?.some(
+				(sched) =>
+					// for the week day of this date
+					sched.day_of_the_week === dateWeekDayNameShort &&
+					sched.day_start_times.some((startTime) =>
+						view === "minutes"
+							? // is there some start time equal to this time (for exact minutes)
+							  startTime === `${hr}:${min}:00`
+							: // for all minutes in this hour
+							  startTime === `${hr}:00:00` ||
+							  startTime === `${hr}:15:00` ||
+							  startTime === `${hr}:30:00` ||
+							  startTime === `${hr}:45:00`
+					)
+			);
 
 		const isSlotConflictingWithExistingAppointment = doctor.calendar.some(
 			(appt) =>
 				view === "minutes" &&
-				new Date(appt.session_starttime).getTime() ===
+				new Date(appt.start_time).getTime() ===
 					new Date(value.$d).getTime()
 		);
 
 		return !(
 			// conditions to enable datetime
 			(
-				doctorScheduleThatDay &&
-				isTimeInRange(
-					timeString,
-					doctorScheduleThatDay.day_start_time,
-					doctorScheduleThatDay.day_end_time
-				) &&
+				isSlotAvailableInDoctorScheduleThatDay &&
 				!isSlotConflictingWithExistingAppointment
 			)
 		);
@@ -83,12 +91,4 @@ export function AppointmentDatepicker({ setAppointmentTime, doctor }) {
 			</LocalizationProvider>
 		</Box>
 	);
-}
-
-function isTimeInRange(time, startTime, endTime) {
-	const parsedTime = new Date(`1970-01-01T${time}`);
-	const parsedStartTime = new Date(`1970-01-01T${startTime}`);
-	const parsedEndTime = new Date(`1970-01-01T${endTime}`);
-
-	return parsedTime >= parsedStartTime && parsedTime <= parsedEndTime;
 }

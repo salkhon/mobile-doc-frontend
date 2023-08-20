@@ -68,8 +68,8 @@ export default function AppointmentCalendar({
 
 function appointmentText(appointment, userType) {
 	if (userType === "doctor") {
-		return appointment.patient_id;
+		return appointment.patient_name ?? appointment.patient_id;
 	} else if (userType === "patient") {
-		return appointment.doctor_id;
+		return appointment.doctor_name ?? appointment.doctor_id;
 	}
 }

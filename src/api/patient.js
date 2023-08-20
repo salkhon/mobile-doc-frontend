@@ -4,6 +4,14 @@
 
 import axios from "axios";
 
+export async function getPatient({ queryKey }) {
+    const [patientId] = queryKey;
+    console.log("GET patient", patientId);
+    let resp = await axios.get(`/patient/${patientId}`);
+    console.log(resp)
+    return resp.data.patient;
+}
+
 export async function getCreateNewAppt({ queryKey }) {
     const [userId] = queryKey
     console.log("GET new appt id", userId)

@@ -105,7 +105,7 @@ export default function NewAppointment() {
 				>
 					<AppointmentCard
 						doctor={selectedDoctor}
-						patient={userName}
+						patientName={userName}
 						setAppointmentTime={setApptDatetimeObj}
 					/>
 					<LoadingButton

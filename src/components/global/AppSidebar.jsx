@@ -27,7 +27,6 @@ import {
 	PieChartOutlined,
 	ReceiptOutlined,
 	TimelineOutlined,
-	EventOutlined,
 } from "@mui/icons-material";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { Link, useNavigate } from "react-router-dom";
@@ -252,13 +251,6 @@ function AppSidebar(props) {
 						title="Calendar"
 						to="/calendar"
 						icon={<CalendarTodayOutlined />}
-						selected={selected}
-						setSelected={setSelected}
-					/>
-					<MItem
-						title="Appointments"
-						to="/appointment"
-						icon={<EventOutlined />}
 						selected={selected}
 						setSelected={setSelected}
 					/>

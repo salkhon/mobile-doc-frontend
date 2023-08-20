@@ -8,6 +8,8 @@ import AppointmentPage from "../components/AppointmentPage";
 import { LoginPage } from "../components/LoginPage";
 import { PrivateRoute } from "../components/PrivateRoute";
 import Dashboard from "../components/DashboardPage";
+import PatientSignupPage from "../components/SignupPage/patient";
+import DoctorSignupPage from "../components/SignupPage/doctor";
 
 export default function PokedocRoutes() {
 	const { token } = useAuth();
@@ -21,6 +23,14 @@ export default function PokedocRoutes() {
 		{
 			path: "/login",
 			element: <LoginPage />,
+		},
+		{
+			path: "/signup",
+			element: <PatientSignupPage />,
+		},
+		{
+			path: "/doctorsignup",
+			element: <DoctorSignupPage />,
 		},
 	];
 

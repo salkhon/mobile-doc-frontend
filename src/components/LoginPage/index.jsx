@@ -5,10 +5,8 @@ import {
 	Avatar,
 	Typography,
 	TextField,
-	FormControlLabel,
 	Grid,
 	Link,
-	Checkbox,
 	useTheme,
 } from "@mui/material";
 import { Navigate, useLocation } from "react-router-dom";
@@ -27,11 +25,11 @@ export function LoginPage() {
 
 	const { setToken, setUserId, setUserName, setUserType } = useAuth();
 
-	const [email, setUsername] = useState("");
+	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 
 	const { data, refetch, isLoading, error } = useQuery(
-		[email, password],
+		[username, password],
 		postLogin,
 		{
 			enabled: false,
@@ -50,12 +48,11 @@ export function LoginPage() {
 	}
 
 	if (data) {
-		// todo: send back usertype
 		console.log("Found login data in page component", data);
 		setToken(data.token);
-		setUserId(email);
-		setUserName(email);
-		setUserType("patient");
+		setUserId(username);
+		setUserName(username);
+		setUserType(data.type);
 
 		return <Navigate to={next} />;
 	}
@@ -91,10 +88,10 @@ export function LoginPage() {
 						margin="normal"
 						required
 						fullWidth
-						id="email"
-						label="Email Address"
-						name="email"
-						autoComplete="email"
+						id="username"
+						label="Username"
+						name="username"
+						autoComplete="username"
 						onChange={(e) => setUsername(e.target.value)}
 						autoFocus
 					/>
@@ -108,10 +105,6 @@ export function LoginPage() {
 						id="password"
 						onChange={(e) => setPassword(e.target.value)}
 						autoComplete="current-password"
-					/>
-					<FormControlLabel
-						control={<Checkbox value="remember" color="primary" />}
-						label="Remember me"
 					/>
 					<LoadingButton
 						type="submit"
@@ -148,6 +141,16 @@ export function LoginPage() {
 								fontSize={15}
 							>
 								{"Don't have an account? Sign Up"}
+							</Link>
+						</Grid>
+						<Grid item>
+							<Link
+								href="#"
+								variant="body2"
+								color={colors.greenAccent[500]}
+								fontSize={15}
+							>
+								{"Are you a doctor? Sign Up"}
 							</Link>
 						</Grid>
 					</Grid>

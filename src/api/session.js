@@ -18,18 +18,19 @@ export function getFormattedDateTime(dateTimeObj) {
 export async function getAppointments({ queryKey }) {
     const [userId, userType] = queryKey;
 
-    let resp;
-    let sessions;
-    if (userType === "patient") {
-        resp = await axios.get(`/patient/EHR/${userId}`);
-        console.log("patient response", resp)
-        sessions = resp.data.patient_sessions;
-    } else if (userType === "doctor") {
-        resp = await axios.get(`/doctor/${userId}`)
-        sessions = resp.data.doctor.calendar.map(session => ({
-            start_time: session.session_starttime,
-            end_time: session.session_endtime
-        }));
-    }
+    let resp, sessions;
+    console.log("GET appointments", userId, userType);
+    resp = await axios.get(`/${userType}/${userId}/all_sessions`);
+    console.log(resp);
+    sessions = userType === "patient" ? resp.data.patient_sessions : resp.data.doctor_sessions;
     return sessions;
+}
+
+export async function getAppointment({ queryKey }) {
+    const [apptId] = queryKey;
+
+    console.log("GET appointment", apptId)
+    let resp = await axios.get(`/session/${apptId}`);
+    console.log(resp)
+    return resp.data.session;
 }

@@ -10,10 +10,11 @@ import React from "react";
 import { AppointmentDatepicker } from "./AppointmentDatepicker";
 import { tokens } from "../../theme";
 
-export function AppointmentCard({ doctor, patient, setAppointmentTime }) {
+export function AppointmentCard({ doctor, patientName, setAppointmentTime }) {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 	console.log(doctor);
+
 	return (
 		<Box
 			display="flex"
@@ -47,7 +48,7 @@ export function AppointmentCard({ doctor, patient, setAppointmentTime }) {
 								<Typography variant="h5" margin="5px">
 									Patient:
 									<AppointmentCardName>
-										{patient}
+										{patientName}
 									</AppointmentCardName>
 								</Typography>
 							</Grid>
