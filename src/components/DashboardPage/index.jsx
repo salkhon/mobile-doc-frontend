@@ -1,11 +1,11 @@
 import React from "react";
 import Header from "../global/Header";
 import { Box } from "@mui/material";
-import { useContext } from "react";
-import { UserContext } from "../LoginPage/UserContext";
+import { useAuth } from "../../hooks/auth";
 
 export function Dashboard() {
-	const { user } = useContext(UserContext);
+	const { userName, userType } = useAuth();
+
 	return (
 		<Box
 			display="flex"
@@ -15,7 +15,7 @@ export function Dashboard() {
 		>
 			<Header
 				title="Dashboard"
-				subtitle={`Welcome to your dashboard, ${user?.userType}`}
+				subtitle={`Welcome to your dashboard, ${userType} ${userName}`}
 			/>
 		</Box>
 	);

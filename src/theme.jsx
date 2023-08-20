@@ -1,6 +1,3 @@
-import { createContext, useState, useMemo } from "react";
-import { createTheme } from "@mui/material/styles";
-
 // color design tokens
 export function tokens(mode) {
     return mode === "dark"
@@ -190,26 +187,3 @@ export function themeSettings(mode) {
         },
     };
 }
-
-// context structure for color mode
-export const ColorModeContext = createContext({
-    colorMode: "light",
-    toggleColorMode: () => { },
-});
-
-export const useMode = () => {
-    const [mode, setMode] = useState("dark");
-
-    // context value init
-    const colorModeCtxVal = useMemo(() => {
-        return {
-            toggleColorMode: () =>
-                setMode((prev) => (prev === "light" ? "dark" : "light")),
-        };
-    }, []);
-
-    // registering our theme settings with mui
-    const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
-
-    return [theme, colorModeCtxVal];
-};

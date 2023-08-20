@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState } from "react";
 import {
 	Box,
 	Container,
@@ -11,48 +11,53 @@ import {
 	Checkbox,
 	useTheme,
 } from "@mui/material";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
 import { tokens } from "../../theme";
-import { UserContext } from "./UserContext";
+import { postLogin } from "../../api/auth";
+import { useQuery } from "react-query";
+import { useAuth } from "../../hooks/auth";
 
 export function LoginPage() {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 
 	const location = useLocation();
+	const next = location.state?.from?.pathname || "/";
 
-	const navigate = useNavigate();
+	const { setToken, setUserId, setUserName, setUserType } = useAuth();
 
-	const { setUser } = useContext(UserContext);
+	const [email, setUsername] = useState("");
+	const [password, setPassword] = useState("");
 
-	async function handleLogin(event) {
-		// todo: fetch auth
-		console.log(event);
-		event.preventDefault();
-
-		const next = location.state?.from?.pathname || "/dashboard";
-		if (event.target[0].value === "patient") {
-			setUser({
-				userType: "patient",
-				id: "0001",
-				name: "Salman",
-				token: "patient",
-			});
-			localStorage.setItem("pokedoc_token", "patient");
-			navigate(next);
-		} else if (event.target[0].value === "doctor") {
-			setUser({
-				userType: "doctor",
-				id: "BD001",
-				name: "Dr. Salman",
-				token: "doctor",
-			});
-			localStorage.setItem("pokedoc_token", "doctor");
-			navigate(next);
-		} else {
-			alert("Invalid credentials");
+	const { data, refetch, isLoading, error } = useQuery(
+		[email, password],
+		postLogin,
+		{
+			enabled: false,
+			refetchOnWindowFocus: false,
+			refetchOnReconnect: false,
 		}
+	);
+
+	function handleLogin(event) {
+		event.preventDefault();
+		refetch();
+	}
+
+	if (error) {
+		alert("Could not login:", error.message);
+	}
+
+	if (data) {
+		// todo: send back usertype
+		console.log("Found login data in page component", data);
+		setToken(data.token);
+		setUserId(email);
+		setUserName(email);
+		setUserType("patient");
+
+		return <Navigate to={next} />;
 	}
 
 	return (
@@ -90,6 +95,7 @@ export function LoginPage() {
 						label="Email Address"
 						name="email"
 						autoComplete="email"
+						onChange={(e) => setUsername(e.target.value)}
 						autoFocus
 					/>
 					<TextField
@@ -100,6 +106,7 @@ export function LoginPage() {
 						label="Password"
 						type="password"
 						id="password"
+						onChange={(e) => setPassword(e.target.value)}
 						autoComplete="current-password"
 					/>
 					<FormControlLabel
@@ -110,6 +117,7 @@ export function LoginPage() {
 						type="submit"
 						fullWidth
 						variant="contained"
+						loading={isLoading}
 						sx={{
 							mt: 3,
 							mb: 2,

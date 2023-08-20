@@ -1,11 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 import Header from "../global/Header";
 import { Box, Button, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../LoginPage/UserContext";
 
 export function LandingPage() {
-	const { user } = useContext(UserContext);
 	const navigate = useNavigate();
 
 	return (
@@ -34,15 +32,13 @@ export function LandingPage() {
 						title="PokéDoc"
 						subtitle="Medical treatment in your pocket"
 					/>
-					{!user && (
-						<Button
-							variant="contained"
-							color="primary"
-							onClick={() => navigate("/login")}
-						>
-							Login
-						</Button>
-					)}
+					<Button
+						variant="contained"
+						color="primary"
+						onClick={() => navigate("/login")}
+					>
+						Login
+					</Button>
 				</Grid>
 			</Grid>
 		</Grid>

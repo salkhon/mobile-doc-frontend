@@ -6,7 +6,7 @@ import {
 	Typography,
 	useTheme,
 } from "@mui/material";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import {
 	Sidebar,
 	Menu,
@@ -19,7 +19,6 @@ import {
 	BarChartOutlined,
 	CalendarTodayOutlined,
 	ContactsOutlined,
-	HelpOutlined,
 	HomeOutlined,
 	MapOutlined,
 	MenuOutlined,
@@ -28,10 +27,11 @@ import {
 	PieChartOutlined,
 	ReceiptOutlined,
 	TimelineOutlined,
+	EventOutlined,
 } from "@mui/icons-material";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { Link, useNavigate } from "react-router-dom";
-import { UserContext } from "../LoginPage/UserContext";
+import { useAuth } from "../../hooks/auth";
 
 function MItem(props) {
 	const theme = useTheme();
@@ -56,7 +56,7 @@ function MItem(props) {
 function AppSidebar(props) {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
-	const { user } = useContext(UserContext);
+	const {userName, userType} = useAuth();
 
 	const [isCollapsed, setIsCollapsed] = useState(false);
 	const [selected, setSelected] = useState("Dashboard"); // what page we are in
@@ -152,13 +152,13 @@ function AppSidebar(props) {
 									margin: "10px 0 0 0",
 								}}
 							>
-								{user.name}
+								{userName}
 							</Typography>
 							<Typography
 								variant="h5"
 								color={colors.greenAccent[500]}
 							>
-								{user?.userType}
+								{userType}
 							</Typography>
 						</Box>
 					</Box>
@@ -169,7 +169,7 @@ function AppSidebar(props) {
 					paddingLeft={isCollapsed ? undefined : "10%"}
 					paddingTop={isCollapsed ? "184px" : undefined}
 				>
-					{user.userType === "patient" && (
+					{userType === "patient" && (
 						<Box
 							display="flex"
 							justifyContent="center"
@@ -197,7 +197,7 @@ function AppSidebar(props) {
 					)}
 					<MItem
 						title="Dashboard"
-						to="/dashboard"
+						to="/"
 						icon={<HomeOutlined />}
 						selected={selected}
 						setSelected={setSelected}
@@ -256,9 +256,9 @@ function AppSidebar(props) {
 						setSelected={setSelected}
 					/>
 					<MItem
-						title="FAQ Page"
-						to="/faq"
-						icon={<HelpOutlined />}
+						title="Appointments"
+						to="/appointment"
+						icon={<EventOutlined />}
 						selected={selected}
 						setSelected={setSelected}
 					/>

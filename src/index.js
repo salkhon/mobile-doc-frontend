@@ -2,18 +2,21 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import { BrowserRouter } from "react-router-dom"; // allow us to use react router and setup routers
-import { Auth0ProviderWithNavigate } from "./auth0-provider-with-navigate";
+import { QueryClient, QueryClientProvider } from "react-query";
+import axios from "axios";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
+const queryClient = new QueryClient();
+
+axios.defaults.baseURL = process.env.REACT_APP_BASE_URL
+axios.defaults.headers.post["Content-Type"] = "application/json";
+
 root.render(
     <React.StrictMode>
-        <BrowserRouter>
-            <Auth0ProviderWithNavigate>
-                <App />
-            </Auth0ProviderWithNavigate>
-        </BrowserRouter>
+        <QueryClientProvider client={queryClient}>
+            <App />
+        </QueryClientProvider>
     </React.StrictMode>
 );
 

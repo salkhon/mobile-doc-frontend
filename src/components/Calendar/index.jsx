@@ -1,30 +1,42 @@
 import { Box } from "@mui/material";
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import Header from "../global/Header";
-import { UserContext } from "../LoginPage/UserContext";
 import LoadingBackdrop from "../global/LoadingBackdrop";
-import {
-	fetchPostUpdateSessionTime,
-	fetchUserAppointments,
-} from "../../api/appoinment";
 import AppointmentCalendar from "./AppointmentCalendar";
 import RescheduleConfirmationDialog from "./RescheduleConfirmationDialog";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/auth";
+import { useQuery } from "react-query";
+import { useAppointments } from "../../hooks/appointments";
+import { postApptTime } from "../../api/patient";
+import { getFormattedDateTime } from "../../api/session";
 
 export default function Calendar() {
-	const { user } = useContext(UserContext);
+	const { userId, userType } = useAuth();
+	const navigate = useNavigate();
 
-	const [appointments, setAppointments] = useState(null);
+	const { appointments, setAppointments, isApptsLoading } = useAppointments(
+		userId,
+		userType
+	);
 
+	// todo: write a hook
 	// reschedule
 	const [isReschedDialogOpen, setIsReschedDialogOpen] = useState(false);
-	const [isRescheduleLoading, setIsRescheduleLoading] = useState(false);
 	const [rescheduleEventInfo, setRescheduleEventInfo] = useState(null);
-
-	useEffect(() => {
-		// fetch all schedules for this user
-		fetchUserAppointments(user, setAppointments);
-	}, [user]);
+	const rescheduleQuery = useQuery(
+		[
+			rescheduleEventInfo?.event.id,
+			rescheduleEventInfo
+				? getFormattedDateTime(rescheduleEventInfo?.event.start)
+				: null,
+		],
+		postApptTime,
+		{
+			enabled: false,
+		}
+	);
 
 	function handleDateClick(selected) {
 		const title = prompt("Please enter a new title for your event"); // standard browser alert
@@ -41,14 +53,7 @@ export default function Calendar() {
 	}
 
 	function handleEventClick(selected) {
-		if (
-			window.confirm(
-				`Are you sure you want to delete the event '${selected.event.title}'?`
-			)
-		) {
-			// again, you'd create modals for these
-			selected.event.remove();
-		}
+		navigate(`/appointment?id=${selected?.event?.id}`);
 	}
 
 	function handleEventDrop(eventDropInfo) {
@@ -78,20 +83,9 @@ export default function Calendar() {
 	}
 
 	function handleRescheduleConfirm() {
-		setIsRescheduleLoading(true);
-		fetchPostUpdateSessionTime(
-			rescheduleEventInfo?.event.id,
-			rescheduleEventInfo?.event.startStr
-		)
-			.then(() => {
-				setIsRescheduleLoading(false);
-				setIsReschedDialogOpen(false);
-			})
-			.catch((err) => {
-				alert("Cound not reschedule");
-				setIsRescheduleLoading(false);
-				setIsReschedDialogOpen(false);
-			});
+		rescheduleQuery.refetch().then(() => {
+			setIsReschedDialogOpen(false);
+		});
 	}
 
 	function handleRescheduleCancel(e) {
@@ -108,7 +102,7 @@ export default function Calendar() {
 		setIsReschedDialogOpen(false);
 	}
 
-	if (!appointments) {
+	if (isApptsLoading) {
 		return <LoadingBackdrop />;
 	}
 
@@ -118,16 +112,14 @@ export default function Calendar() {
 				title="CALENDAR"
 				subtitle="Full Calendar Interactive Page"
 			/>
-			<Box display="flex" justifyContent="space-between">
-				{/* CALENDAR */}
-				<Box flex="1 1 100%" marginLeft="15px">
-					<AppointmentCalendar
-						appointments={appointments}
-						handleDateClick={handleDateClick}
-						handleEventClick={handleEventClick}
-						handleEventDrop={handleEventDrop}
-					/>
-				</Box>
+			{/* CALENDAR */}
+			<Box flex="1 1 100%" marginLeft="15px">
+				<AppointmentCalendar
+					appointments={appointments}
+					handleDateClick={handleDateClick}
+					handleEventClick={handleEventClick}
+					handleEventDrop={handleEventDrop}
+				/>
 			</Box>
 			<RescheduleConfirmationDialog
 				isOpen={isReschedDialogOpen}
@@ -135,7 +127,7 @@ export default function Calendar() {
 				newEvent={rescheduleEventInfo?.event}
 				handleConfirm={handleRescheduleConfirm}
 				handleCancel={handleRescheduleCancel}
-				isRescheduleLoading={isRescheduleLoading}
+				isRescheduleLoading={rescheduleQuery.isLoading}
 			/>
 		</Box>
 	);

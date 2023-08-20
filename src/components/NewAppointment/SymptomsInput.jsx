@@ -1,11 +1,13 @@
 import { Box, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
 import SymptomTags from "./SymptomTags";
 import LoadingButton from "@mui/lab/LoadingButton";
 
-export function SymptomsInput({ onSymptomsSubmission, isDoctorsLoading }) {
-	const [symptoms, setSymptoms] = useState(null);
-
+export function SymptomsInput({
+	setSymptoms,
+	onSymptomsSubmission,
+	isDoctorsLoading,
+}) {
 	return (
 		<Box margin="20px">
 			<Box margin="10px" display="flex">
@@ -18,7 +20,7 @@ export function SymptomsInput({ onSymptomsSubmission, isDoctorsLoading }) {
 						variant="contained"
 						color="secondary"
 						loading={isDoctorsLoading}
-						onClick={(e) => onSymptomsSubmission(e, symptoms)}
+						onClick={onSymptomsSubmission}
 					>
 						Submit
 					</LoadingButton>

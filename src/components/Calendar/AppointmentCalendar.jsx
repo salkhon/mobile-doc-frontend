@@ -4,8 +4,8 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
 import interactionPlugin from "@fullcalendar/interaction";
 import { useTheme } from "@mui/material";
-import React, { useContext } from "react";
-import { UserContext } from "../LoginPage/UserContext";
+import React from "react";
+import { useAuth } from "../../hooks/auth";
 
 export default function AppointmentCalendar({
 	appointments,
@@ -13,16 +13,8 @@ export default function AppointmentCalendar({
 	handleEventClick,
 	handleEventDrop,
 }) {
-	const { user } = useContext(UserContext);
+	const { userType } = useAuth();
 	const theme = useTheme();
-
-	function appointmentText(appointment) {
-		if (user.userType === "doctor") {
-			return appointment.patient_id;
-		} else if (user.userType === "patient") {
-			return appointment.doctor_id;
-		}
-	}
 
 	return (
 		<FullCalendar
@@ -60,7 +52,7 @@ export default function AppointmentCalendar({
 			events={appointments.map((event) => {
 				return {
 					id: event.session_id,
-					title: appointmentText(event),
+					title: appointmentText(event, userType),
 					start: new Date(event.start_time),
 				};
 			})}
@@ -72,4 +64,12 @@ export default function AppointmentCalendar({
 			themeSystem={theme}
 		/>
 	);
+}
+
+function appointmentText(appointment, userType) {
+	if (userType === "doctor") {
+		return appointment.patient_id;
+	} else if (userType === "patient") {
+		return appointment.doctor_id;
+	}
 }

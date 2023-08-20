@@ -1,65 +1,72 @@
 import { Box } from "@mui/material";
-import React, { useContext, useState } from "react";
-import { UserContext } from "../LoginPage/UserContext";
+import React, { useEffect, useState } from "react";
 import Header from "../global/Header";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import DoctorSuggestionTable from "./DoctorSuggestionTable";
 import { SymptomsInput } from "./SymptomsInput";
-import {
-	fetchPostSessionDoctorAndTime,
-	fetchSuggestedDoctorsWithGivenSymptoms,
-	getFormattedDateTime,
-} from "../../api/appoinment";
 import { AppointmentCard } from "./AppointmentCard";
 import { LoadingButton } from "@mui/lab";
+import { useAuth } from "../../hooks/auth";
+import { useSuggestedDoctors } from "../../hooks/suggestedDoctors";
+import { useQueries, useQueryClient } from "react-query";
+import { postApptDoctor, postApptTime } from "../../api/patient";
+import { getFormattedDateTime } from "../../api/session";
 
 export default function NewAppointment() {
-	const { user } = useContext(UserContext);
+	const { userId, userType, userName } = useAuth();
+	const queryClient = useQueryClient();
 
-	const [sessionId, setSessionId] = useState(null);
+	// remove existing query cache for new appointment
+	useEffect(() => {
+		queryClient.removeQueries();
+	}, [queryClient]);
 
-	const [suggestedDoctors, setSuggestedDoctors] = useState(null);
-	const [isSuggestedDoctorsLoading, setIsSuggestedDoctorsLoading] =
-		useState(false);
+	const [symptoms, setSymptoms] = useState([]);
 
+	// create patient appointment and get suggested doctors
+	const { executeQuery, apptId, suggestedDoctors, isDoctorsLoading } =
+		useSuggestedDoctors(userId, userType, symptoms);
+
+	function handleSymptomSubmission() {
+		executeQuery();
+	}
+
+	// confirm appointment doctor and time
 	const [selectedDoctor, setSelectedDoctor] = useState(null);
-	const [appointmentTime, setAppointmentTime] = useState(null);
+	const [apptDatetimeObj, setApptDatetimeObj] = useState(null);
 
-	const navigate = useNavigate();
+	const [postApptDoctorQuery, postApptTimeQuery] = useQueries([
+		{
+			queryKey: [apptId, selectedDoctor?.doctor_id],
+			queryFn: postApptDoctor,
+			enabled: false,
+		},
+		{
+			queryKey: [
+				apptId,
+				apptDatetimeObj ? getFormattedDateTime(apptDatetimeObj) : "",
+			],
+			queryFn: postApptTime,
+			enabled: false,
+		},
+	]);
 
-	// when symptoms are submitted, load fetch suggested doctors
-	// useEffect for lifecycle fetches (intial render, when prop changes that will surely cause rerender)
-	const handleSymptomSubmission = (event, symptoms) => {
-		setIsSuggestedDoctorsLoading(true);
-		fetchSuggestedDoctorsWithGivenSymptoms(
-			user,
-			symptoms,
-			setSessionId,
-			setSuggestedDoctors,
-			setIsSuggestedDoctorsLoading
-		);
-	};
-
-	const handleDoctorSelection = (selection) => {
+	function handleDoctorSelection(selection) {
 		const selectedDoctor = suggestedDoctors?.find(
 			(doc) => doc.doctor_id === selection[0]
 		);
 		console.log("selected", selectedDoctor);
 		setSelectedDoctor(selectedDoctor);
-	};
+	}
 
-	const handleBookAppointment = (eve) => {
-		const datetime = getFormattedDateTime(appointmentTime);
-		// update session doctor id
-		console.log(selectedDoctor);
-		fetchPostSessionDoctorAndTime(
-			sessionId,
-			// @ts-ignore
-			selectedDoctor?.doctor_id,
-			datetime,
-			navigate
-		);
-	};
+	async function handleBookAppointment() {
+		await postApptDoctorQuery.refetch();
+		await postApptTimeQuery.refetch();
+	}
+
+	if (postApptDoctorQuery.isSuccess && postApptTimeQuery.isSuccess) {
+		return <Navigate to="/calendar" />;
+	}
 
 	return (
 		<Box>
@@ -72,15 +79,16 @@ export default function NewAppointment() {
 				<Header title="Session" subtitle={`Create new session`} />
 			</Box>
 
-			{/** SET SYMPTOMS */}
+			{/** INPUT SYMPTOMS */}
 			<SymptomsInput
+				setSymptoms={setSymptoms}
 				onSymptomsSubmission={handleSymptomSubmission}
-				isDoctorsLoading={isSuggestedDoctorsLoading}
+				isDoctorsLoading={isDoctorsLoading}
 			/>
 
 			{/** DOCTOR SUGGESTIONS and APPOINTMENT CARD */}
 			<Box margin="20px">
-				{suggestedDoctors && (
+				{suggestedDoctors?.length > 0 && (
 					<DoctorSuggestionTable
 						suggestedDoctors={suggestedDoctors}
 						handleDoctorRowSelection={handleDoctorSelection}
@@ -97,14 +105,18 @@ export default function NewAppointment() {
 				>
 					<AppointmentCard
 						doctor={selectedDoctor}
-						patient={user.name}
-						setAppointmentTime={setAppointmentTime}
+						patient={userName}
+						setAppointmentTime={setApptDatetimeObj}
 					/>
 					<LoadingButton
 						variant="contained"
 						color="secondary"
+						loading={
+							postApptDoctorQuery.isFetching ||
+							postApptTimeQuery.isFetching
+						}
 						onClick={handleBookAppointment}
-						disabled={!appointmentTime}
+						disabled={!apptDatetimeObj}
 						sx={{
 							margin: "100px 74px 30px 10px",
 						}}

@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, IconButton, InputBase, useTheme } from "@mui/material";
 import { useContext } from "react";
-import { ColorModeContext, tokens } from "../../theme.js";
+import { tokens } from "../../theme";
 
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined.js";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined.js";
@@ -12,13 +12,15 @@ import SearchIcon from "@mui/icons-material/Search.js";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../LoginPage/UserContext.jsx";
+import { ColorModeContext } from "../../contexts/ColorModeAndThemeContext/index.jsx";
+import { useAuth } from "../../hooks/auth";
 
 function Topbar() {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 	const colorModeCtx = useContext(ColorModeContext);
-	const { setUser } = useContext(UserContext);
+
+	const { setToken } = useAuth();
 
 	const navigate = useNavigate();
 
@@ -66,9 +68,8 @@ function Topbar() {
 
 				<IconButton
 					onClick={() => {
-						localStorage.removeItem("pokedoc_token");
-						setUser(null);
-						navigate("/");
+						setToken(null);
+						navigate("/", { replace: true });
 					}}
 				>
 					<LogoutOutlinedIcon />
