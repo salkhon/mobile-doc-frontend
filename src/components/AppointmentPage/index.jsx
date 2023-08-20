@@ -1,21 +1,19 @@
 import React from "react";
-import useQueryParam from "../../hooks/useQueryParam";
-import { useQuery } from "react-query";
-import LoadingBackdrop from "../global/LoadingBackdrop";
 import { Box, Typography } from "@mui/material";
 import Header from "../global/Header";
+import { useSearchParams } from "react-router-dom";
 // import { useSearchParams } from "react-router-dom";
 
 export default function AppointmentPage() {
 	// todo: use search params (q param)
 	// const [searchParams, setSearchParams] = useSearchParams();
-	const queryParam = useQueryParam();
-	const apptId = queryParam.get("id");
+	const [searchParams] = useSearchParams();
+	const apptId = searchParams.get("id");
 
 	return (
 		<Box margin="20px">
 			<Header
-				title="APPOINTMENT - SHOW DATE AND TIME HERE"
+				title={`APPOINTMENT ${apptId}`}
 				subtitle="Show patient and doctor name here"
 			/>
 			{/* CALENDAR */}

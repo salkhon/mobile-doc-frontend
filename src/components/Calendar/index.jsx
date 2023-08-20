@@ -53,7 +53,10 @@ export default function Calendar() {
 	}
 
 	function handleEventClick(selected) {
-		navigate(`/appointment?id=${selected?.event?.id}`);
+		navigate({
+			pathname: "/appointment",
+			search: `?id=${selected?.event?.id}`,
+		});
 	}
 
 	function handleEventDrop(eventDropInfo) {
