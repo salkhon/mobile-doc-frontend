@@ -1,23 +1,13 @@
 import React from "react";
 import Header from "../global/Header";
 import { Box } from "@mui/material";
-import { useAuth } from "../../hooks/auth";
-
+import { useContext } from "react";
+import { UserContext } from "../LoginPage/UserContext";
+import PDB from "./PatientDash/main";
 export function Dashboard() {
-	const { userName, userType } = useAuth();
-
+	const { user } = useContext(UserContext);
 	return (
-		<Box
-			display="flex"
-			justifyContent="space-between"
-			alignItems="center"
-			margin="20px"
-		>
-			<Header
-				title="Dashboard"
-				subtitle={`Welcome to your dashboard, ${userType} ${userName}`}
-			/>
-		</Box>
+		<PDB />
 	);
 }
 
