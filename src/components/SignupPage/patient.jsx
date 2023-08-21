@@ -41,7 +41,7 @@ const initialValues = {
 
 const phoneRegex = /^[0-9]+$/;
 
-// going to defined the validation logic for input fields
+// going to defined the validation logic for input field s
 // yup provides premade validation functions
 const userSchema = yup.object().shape({
 	username: yup.string().required("required"),
