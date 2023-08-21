@@ -6,10 +6,9 @@ import {
 	Typography,
 	TextField,
 	Grid,
-	Link,
 	useTheme,
 } from "@mui/material";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, useLocation, Link } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
 import { tokens } from "../../theme";
 import { postLogin } from "../../api/auth";
@@ -125,30 +124,30 @@ export function LoginPage() {
 					<Grid container>
 						<Grid item xs>
 							<Link
-								href="#"
-								variant="body2"
-								color={colors.greenAccent[500]}
-								fontSize={15}
+								to="/"
+								style={{
+									color: colors.greenAccent[500],
+								}}
 							>
 								Forgot password?
 							</Link>
 						</Grid>
 						<Grid item>
 							<Link
-								href="#"
-								variant="body2"
-								color={colors.greenAccent[500]}
-								fontSize={15}
+								to="/signup"
+								style={{
+									color: colors.greenAccent[500],
+								}}
 							>
 								{"Don't have an account? Sign Up"}
 							</Link>
 						</Grid>
 						<Grid item>
 							<Link
-								href="#"
-								variant="body2"
-								color={colors.greenAccent[500]}
-								fontSize={15}
+								to="/doctorsignup"
+								style={{
+									color: colors.greenAccent[500],
+								}}
 							>
 								{"Are you a doctor? Sign Up"}
 							</Link>

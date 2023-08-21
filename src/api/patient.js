@@ -61,3 +61,36 @@ export async function postApptTime({ queryKey }) {
     console.log(resp);
     return resp
 }
+
+export async function postPatientSignup({ username, password, fullname, nid, dob, address, contact, email, profession }) {
+    console.log("POST patient signup", username, password, fullname, nid, dob, address, contact, email, profession);
+    let resp = await axios.post("/patient/new", {
+        patient_id: username,
+        password: password,
+        name: fullname,
+        identification_no: nid,
+        date_of_brth: dob,
+        address: address,
+        phone_no: contact,
+        email: email,
+        profession: profession,
+        general_information: {
+            blood_group: "AB+",
+            allergies: [
+                "Peanuts",
+                "Shellfish"
+            ],
+            heart_condition: false,
+            diabetes: true
+        },
+        physical_attributes: [
+            {
+                name: "Height",
+                value: 170.5,
+                date_added: "2022-01-01"
+            }
+        ]
+    });
+    console.log(resp)
+    return resp.data;
+}

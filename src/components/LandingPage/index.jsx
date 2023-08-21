@@ -39,6 +39,20 @@ export function LandingPage() {
 					>
 						Login
 					</Button>
+                    <Button
+						variant="contained"
+						color="primary"
+						onClick={() => navigate("/signup")}
+					>
+						Signup Patient
+					</Button>
+                    <Button
+						variant="contained"
+						color="primary"
+						onClick={() => navigate("/doctorsignup")}
+					>
+						Signup Doctor
+					</Button>
 				</Grid>
 			</Grid>
 		</Grid>
