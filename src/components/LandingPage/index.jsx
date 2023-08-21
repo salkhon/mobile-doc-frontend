@@ -12,10 +12,12 @@ export function LandingPage() {
 			display="flex"
 			justifyContent="space-around"
 			alignItems="center"
+			alignSelf="center"
 			minHeight="100vh"
 		>
 			<Grid item container xs={12} justifyContent="center">
-				<Grid item mt="5px">
+				<Grid item xs={5}></Grid>
+				<Grid item xs={7}>
 					<Box
 						component="img"
 						sx={{
@@ -26,34 +28,47 @@ export function LandingPage() {
 						alt="pokedoc logo"
 						src="./pokedoc-logo.png"
 					/>
-				</Grid>
-				<Grid item>
 					<Header
 						title="PokéDoc"
 						subtitle="Medical treatment in your pocket"
 					/>
-					<Button
-						variant="contained"
-						color="primary"
-						onClick={() => navigate("/login")}
-					>
-						Login
-					</Button>
-                    <Button
-						variant="contained"
-						color="primary"
-						onClick={() => navigate("/signup")}
-					>
-						Signup Patient
-					</Button>
-                    <Button
-						variant="contained"
-						color="primary"
-						onClick={() => navigate("/doctorsignup")}
-					>
-						Signup Doctor
-					</Button>
 				</Grid>
+				<Grid item xs={5}></Grid>
+				<Grid item xs={7}>
+					<Box display="flex" justifyContent="flex-start">
+						<Button
+							variant="contained"
+							color="primary"
+							onClick={() => navigate("/login")}
+							sx={{
+								marginRight: 2,
+							}}
+						>
+							Login
+						</Button>
+						<Button
+							variant="contained"
+							color="primary"
+							onClick={() => navigate("/signup")}
+							sx={{
+								marginRight: 2,
+							}}
+						>
+							Signup Patient
+						</Button>
+						<Button
+							variant="contained"
+							color="primary"
+							onClick={() => navigate("/doctorsignup")}
+							sx={{
+								marginRight: 2,
+							}}
+						>
+							Signup Doctor
+						</Button>
+					</Box>
+				</Grid>
+				<Grid item xs={4}></Grid>
 			</Grid>
 		</Grid>
 	);
