@@ -27,7 +27,7 @@ export default function MedicalInfoCard({ patient }) {
 								color="text.Primary"
 								gutterBottom
 							>
-								{patient?.general_information.blood_group}
+								{patient?.general_information?.blood_group}
 							</Typography>
 						</Grid>
 
@@ -46,13 +46,13 @@ export default function MedicalInfoCard({ patient }) {
 								color="text.Primary"
 								gutterBottom
 							>
-								{patient?.general_information.diabetes
+								{patient?.general_information?.diabetes
 									? "✅"
 									: "❌"}
 							</Typography>
 						</Grid>
 
-                        <Grid item xs={3}>
+						<Grid item xs={3}>
 							<Typography
 								sx={{ fontSize: 20 }}
 								color="text.secondary"
@@ -67,13 +67,13 @@ export default function MedicalInfoCard({ patient }) {
 								color="text.Primary"
 								gutterBottom
 							>
-								{patient?.general_information.heart_condition
+								{patient?.general_information?.heart_condition
 									? "✅"
 									: "❌"}
 							</Typography>
 						</Grid>
 
-                        <Grid item xs={3}>
+						<Grid item xs={3}>
 							<Typography
 								sx={{ fontSize: 20 }}
 								color="text.secondary"
@@ -88,7 +88,7 @@ export default function MedicalInfoCard({ patient }) {
 								color="text.Primary"
 								gutterBottom
 							>
-								{patient?.general_information.heart_condition
+								{patient?.general_information?.kidney_problem
 									? "✅"
 									: "❌"}
 							</Typography>
