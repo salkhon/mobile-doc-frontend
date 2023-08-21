@@ -24,6 +24,17 @@ export function tokens(mode) {
 					800: "#080b12",
 					900: "#040509",
 				},
+				secondary: {
+					100: "#53030d",
+					200: "#850414",
+					300: "#b6061b",
+					400: "#e80722",
+					500: "#f92942",
+					600: "#bf003c",
+					700: "#8c002c",
+					800: "#59001c",
+					900: "#26000c",
+				},
 				greenAccent: {
 					100: "#dbf5ee",
 					200: "#b7ebde",
@@ -81,6 +92,17 @@ export function tokens(mode) {
 					800: "#a1a4ab",
 					900: "#d0d1d5",
 				},
+				secondary: {
+					100: "#26000c",
+					200: "#59001c",
+					300: "#8c002c",
+					400: "#bf003c",
+					500: "#f92942",
+					600: "#e80722",
+					700: "#b6061b",
+					800: "#850414",
+					900: "#53030d",
+				},
 				greenAccent: {
 					100: "#0f2922",
 					200: "#1e5245",
@@ -129,10 +151,10 @@ export function themeSettings(mode) {
 							main: colors.primary[500],
 						},
 						secondary: {
-							main: colors.redAccent[500],
+							main: colors.secondary[500],
 						},
 						tertiary: {
-							main: colors.greenAccent[500],
+							main: colors.greenAccent[300],
 						},
 						neutral: {
 							dark: colors.grey[700],
@@ -148,7 +170,10 @@ export function themeSettings(mode) {
 							main: colors.primary[500],
 						},
 						secondary: {
-							main: colors.greenAccent[500],
+							main: colors.secondary[500],
+						},
+						tertiary: {
+							main: colors.greenAccent[300],
 						},
 						neutral: {
 							dark: colors.grey[700],

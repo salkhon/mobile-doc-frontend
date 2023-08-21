@@ -14,6 +14,7 @@ import { tokens } from "../../theme";
 import { postLogin } from "../../api/auth";
 import { useQuery } from "react-query";
 import { useAuth } from "../../hooks/auth";
+import FormBackground from "../SignupPage/FormBackground";
 
 export function LoginPage() {
 	const theme = useTheme();
@@ -58,18 +59,7 @@ export function LoginPage() {
 
 	return (
 		<Container component="main" maxWidth="sm" sx={{ position: "relative" }}>
-			<Box
-				sx={{
-					marginTop: 12,
-					padding: "12vh 6vw",
-					display: "flex",
-					flexDirection: "column",
-					alignItems: "center",
-					backgroundColor: "rgba(11, 16, 27 , 0.8)",
-					borderRadius: 10,
-					boxShadow: theme.shadows[7],
-				}}
-			>
+			<FormBackground mt={20}>
 				<Avatar
 					sx={{
 						m: 1,
@@ -154,7 +144,7 @@ export function LoginPage() {
 						</Grid>
 					</Grid>
 				</Box>
-			</Box>
+			</FormBackground>
 		</Container>
 	);
 }

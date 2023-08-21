@@ -6,6 +6,9 @@ import interactionPlugin from "@fullcalendar/interaction";
 import { useTheme } from "@mui/material";
 import React from "react";
 import { useAuth } from "../../hooks/auth";
+import { tokens } from "../../theme";
+
+const eventOpacity = "99";
 
 export default function AppointmentCalendar({
 	appointments,
@@ -15,6 +18,7 @@ export default function AppointmentCalendar({
 }) {
 	const { userType } = useAuth();
 	const theme = useTheme();
+	const colors = tokens(theme.palette.mode);
 
 	return (
 		<FullCalendar
@@ -61,7 +65,7 @@ export default function AppointmentCalendar({
 			firstDay={6}
 			defaultAllDay={false}
 			initialEvents={[]}
-			themeSystem={theme}
+			eventColor={`${colors.secondary[500]}${eventOpacity}`}
 		/>
 	);
 }

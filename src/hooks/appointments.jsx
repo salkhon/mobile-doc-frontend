@@ -3,12 +3,17 @@ import { getAppointments } from "../api/session";
 import { useEffect, useState } from "react";
 
 export function useAppointments(userId, userType) {
-    // todo: not necessary, can useMutation
+	// todo: not necessary, can useMutation
 	const [appointments, setAppointments] = useState([]);
 
 	const { data, isLoading, error } = useQuery(
 		[userId, userType],
-		getAppointments
+		getAppointments,
+		{
+			refetchOnMount: false,
+			refetchOnReconnect: false,
+			refetchOnWindowFocus: false,
+		}
 	);
 
 	useEffect(() => {

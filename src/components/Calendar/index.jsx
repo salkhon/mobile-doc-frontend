@@ -77,6 +77,7 @@ export default function Calendar() {
 
 		// update frontend appointment list, pending confirmation - if confirmed then will POST to server
 		setAppointments(
+			// @ts-ignore
 			appointments?.map((appt) =>
 				appt.session_id === eventDropInfo.event.id
 					? { ...appt, start_time: eventDropInfo.event.startStr }
@@ -111,10 +112,8 @@ export default function Calendar() {
 
 	return (
 		<Box margin="20px">
-			<Header
-				title="CALENDAR"
-				subtitle="Full Calendar Interactive Page"
-			/>
+			<Header title="CALENDAR" />
+
 			{/* CALENDAR */}
 			<Box flex="1 1 100%" marginLeft="15px">
 				<AppointmentCalendar

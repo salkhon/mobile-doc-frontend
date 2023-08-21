@@ -14,8 +14,6 @@ import DoctorInfoCard from "./DoctorInfoCard";
 // import { useSearchParams } from "react-router-dom";
 
 export default function AppointmentPage() {
-	// todo: use search params (q param)
-	// const [searchParams, setSearchParams] = useSearchParams();
 	const [searchParams] = useSearchParams();
 	const apptId = searchParams.get("id");
 

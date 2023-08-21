@@ -21,6 +21,7 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import MedicalServicesOutlinedIcon from "@mui/icons-material/MedicalServicesOutlined";
 import { postDoctorSignup } from "../../api/doctor";
+import FormBackground from "./FormBackground";
 
 const initialValues = {
 	username: "",
@@ -58,19 +59,7 @@ export default function DoctorSignupPage() {
 
 	return (
 		<Container maxWidth="xl" sx={{ position: "relative" }}>
-			<Box
-				sx={{
-					marginTop: 10,
-					marginBottom: 10,
-					padding: "5vh 6vw",
-					display: "flex",
-					flexDirection: "column",
-					alignItems: "center",
-					backgroundColor: "rgba(11, 16, 27 , 0.8)",
-					borderRadius: 10,
-					boxShadow: theme.shadows[7],
-				}}
-			>
+			<FormBackground mt={10}>
 				<Avatar
 					sx={{
 						m: 1,
@@ -298,7 +287,7 @@ export default function DoctorSignupPage() {
 						}}
 					</Formik>
 				</Box>
-			</Box>
+			</FormBackground>
 		</Container>
 	);
 }

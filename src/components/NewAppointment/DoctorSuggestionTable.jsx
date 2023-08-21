@@ -4,7 +4,10 @@ import { tokens } from "../../theme";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid"; // can add extra filters
 import { useTheme } from "@mui/material";
 
-export default function DoctorSuggestionTable({ suggestedDoctors, handleDoctorRowSelection }) {
+export default function DoctorSuggestionTable({
+	suggestedDoctors,
+	handleDoctorRowSelection,
+}) {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 
@@ -17,13 +20,14 @@ export default function DoctorSuggestionTable({ suggestedDoctors, handleDoctorRo
 				},
 				".MuiDataGrid-cell": {
 					borderBottom: "none",
+					backgroundColor: `${colors.greenAccent[800]}`,
 				},
 				// can target classes defined in column names
 				".name-column--cell": {
-					colors: colors.greenAccent[300],
+					colors: colors.primary[700],
 				},
 				".MuiDataGrid-columnHeaders": {
-					backgroundColor: colors.blueAccent[700],
+					backgroundColor: `${colors.primary[800]}`,
 					borderBottom: "none",
 				},
 				".MuiDataGrid-virtualScroller": {
@@ -31,30 +35,37 @@ export default function DoctorSuggestionTable({ suggestedDoctors, handleDoctorRo
 				},
 				".MuiDataGrid-footerContainer": {
 					borderTop: "none",
-					backgroundColor: colors.blueAccent[700],
+					backgroundColor: `${colors.primary[800]}`,
 				},
 				".MuiDataGrid-toolbarContainer .MuiButton-text": {
 					color: `${colors.grey[100]}`,
 				},
 			}}
 		>
-            <Box margin="10px" display="flex" flexDirection="column" height="40vh" >
+			<Box
+				margin="10px"
+				display="flex"
+				flexDirection="column"
+				height="40vh"
+			>
 				<Typography variant="h3">Suggested Doctors</Typography>
-			
-			<DataGrid
-				rows={suggestedDoctors}
-				columns={columns}
-				getRowId={(row) => row["doctor_id"]}
-				onRowSelectionModelChange={handleDoctorRowSelection}
-				slots={{
-					toolbar: GridToolbar, // you can customize this as well!
-				}}
-				sx={{
-					"& .Mui-selected": {
-						backgroundColor: colors.primary[500] + " !important",
-					},
-				}}
-			/></Box>
+
+				<DataGrid
+					rows={suggestedDoctors}
+					columns={columns}
+					getRowId={(row) => row["doctor_id"]}
+					onRowSelectionModelChange={handleDoctorRowSelection}
+					slots={{
+						toolbar: GridToolbar, // you can customize this as well!
+					}}
+					sx={{
+						"& .Mui-selected": {
+							backgroundColor:
+								colors.primary[500] + " !important",
+						},
+					}}
+				/>
+			</Box>
 		</Box>
 	);
 }

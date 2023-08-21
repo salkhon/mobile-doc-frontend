@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import Header from "../global/Header";
-import { Box, Button, Grid } from "@mui/material";
+import { Box, Button, Grid, IconButton, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined.js";
+import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined.js";
+import { ColorModeContext } from "../../contexts/ColorModeAndThemeContext";
 
 export function LandingPage() {
 	const navigate = useNavigate();
+	const theme = useTheme();
+	const colorModeCtx = useContext(ColorModeContext);
 
 	return (
 		<Grid
@@ -15,7 +20,12 @@ export function LandingPage() {
 			alignSelf="center"
 			minHeight="100vh"
 		>
-			<Grid item container xs={12} justifyContent="center">
+			<Grid
+				item
+				container
+				justifyContent="center"
+				alignItems="center"
+			>
 				<Grid item xs={5}></Grid>
 				<Grid item xs={7}>
 					<Box
@@ -66,6 +76,13 @@ export function LandingPage() {
 						>
 							Signup Doctor
 						</Button>
+						<IconButton onClick={colorModeCtx.toggleColorMode}>
+							{theme.palette.mode === "dark" ? (
+								<LightModeOutlinedIcon />
+							) : (
+								<DarkModeOutlinedIcon />
+							)}
+						</IconButton>
 					</Box>
 				</Grid>
 				<Grid item xs={4}></Grid>

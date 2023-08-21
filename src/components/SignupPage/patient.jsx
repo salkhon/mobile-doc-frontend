@@ -27,33 +27,7 @@ import CallOutlinedIcon from "@mui/icons-material/CallOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import BadgeOutlinedIcon from "@mui/icons-material/BadgeOutlined";
 import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
-
-const initialValues = {
-	username: "",
-	password: "",
-	fullname: "",
-	email: "",
-	contact: "",
-	address: "",
-	nid: "",
-	profession: "",
-};
-
-const phoneRegex = /^[0-9]+$/;
-
-// going to defined the validation logic for input field s
-// yup provides premade validation functions
-const userSchema = yup.object().shape({
-	username: yup.string().required("required"),
-	password: yup.string().required("required"),
-	fullname: yup.string().required("required"),
-	email: yup.string().email("invalid email").required("required"),
-	contact: yup
-		.string()
-		.matches(phoneRegex, "Phone number is not valid")
-		.required("required"),
-	address: yup.string().required("required"),
-});
+import FormBackground from "./FormBackground";
 
 export default function PatientSignupPage() {
 	const theme = useTheme();
@@ -73,19 +47,7 @@ export default function PatientSignupPage() {
 
 	return (
 		<Container maxWidth="xl" sx={{ position: "relative" }}>
-			<Box
-				sx={{
-					marginTop: 10,
-					marginBottom: 10,
-					padding: "5vh 6vw",
-					display: "flex",
-					flexDirection: "column",
-					alignItems: "center",
-					backgroundColor: "rgba(11, 16, 27 , 0.8)",
-					borderRadius: 10,
-					boxShadow: theme.shadows[7],
-				}}
-			>
+			<FormBackground mt={10}>
 				<Avatar
 					sx={{
 						m: 1,
@@ -162,9 +124,9 @@ export default function PatientSignupPage() {
 											variant="filled"
 											type="password"
 											label="Password"
-											onBlur={handleBlur} // when you touch out of a field
-											onChange={handleChange} // when you change the text
-											value={values.password} // values of the field
+											onBlur={handleBlur}
+											onChange={handleChange}
+											value={values.password}
 											name="password"
 											color="tertiary"
 											error={
@@ -191,9 +153,9 @@ export default function PatientSignupPage() {
 											variant="filled"
 											type="text"
 											label="Full Name"
-											onBlur={handleBlur} // when you touch out of a field
-											onChange={handleChange} // when you change the text
-											value={values.fullname} // values of the field
+											onBlur={handleBlur}
+											onChange={handleChange}
+											value={values.fullname}
 											name="fullname"
 											color="tertiary"
 											error={
@@ -245,9 +207,9 @@ export default function PatientSignupPage() {
 											variant="filled"
 											type="text"
 											label="Email"
-											onBlur={handleBlur} // when you touch out of a field
-											onChange={handleChange} // when you change the text
-											value={values.email} // values of the field
+											onBlur={handleBlur}
+											onChange={handleChange}
+											value={values.email}
 											name="email"
 											color="tertiary"
 											error={
@@ -273,9 +235,9 @@ export default function PatientSignupPage() {
 											variant="filled"
 											type="text"
 											label="Contact Number"
-											onBlur={handleBlur} // when you touch out of a field
-											onChange={handleChange} // when you change the text
-											value={values.contact} // values of the field
+											onBlur={handleBlur}
+											onChange={handleChange}
+											value={values.contact}
 											name="contact"
 											color="tertiary"
 											error={
@@ -302,9 +264,9 @@ export default function PatientSignupPage() {
 											variant="filled"
 											type="text"
 											label="Address"
-											onBlur={handleBlur} // when you touch out of a field
-											onChange={handleChange} // when you change the text
-											value={values.address} // values of the field
+											onBlur={handleBlur}
+											onChange={handleChange}
+											value={values.address}
 											name="address"
 											color="tertiary"
 											error={
@@ -331,9 +293,9 @@ export default function PatientSignupPage() {
 											variant="filled"
 											type="text"
 											label="NID"
-											onBlur={handleBlur} // when you touch out of a field
-											onChange={handleChange} // when you change the text
-											value={values.nid} // values of the field
+											onBlur={handleBlur}
+											onChange={handleChange}
+											value={values.nid}
 											name="nid"
 											color="tertiary"
 											error={
@@ -358,9 +320,9 @@ export default function PatientSignupPage() {
 											variant="filled"
 											type="text"
 											label="Profession"
-											onBlur={handleBlur} // when you touch out of a field
-											onChange={handleChange} // when you change the text
-											value={values.profession} // values of the field
+											onBlur={handleBlur}
+											onChange={handleChange}
+											value={values.profession}
 											name="profession"
 											color="tertiary"
 											sx={{
@@ -402,7 +364,34 @@ export default function PatientSignupPage() {
 						}}
 					</Formik>
 				</Box>
-			</Box>
+			</FormBackground>
 		</Container>
 	);
 }
+
+const initialValues = {
+	username: "",
+	password: "",
+	fullname: "",
+	email: "",
+	contact: "",
+	address: "",
+	nid: "",
+	profession: "",
+};
+
+const phoneRegex = /^[0-9]+$/;
+
+// going to defined the validation logic for input field s
+// yup provides premade validation functions
+const userSchema = yup.object().shape({
+	username: yup.string().required("required"),
+	password: yup.string().required("required"),
+	fullname: yup.string().required("required"),
+	email: yup.string().email("invalid email").required("required"),
+	contact: yup
+		.string()
+		.matches(phoneRegex, "Phone number is not valid")
+		.required("required"),
+	address: yup.string().required("required"),
+});

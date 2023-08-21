@@ -16,17 +16,10 @@ import {
 } from "react-pro-sidebar";
 import { tokens } from "../../theme";
 import {
-	BarChartOutlined,
 	CalendarTodayOutlined,
-	ContactsOutlined,
 	HomeOutlined,
-	MapOutlined,
 	MenuOutlined,
-	PeopleOutlined,
 	PersonOutlined,
-	PieChartOutlined,
-	ReceiptOutlined,
-	TimelineOutlined,
 } from "@mui/icons-material";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { Link, useNavigate } from "react-router-dom";
@@ -55,7 +48,7 @@ function MItem(props) {
 function AppSidebar(props) {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
-	const {userName, userType} = useAuth();
+	const { userName, userType } = useAuth();
 
 	const [isCollapsed, setIsCollapsed] = useState(false);
 	const [selected, setSelected] = useState("Dashboard"); // what page we are in
@@ -122,57 +115,16 @@ function AppSidebar(props) {
 					)}
 				</MenuItem>
 
-				{/** USER */}
-				{!isCollapsed && (
-					<Box marginBottom="25px">
-						<Box
-							display="flex"
-							justifyContent="center"
-							alignItems="center"
-						>
-							<img
-								alt="profile-user"
-								width="100px"
-								height="100px"
-								src={`../../assets/user.png`}
-								style={{
-									cursor: "pointer",
-									borderRadius: "50%",
-								}}
-							/>
-						</Box>
-
-						<Box textAlign="center">
-							<Typography
-								variant="h3"
-								color={colors.grey[100]}
-								fontWeight="bold"
-								style={{
-									margin: "10px 0 0 0",
-								}}
-							>
-								{userName}
-							</Typography>
-							<Typography
-								variant="h5"
-								color={colors.greenAccent[500]}
-							>
-								{userType}
-							</Typography>
-						</Box>
-					</Box>
-				)}
-
 				{/** MENU ITEMS */}
 				<Box
 					paddingLeft={isCollapsed ? undefined : "10%"}
-					paddingTop={isCollapsed ? "184px" : undefined}
+					paddingTop={5}
 				>
 					{userType === "patient" && (
 						<Box
 							display="flex"
 							justifyContent="center"
-							margin="10px"
+							margin="10px 0px 20px 0px"
 						>
 							<Button
 								variant="contained"
@@ -208,36 +160,6 @@ function AppSidebar(props) {
 							margin: "15px 0 5px 20px",
 						}}
 					>
-						Data
-					</Typography>
-					<MItem
-						title="Manage Team"
-						to="/team"
-						icon={<PeopleOutlined />}
-						selected={selected}
-						setSelected={setSelected}
-					/>
-					<MItem
-						title="Contacts Information"
-						to="/contacts"
-						icon={<ContactsOutlined />}
-						selected={selected}
-						setSelected={setSelected}
-					/>
-					<MItem
-						title="Invoices Balances"
-						to="/invoices"
-						icon={<ReceiptOutlined />}
-						selected={selected}
-						setSelected={setSelected}
-					/>
-					<Typography
-						variant="h6"
-						color={colors.grey[300]}
-						style={{
-							margin: "15px 0 5px 20px",
-						}}
-					>
 						Pages
 					</Typography>
 					<MItem
@@ -254,44 +176,48 @@ function AppSidebar(props) {
 						selected={selected}
 						setSelected={setSelected}
 					/>
-					<Typography
-						variant="h6"
-						color={colors.grey[300]}
-						style={{
-							margin: "15px 0 5px 20px",
-						}}
-					>
-						Charts
-					</Typography>
-					<MItem
-						title="Bar Chart"
-						to="/bar"
-						icon={<BarChartOutlined />}
-						selected={selected}
-						setSelected={setSelected}
-					/>
-					<MItem
-						title="Pie Chart"
-						to="/pie"
-						icon={<PieChartOutlined />}
-						selected={selected}
-						setSelected={setSelected}
-					/>
-					<MItem
-						title="Line Chart"
-						to="/line"
-						icon={<TimelineOutlined />}
-						selected={selected}
-						setSelected={setSelected}
-					/>
-					<MItem
-						title="Geography Chart"
-						to="/geography"
-						icon={<MapOutlined />}
-						selected={selected}
-						setSelected={setSelected}
-					/>
 				</Box>
+				{/** USER */}
+
+				{!isCollapsed && (
+					<Box marginTop="30px">
+						<Box
+							display="flex"
+							justifyContent="center"
+							alignItems="center"
+						>
+							<img
+								alt="profile-user"
+								width="100px"
+								height="100px"
+								src={`../../assets/user.png`}
+								style={{
+									cursor: "pointer",
+									borderRadius: "50%",
+								}}
+							/>
+						</Box>
+
+						<Box textAlign="center">
+							<Typography
+								variant="h3"
+								color={colors.grey[100]}
+								fontWeight="bold"
+								style={{
+									margin: "10px 0 0 0",
+								}}
+							>
+								{userName}
+							</Typography>
+							<Typography
+								variant="h5"
+								color={colors.greenAccent[400]}
+							>
+								{userType}
+							</Typography>
+						</Box>
+					</Box>
+				)}
 			</Menu>
 		</Sidebar>
 	);

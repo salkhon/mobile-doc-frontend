@@ -36,10 +36,17 @@ body,
 
 /* Full Calendar */
 :root {
-	--fc-list-event-hover-bg-color: #1f2a40;
-	--fc-list-day-cushion-bg-color: #111;
-	--fc-cell-shaded-bg-color: #111;
-	--fc-today-bg-color: #0b101b;
+	--fc-list-event-hover-bg-color: #fe425b30;
+	--fc-list-day-cushion-bg-color: #fe425b;
+	--fc-list-table-thead-bg-color: #000;
+
+	--fc-cell-shaded-bg-color: #c52c40;
+	--fc-today-bg-color: #07265370;
+	--fc-border-color: #203f6c;
+}
+
+& .fc-list-day-cushion {
+	background-color: #395885 !important;
 }
 
 .fc-theme-standard {

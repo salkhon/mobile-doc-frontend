@@ -26,7 +26,7 @@ export function AppointmentCard({ doctor, patientName, setAppointmentTime }) {
 			<Box display="flex" marginTop="10px" width="100%" height="100%">
 				<Card
 					sx={{
-						backgroundColor: colors.primary[400],
+						backgroundColor: colors.greenAccent[800],
 						width: "100%",
 					}}
 				>
@@ -77,7 +77,7 @@ function AppointmentCardName({ children }) {
 		<span
 			style={{
 				marginLeft: 10,
-				backgroundColor: colors.primary[500],
+				backgroundColor: colors.greenAccent[900],
 				borderRadius: 5,
 				padding: 5,
 			}}
