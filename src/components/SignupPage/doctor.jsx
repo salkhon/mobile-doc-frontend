@@ -14,32 +14,22 @@ import { LoadingButton } from "@mui/lab";
 import { tokens } from "../../theme";
 import { Formik } from "formik";
 import * as yup from "yup";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { postPatientSignup } from "../../api/patient";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import PasswordOutlinedIcon from "@mui/icons-material/PasswordOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-import CallOutlinedIcon from "@mui/icons-material/CallOutlined";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import BadgeOutlinedIcon from "@mui/icons-material/BadgeOutlined";
-import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
+import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
+import MedicalServicesOutlinedIcon from "@mui/icons-material/MedicalServicesOutlined";
+import { postDoctorSignup } from "../../api/doctor";
 
 const initialValues = {
 	username: "",
 	password: "",
 	fullname: "",
 	email: "",
-	contact: "",
-	address: "",
-	nid: "",
-	profession: "",
+	degrees: "",
+	speciality: "",
 };
-
-const phoneRegex = /^[0-9]+$/;
 
 // going to defined the validation logic for input fields
 // yup provides premade validation functions
@@ -48,11 +38,8 @@ const userSchema = yup.object().shape({
 	password: yup.string().required("required"),
 	fullname: yup.string().required("required"),
 	email: yup.string().email("invalid email").required("required"),
-	contact: yup
-		.string()
-		.matches(phoneRegex, "Phone number is not valid")
-		.required("required"),
-	address: yup.string().required("required"),
+	degrees: yup.string().required("required"),
+	speciality: yup.string().required("required"),
 });
 
 export default function DoctorSignupPage() {
@@ -66,7 +53,7 @@ export default function DoctorSignupPage() {
 	function handleSubmit(values) {
 		console.log("submit button clicked", values);
 		setIsLoading(true);
-		postPatientSignup(values)
+		postDoctorSignup(values)
 			.then(() => setIsLoading(false))
 			.then(() => navigate("/login"));
 	}
@@ -96,7 +83,7 @@ export default function DoctorSignupPage() {
 					src="pokedoc-logo.png"
 				></Avatar>
 				<Typography component="h1" variant="h3">
-					Sign Up as a Patient
+					Sign Up as a Doctor
 				</Typography>
 				<Box marginTop={5} display="flex" overflow="auto">
 					<Formik
@@ -162,9 +149,9 @@ export default function DoctorSignupPage() {
 											variant="filled"
 											type="password"
 											label="Password"
-											onBlur={handleBlur} // when you touch out of a field
-											onChange={handleChange} // when you change the text
-											value={values.password} // values of the field
+											onBlur={handleBlur}
+											onChange={handleChange}
+											value={values.password}
 											name="password"
 											color="tertiary"
 											error={
@@ -191,9 +178,9 @@ export default function DoctorSignupPage() {
 											variant="filled"
 											type="text"
 											label="Full Name"
-											onBlur={handleBlur} // when you touch out of a field
-											onChange={handleChange} // when you change the text
-											value={values.fullname} // values of the field
+											onBlur={handleBlur}
+											onChange={handleChange}
+											value={values.fullname}
 											name="fullname"
 											color="tertiary"
 											error={
@@ -215,39 +202,14 @@ export default function DoctorSignupPage() {
 												),
 											}}
 										/>
-										<LocalizationProvider
-											dateAdapter={AdapterDayjs}
-										>
-											<DemoContainer
-												components={["DatePicker"]}
-											>
-												<DatePicker
-													label="Date of Birth"
-													disableFuture
-													onChange={(val) => {
-														setFieldValue(
-															"dob",
-															`${val.$y}-${String(
-																val.$M + 1
-															).padStart(
-																2,
-																"0"
-															)}-${String(
-																val.$D
-															).padStart(2, "0")}`
-														);
-													}}
-												/>
-											</DemoContainer>
-										</LocalizationProvider>
 										<TextField
 											fullWidth
 											variant="filled"
 											type="text"
 											label="Email"
-											onBlur={handleBlur} // when you touch out of a field
-											onChange={handleChange} // when you change the text
-											value={values.email} // values of the field
+											onBlur={handleBlur}
+											onChange={handleChange}
+											value={values.email}
 											name="email"
 											color="tertiary"
 											error={
@@ -272,27 +234,19 @@ export default function DoctorSignupPage() {
 											fullWidth
 											variant="filled"
 											type="text"
-											label="Contact Number"
-											onBlur={handleBlur} // when you touch out of a field
-											onChange={handleChange} // when you change the text
-											value={values.contact} // values of the field
-											name="contact"
+											label="Degrees"
+											onBlur={handleBlur}
+											onChange={handleChange}
+											value={values.degrees}
+											name="degrees"
 											color="tertiary"
-											error={
-												!!touched.contact &&
-												!!errors.contact
-											}
-											helperText={
-												touched.contact &&
-												errors.contact
-											}
 											sx={{
 												gridColumn: "span 4",
 											}}
 											InputProps={{
 												startAdornment: (
 													<InputAdornment position="start">
-														<CallOutlinedIcon />
+														<SchoolOutlinedIcon />
 													</InputAdornment>
 												),
 											}}
@@ -301,67 +255,11 @@ export default function DoctorSignupPage() {
 											fullWidth
 											variant="filled"
 											type="text"
-											label="Address"
-											onBlur={handleBlur} // when you touch out of a field
-											onChange={handleChange} // when you change the text
-											value={values.address} // values of the field
-											name="address"
-											color="tertiary"
-											error={
-												!!touched.address &&
-												!!errors.address
-											}
-											helperText={
-												touched.address &&
-												errors.address
-											}
-											sx={{
-												gridColumn: "span 4",
-											}}
-											InputProps={{
-												startAdornment: (
-													<InputAdornment position="start">
-														<HomeOutlinedIcon />
-													</InputAdornment>
-												),
-											}}
-										/>
-										<TextField
-											fullWidth
-											variant="filled"
-											type="text"
-											label="NID"
-											onBlur={handleBlur} // when you touch out of a field
-											onChange={handleChange} // when you change the text
-											value={values.nid} // values of the field
-											name="nid"
-											color="tertiary"
-											error={
-												!!touched.nid && !!errors.nid
-											}
-											helperText={
-												touched.nid && errors.nid
-											}
-											sx={{
-												gridColumn: "span 4",
-											}}
-											InputProps={{
-												startAdornment: (
-													<InputAdornment position="start">
-														<BadgeOutlinedIcon />
-													</InputAdornment>
-												),
-											}}
-										/>
-										<TextField
-											fullWidth
-											variant="filled"
-											type="text"
-											label="Profession"
-											onBlur={handleBlur} // when you touch out of a field
-											onChange={handleChange} // when you change the text
-											value={values.profession} // values of the field
-											name="profession"
+											label="Speciality"
+											onBlur={handleBlur}
+											onChange={handleChange}
+											value={values.speciality}
+											name="speciality"
 											color="tertiary"
 											sx={{
 												gridColumn: "span 4",
@@ -369,7 +267,7 @@ export default function DoctorSignupPage() {
 											InputProps={{
 												startAdornment: (
 													<InputAdornment position="start">
-														<WorkOutlineOutlinedIcon />
+														<MedicalServicesOutlinedIcon />
 													</InputAdornment>
 												),
 											}}
