@@ -31,8 +31,6 @@ const initialValues = {
 	speciality: "",
 };
 
-// going to defined the validation logic for input fields
-// yup provides premade validation functions
 const userSchema = yup.object().shape({
 	username: yup.string().required("required"),
 	password: yup.string().required("required"),
