@@ -5,7 +5,7 @@ import { useSearchParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getAppointment } from "../../api/session";
 import LoadingBackdrop from "../global/LoadingBackdrop";
-import { getPatient } from "../../api/patient";
+import { getPatientEHR } from "../../api/patient";
 import { getDoctor } from "../../api/doctor";
 import SymptomsDurationTable from "./SymptomsDurationTable";
 import GeneralInfoCard from "./GeneralInfoCard";
@@ -28,7 +28,7 @@ export default function AppointmentPage() {
 	// patient data
 	const { data: patient, isFetching: isFetchingPatient } = useQuery(
 		[appointment?.patient_id],
-		getPatient,
+		getPatientEHR,
 		{
 			enabled: !!appointment,
 		}

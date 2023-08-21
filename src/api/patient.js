@@ -12,6 +12,14 @@ export async function getPatient({ queryKey }) {
     return resp.data.patient;
 }
 
+export async function getPatientEHR({ queryKey }) {
+    const [patientId] = queryKey;
+    console.log("GET patient EHR", patientId);
+    let resp = await axios.get(`/patient/EHR/${patientId}`)
+    console.log(resp);
+    return resp.data.patient_details
+}
+
 export async function getCreateNewAppt({ queryKey }) {
     const [userId] = queryKey
     console.log("GET new appt id", userId)
