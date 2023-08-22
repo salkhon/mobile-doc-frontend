@@ -46,7 +46,9 @@ export default function PatientSignupPage() {
 	}
 
 	return (
-		<Container maxWidth="xl" sx={{ position: "relative" }}>
+		<Container
+			sx={{ position: "relative" }}
+		>
 			<FormBackground mt={10}>
 				<Avatar
 					sx={{

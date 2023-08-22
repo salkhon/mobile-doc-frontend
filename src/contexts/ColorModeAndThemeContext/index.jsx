@@ -1,5 +1,5 @@
 import { ThemeProvider, createTheme } from "@mui/material";
-import React, { createContext, useMemo, useState } from "react";
+import React, { createContext, useEffect, useMemo, useState } from "react";
 import { themeSettings } from "../../theme";
 
 // context structure for color mode
@@ -9,8 +9,14 @@ export const ColorModeContext = createContext({
 });
 
 export function ColorModeAndThemeProvider({ children }) {
-	const [mode, setMode] = useState("dark");
+	const modeInStorage = localStorage.getItem("mode") ?? "dark";
+	const [mode, setMode] = useState(modeInStorage);
 	const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
+
+	// upon change of context state, update localStorage
+	useEffect(() => {
+		localStorage.setItem("mode", mode);
+	}, [mode]);
 
 	const colorModeCtxVal = useMemo(() => {
 		return {

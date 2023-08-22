@@ -2,7 +2,7 @@ import { Box, useTheme } from "@mui/material";
 import React from "react";
 import { tokens } from "../../theme";
 
-const opacity = "B8";
+const opacity = "AA";
 
 export default function FormBackground({ children, mt }) {
 	const theme = useTheme();
@@ -11,14 +11,16 @@ export default function FormBackground({ children, mt }) {
 		<Box
 			sx={{
 				marginTop: mt,
+				maxHeight: "100%",
 				marginBottom: 10,
 				padding: "6vh 6vw",
 				display: "flex",
 				flexDirection: "column",
 				alignItems: "center",
-				backgroundColor: `${colors.primary[900]}${opacity}`,
+				backgroundColor: `${colors.grey[900]}${opacity}`,
 				borderRadius: 10,
 				boxShadow: theme.shadows[9],
+                overflow: "auto"
 			}}
 		>
 			{children}

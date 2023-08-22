@@ -18,8 +18,7 @@ function BackgroundImage() {
 				backgroundSize: "cover",
 				backgroundPosition: "center",
 				backgroundRepeat: "no-repeat",
-				backdropFilter: "blur(5px)",
-				filter: "blur(20px)",
+				filter: "blur(10px)",
 			}}
 		/>
 	);

@@ -11,7 +11,7 @@ export default function LoadingBackdrop() {
 	return (
 		<Backdrop
 			sx={{
-				color: colors.greenAccent[300],
+				color: colors.greenAccent[500],
 			}}
 			open={true}
 		>

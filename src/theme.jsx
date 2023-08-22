@@ -14,15 +14,15 @@ export function tokens(mode) {
 					900: "#141414",
 				},
 				primary: {
-					100: "#d0d1d5",
-					200: "#a1a4ab",
-					300: "#717681",
-					400: "#1F2A40",
+					100: "#b0fff",
+					200: "#65f9ff",
+					300: "#33c7ff",
+					400: "#0195FD",
 					500: "#131b2d",
-					600: "#0f1624",
-					700: "#0b101b",
-					800: "#080b12",
-					900: "#040509",
+					600: "#0B3E84",
+					700: "#072855",
+					800: "#031266",
+					900: "#000000",
 				},
 				secondary: {
 					100: "#53030d",
@@ -82,15 +82,15 @@ export function tokens(mode) {
 					900: "#e0e0e0",
 				},
 				primary: {
-					100: "#040509",
-					200: "#080b12",
-					300: "#0b101b",
-					400: "#0f1624",
+					100: "#000000",
+					200: "#031266",
+					300: "#072855",
+					400: "#0B3E84",
 					500: "#131b2d",
-					600: "#424957",
-					700: "#717681",
-					800: "#a1a4ab",
-					900: "#d0d1d5",
+					600: "#0195FD",
+					700: "#33c7ff",
+					800: "#65f9ff",
+					900: "#b0fff",
 				},
 				secondary: {
 					100: "#26000c",
@@ -148,7 +148,7 @@ export function themeSettings(mode) {
 			...(mode === "dark"
 				? {
 						primary: {
-							main: colors.primary[500],
+							main: colors.primary[600],
 						},
 						secondary: {
 							main: colors.secondary[500],
@@ -167,7 +167,7 @@ export function themeSettings(mode) {
 				  }
 				: {
 						primary: {
-							main: colors.primary[500],
+							main: colors.primary[600],
 						},
 						secondary: {
 							main: colors.secondary[500],

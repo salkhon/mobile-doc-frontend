@@ -33,8 +33,10 @@ function MItem(props) {
 		<MenuItem
 			active={props.selected === props.title}
 			style={{
-				color: colors.grey[100],
-				margin: "-3px 1px -3px 1px",
+				color:
+					props.selected === props.title
+						? colors.primary[400]
+						: colors.grey[100],
 			}}
 			onClick={() => props.setSelected(props.title)}
 			icon={props.icon}
@@ -45,6 +47,8 @@ function MItem(props) {
 	);
 }
 
+const sideBarOpacity = "50";
+
 function AppSidebar(props) {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
@@ -52,6 +56,7 @@ function AppSidebar(props) {
 
 	const [isCollapsed, setIsCollapsed] = useState(false);
 	const [selected, setSelected] = useState("Dashboard"); // what page we are in
+
 	const navigate = useNavigate();
 
 	return (
@@ -61,17 +66,17 @@ function AppSidebar(props) {
 			rootStyles={{
 				position: "relative",
 				[`.${sidebarClasses.container}`]: {
-					background: `rgba(31, 42, 64, 0.1)`,
-					height: "100vh",
+					background: "transparent",
+					backgroundColor: `${colors.grey[800]}${sideBarOpacity} !important`,
+					height: "100%",
 					width: "100%",
 				},
 				[`.${menuClasses.icon}`]: {
-					backgroundColor: "transparent",
+					background: "transparent",
 				},
 				[`.${menuClasses.button}`]: {
-					backgroundColor: "transparent",
 					":hover": {
-						backgroundColor: `${colors.primary[900]}90 !important`,
+						backgroundColor: `${colors.grey[500]}${sideBarOpacity} !important`,
 						borderRadius: 7,
 					},
 				},
@@ -103,7 +108,11 @@ function AppSidebar(props) {
 								alt="pokedoc logo"
 								src="./pokedoc-logo.png"
 							/>
-							<Typography variant="h3" color={colors.grey[100]}>
+							<Typography
+								variant="h3"
+								color={colors.primary[400]}
+								fontFamily="Pokemon Solid"
+							>
 								PokéDoc
 							</Typography>
 							<IconButton
@@ -170,7 +179,7 @@ function AppSidebar(props) {
 						setSelected={setSelected}
 					/>
 					<MItem
-						title="Calendar"
+						title="Appointments"
 						to="/calendar"
 						icon={<CalendarTodayOutlined />}
 						selected={selected}

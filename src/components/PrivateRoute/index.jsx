@@ -6,7 +6,7 @@ import Topbar from "../global/Topbar";
 import { useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 
-const opacity = "C8";
+const opacity = "BB";
 
 export function PrivateRoute() {
 	const { token } = useAuth();
@@ -36,7 +36,9 @@ export function PrivateRoute() {
 			<main
 				className="content"
 				style={{
-					backgroundColor: `${colors.primary[900]}${opacity}`,
+					background: "transparent",
+					backgroundColor: `${colors.grey[900]}${opacity}`,
+					backdropFilter: "blur(20px)",
 				}}
 			>
 				<Topbar />

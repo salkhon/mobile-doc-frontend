@@ -86,7 +86,6 @@ export default function DoctorSignupPage() {
 							handleBlur,
 							handleChange,
 							handleSubmit,
-							setFieldValue,
 						}) => {
 							return (
 								<form onSubmit={handleSubmit}>
