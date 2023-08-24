@@ -36,12 +36,26 @@ export default function PatientInfoCard({ patient }) {
 						src=""
 					/>
 					<Grid item xs={12} container justifyContent="center">
-						<Typography variant="h3" fontWeight="bold">
-							{patient.name}
-						</Typography>
-						<Typography variant="h5" color="textSecondary">
-							{patient.email}
-						</Typography>
+						<Grid
+							item
+							xs={12}
+							display="flex"
+							justifyContent="center"
+						>
+							<Typography variant="h3" fontWeight="bold">
+								{patient.name}
+							</Typography>
+						</Grid>
+						<Grid
+							item
+							xs={12}
+							display="flex"
+							justifyContent="center"
+						>
+							<Typography variant="h5" color="textSecondary">
+								{patient.email}
+							</Typography>
+						</Grid>
 					</Grid>
 
 					{/* APPOINTMENT COUNT */}
