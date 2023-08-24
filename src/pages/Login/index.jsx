@@ -14,7 +14,7 @@ import { tokens } from "../../theme";
 import { postLogin } from "../../api/auth";
 import { useQuery } from "react-query";
 import { useAuth } from "../../hooks/auth";
-import FormBackground from "../SignupPage/FormBackground";
+import FormBackground from "../../components/Box/FormBackground";
 
 export function LoginPage() {
 	const theme = useTheme();

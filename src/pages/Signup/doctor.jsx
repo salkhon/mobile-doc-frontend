@@ -21,7 +21,7 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import MedicalServicesOutlinedIcon from "@mui/icons-material/MedicalServicesOutlined";
 import { postDoctorSignup } from "../../api/doctor";
-import FormBackground from "./FormBackground";
+import FormBackground from "../../components/Box/FormBackground";
 
 const initialValues = {
 	username: "",

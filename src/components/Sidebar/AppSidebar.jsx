@@ -2,6 +2,7 @@ import {
 	Box,
 	Button,
 	Collapse,
+	Grid,
 	IconButton,
 	Typography,
 	useTheme,
@@ -19,33 +20,12 @@ import {
 	CalendarTodayOutlined,
 	HomeOutlined,
 	MenuOutlined,
-	PersonOutlined,
+	PendingActionsOutlined,
 } from "@mui/icons-material";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/auth";
-
-function MItem(props) {
-	const theme = useTheme();
-	const colors = tokens(theme.palette.mode);
-
-	return (
-		<MenuItem
-			active={props.selected === props.title}
-			style={{
-				color:
-					props.selected === props.title
-						? colors.primary[400]
-						: colors.grey[100],
-			}}
-			onClick={() => props.setSelected(props.title)}
-			icon={props.icon}
-			component={<Link to={props.to} />}
-		>
-			<Typography variant="h5">{props.title}</Typography>
-		</MenuItem>
-	);
-}
+import { useSelectedRoute } from "../../hooks/sidebarRouteSelection";
 
 const sideBarOpacity = "50";
 
@@ -55,7 +35,8 @@ function AppSidebar(props) {
 	const { userName, userType } = useAuth();
 
 	const [isCollapsed, setIsCollapsed] = useState(false);
-	const [selected, setSelected] = useState("Dashboard"); // what page we are in
+	const selectedMenu = useSelectedRoute();
+	console.log("selectedRoute", selectedMenu);
 
 	const navigate = useNavigate();
 
@@ -63,13 +44,13 @@ function AppSidebar(props) {
 		<Sidebar
 			collapsed={isCollapsed}
 			transitionDuration={300}
+			width="12vw"
 			rootStyles={{
 				position: "relative",
 				[`.${sidebarClasses.container}`]: {
 					background: "transparent",
 					backgroundColor: `${colors.grey[800]}${sideBarOpacity} !important`,
-					height: "100%",
-					width: "100%",
+					height: "100vh",
 				},
 				[`.${menuClasses.icon}`]: {
 					background: "transparent",
@@ -88,30 +69,31 @@ function AppSidebar(props) {
 					onClick={() => setIsCollapsed(!isCollapsed)}
 					icon={isCollapsed ? <MenuOutlined /> : undefined}
 					style={{
-						margin: "10px 0 10px 0",
-						color: colors.grey[100],
+						height: "7vh",
+						alignItems: "center",
 					}}
 				>
 					{!isCollapsed && (
 						<Box
 							display="flex"
-							justifyContent="space-between"
+							justifyContent="space-evenly"
 							alignItems="center"
-							marginLeft="15px"
+							pl="7px"
 						>
 							<Box
 								component="img"
 								sx={{
-									height: 50,
-									width: 50,
+									height: 40,
+									width: 40,
 								}}
 								alt="pokedoc logo"
 								src="./pokedoc-logo.png"
 							/>
 							<Typography
-								variant="h3"
+								variant="h4"
 								color={colors.primary[400]}
 								fontFamily="Pokemon Solid"
+								margin="10px"
 							>
 								PokéDoc
 							</Typography>
@@ -126,18 +108,19 @@ function AppSidebar(props) {
 
 				{/** MENU ITEMS */}
 				<Box
-					paddingLeft={isCollapsed ? undefined : "10%"}
+					// paddingLeft="1%"
 					paddingTop={5}
+					display="flex"
+					flexDirection="column"
+					justifyContent="center"
+					height="70vh"
 				>
 					{userType === "patient" && (
-						<Box
-							display="flex"
-							justifyContent="center"
-							margin="10px 0px 20px 0px"
-						>
+						<Box display="flex" margin="10px 0px 20px 0px">
 							<Button
 								variant="contained"
 								color="secondary"
+								fullWidth
 								onClick={() => navigate("/newsession")}
 							>
 								<AddOutlinedIcon />
@@ -156,79 +139,123 @@ function AppSidebar(props) {
 						</Box>
 					)}
 					<MItem
-						title="Dashboard"
+						title="Home"
 						to="/"
 						icon={<HomeOutlined />}
-						selected={selected}
-						setSelected={setSelected}
-					/>
-					<Typography
-						variant="h6"
-						color={colors.grey[300]}
-						style={{
-							margin: "15px 0 5px 20px",
-						}}
-					>
-						Pages
-					</Typography>
-					<MItem
-						title="Profile Form"
-						to="/form"
-						icon={<PersonOutlined />}
-						selected={selected}
-						setSelected={setSelected}
+						selected={selectedMenu}
 					/>
 					<MItem
 						title="Appointments"
+						to="/appointments"
+						icon={<PendingActionsOutlined />}
+						selected={selectedMenu}
+					/>
+					<MItem
+						title="Calendar"
 						to="/calendar"
 						icon={<CalendarTodayOutlined />}
-						selected={selected}
-						setSelected={setSelected}
+						selected={selectedMenu}
 					/>
 				</Box>
-				{/** USER */}
 
-				{!isCollapsed && (
-					<Box marginTop="30px">
+				<Box
+					display="flex"
+					flexDirection="column-reverse"
+					height="23vh"
+				>
+					{/** USER */}
+					<Link
+						to="/profile"
+						style={{
+							textDecoration: "none",
+						}}
+					>
 						<Box
 							display="flex"
-							justifyContent="center"
-							alignItems="center"
+							margin="15px 0"
+							padding="0 15px"
+							sx={{
+								":hover": {
+									backgroundColor: `${colors.grey[500]}${sideBarOpacity} !important`,
+									borderRadius: 2,
+								},
+							}}
 						>
 							<img
 								alt="profile-user"
-								width="100px"
-								height="100px"
+								width="50px"
+								height="50px"
 								src={`../../assets/user.png`}
 								style={{
 									cursor: "pointer",
 									borderRadius: "50%",
 								}}
 							/>
+							{!isCollapsed && (
+								<Grid
+									container
+									style={{
+										cursor: "pointer",
+									}}
+								>
+									<Grid
+										item
+										container
+										xs={12}
+										style={{
+											marginLeft: "10px",
+										}}
+									>
+										<Typography
+											variant="h3"
+											color={colors.grey[100]}
+										>
+											{userName}
+										</Typography>
+									</Grid>
+									<Grid
+										item
+										container
+										xs={12}
+										style={{
+											marginLeft: "10px",
+										}}
+									>
+										<Typography
+											variant="h5"
+											color={colors.grey[200]}
+										>
+											{userType}
+										</Typography>
+									</Grid>
+								</Grid>
+							)}
 						</Box>
-
-						<Box textAlign="center">
-							<Typography
-								variant="h3"
-								color={colors.grey[100]}
-								fontWeight="bold"
-								style={{
-									margin: "10px 0 0 0",
-								}}
-							>
-								{userName}
-							</Typography>
-							<Typography
-								variant="h5"
-								color={colors.greenAccent[400]}
-							>
-								{userType}
-							</Typography>
-						</Box>
-					</Box>
-				)}
+					</Link>
+				</Box>
 			</Menu>
 		</Sidebar>
+	);
+}
+
+function MItem(props) {
+	const theme = useTheme();
+	const colors = tokens(theme.palette.mode);
+
+	return (
+		<MenuItem
+			active={props.selected === props.title}
+			style={{
+				color:
+					props.selected === props.title
+						? colors.primary[400]
+						: colors.grey[100],
+			}}
+			icon={props.icon}
+			component={<Link to={props.to} />}
+		>
+			<Typography variant="h5">{props.title}</Typography>
+		</MenuItem>
 	);
 }
 

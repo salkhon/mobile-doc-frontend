@@ -1,16 +1,16 @@
 import { Box } from "@mui/material";
 
 import React, { useState } from "react";
-import Header from "../global/Header";
-import LoadingBackdrop from "../global/LoadingBackdrop";
-import AppointmentCalendar from "./AppointmentCalendar";
-import RescheduleConfirmationDialog from "./RescheduleConfirmationDialog";
+import AppointmentCalendar from "../../components/Calendar/AppointmentCalendar";
+import RescheduleConfirmationDialog from "../../components/Dialog/RescheduleConfirmationDialog";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/auth";
 import { useQuery } from "react-query";
 import { useAppointments } from "../../hooks/appointments";
 import { postApptTime } from "../../api/patient";
 import { getFormattedDateTime } from "../../api/session";
+import LoadingBackdrop from "../../components/Backdrop/LoadingBackdrop";
+import Header from "../../components/Header/Header";
 
 export default function Calendar() {
 	const { userId, userType } = useAuth();
@@ -39,6 +39,7 @@ export default function Calendar() {
 	);
 
 	function handleDateClick(selected) {
+		// todo: change to day vewi for that day
 		const title = prompt("Please enter a new title for your event"); // standard browser alert
 		const calendarApi = selected.view.calendar;
 		calendarApi.unselect();
@@ -46,7 +47,7 @@ export default function Calendar() {
 		if (title) {
 			calendarApi.addEvent({
 				id: `${selected.startStr}-${title}`,
-				title: title, // todo: put patient (for doctor) or doctor (for patient) name
+				title: title,
 				start: selected.startStr,
 			});
 		}

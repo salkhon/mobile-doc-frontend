@@ -1,19 +1,18 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import Header from "../global/Header";
+import Header from "../../components/Header/Header";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getAppointment } from "../../api/session";
-import LoadingBackdrop from "../global/LoadingBackdrop";
+import LoadingBackdrop from "../../components/Backdrop/LoadingBackdrop";
 import { getPatientEHR } from "../../api/patient";
 import { getDoctor } from "../../api/doctor";
-import SymptomsDurationTable from "./SymptomsDurationTable";
-import GeneralInfoCard from "./GeneralInfoCard";
-import MedicalInfoCard from "./MedicalInfoCard";
-import DoctorInfoCard from "./DoctorInfoCard";
-// import { useSearchParams } from "react-router-dom";
+import SymptomsDurationTable from "../../components/Table/SymptomsDurationTable";
+import GeneralInfoCard from "../../components/Card/GeneralInfoCard";
+import MedicalInfoCard from "../../components/Card/MedicalInfoCard";
+import DoctorInfoCard from "../../components/Card/DoctorInfoCard";
 
-export default function AppointmentPage() {
+export default function SingleAppointment() {
 	const [searchParams] = useSearchParams();
 	const apptId = searchParams.get("id");
 

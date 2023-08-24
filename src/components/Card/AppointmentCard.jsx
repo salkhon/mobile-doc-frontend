@@ -7,10 +7,10 @@ import {
 	useTheme,
 } from "@mui/material";
 import React from "react";
-import { AppointmentDatepicker } from "./AppointmentDatepicker";
+import { AppointmentDatepicker } from "../Datepicker/AppointmentDatepicker";
 import { tokens } from "../../theme";
 
-export function AppointmentCard({ doctor, patientName, setAppointmentTime }) {
+export function AppointmentConfirmationCard({ doctor, patientName, setAppointmentTime }) {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 	console.log(doctor);

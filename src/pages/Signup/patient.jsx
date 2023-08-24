@@ -27,7 +27,7 @@ import CallOutlinedIcon from "@mui/icons-material/CallOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import BadgeOutlinedIcon from "@mui/icons-material/BadgeOutlined";
 import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
-import FormBackground from "./FormBackground";
+import FormBackground from "../../components/Box/FormBackground";
 
 export default function PatientSignupPage() {
 	const theme = useTheme();

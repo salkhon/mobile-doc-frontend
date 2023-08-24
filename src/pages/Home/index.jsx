@@ -1,9 +1,9 @@
 import React from "react";
-import Header from "../global/Header";
 import { Box } from "@mui/material";
 import { useAuth } from "../../hooks/auth";
+import Header from "../../components/Header/Header";
 
-export function Dashboard() {
+export function Home() {
 	const { userName, userType } = useAuth();
 
 	return (
@@ -21,4 +21,4 @@ export function Dashboard() {
 	);
 }
 
-export default Dashboard;
+export default Home;

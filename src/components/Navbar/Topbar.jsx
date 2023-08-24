@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { ColorModeContext } from "../../contexts/ColorModeAndThemeContext/index.jsx";
 import { useAuth } from "../../hooks/auth";
 
-const opacity = "50"
+const opacity = "50";
 function Topbar() {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);

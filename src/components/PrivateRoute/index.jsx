@@ -1,8 +1,8 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/auth";
 import React, { useState } from "react";
-import AppSidebar from "../global/AppSidebar";
-import Topbar from "../global/Topbar";
+import AppSidebar from "../Sidebar/AppSidebar";
+import Topbar from "../Navbar/Topbar";
 import { useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 

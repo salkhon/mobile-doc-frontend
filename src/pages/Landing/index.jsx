@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import Header from "../global/Header";
+import Header from "../../components/Header/Header";
 import { Box, Button, Grid, IconButton, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined.js";
@@ -20,14 +20,10 @@ export function LandingPage() {
 			alignSelf="center"
 			minHeight="100vh"
 		>
-			<Grid
-				item
-				container
-				justifyContent="center"
-				alignItems="center"
-			>
+			<Grid item container justifyContent="center" alignItems="center">
+				{/* LOGO AND TITLE */}
 				<Grid item xs={5}></Grid>
-				<Grid item xs={7}>
+				<Grid item xs={2}>
 					<Box
 						component="img"
 						sx={{
@@ -44,7 +40,10 @@ export function LandingPage() {
 					/>
 				</Grid>
 				<Grid item xs={5}></Grid>
-				<Grid item xs={7}>
+
+				{/* BUTTONS */}
+				<Grid item xs={5}></Grid>
+				<Grid item xs={3}>
 					<Box display="flex" justifyContent="flex-start">
 						<Button
 							variant="contained"

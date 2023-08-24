@@ -1,10 +1,10 @@
 import { Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import Header from "../global/Header";
+import Header from "../../components/Header/Header";
 import { Navigate } from "react-router-dom";
-import DoctorSuggestionTable from "./DoctorSuggestionTable";
-import { SymptomsInput } from "./SymptomsInput";
-import { AppointmentCard } from "./AppointmentCard";
+import DoctorSuggestionTable from "../../components/Table/DoctorSuggestionTable";
+import { SymptomsInput } from "../../components/Input/SymptomsInput";
+import { AppointmentConfirmationCard } from "../../components/Card/AppointmentCard";
 import { LoadingButton } from "@mui/lab";
 import { useAuth } from "../../hooks/auth";
 import { useSuggestedDoctors } from "../../hooks/suggestedDoctors";
@@ -103,7 +103,7 @@ export default function NewAppointment() {
 					display="flex"
 					justifyContent="space-between"
 				>
-					<AppointmentCard
+					<AppointmentConfirmationCard
 						doctor={selectedDoctor}
 						patientName={userName}
 						setAppointmentTime={setApptDatetimeObj}

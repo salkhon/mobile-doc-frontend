@@ -1,15 +1,16 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { useAuth } from "../hooks/auth";
-import { LandingPage } from "../components/LandingPage";
+import { LandingPage } from "../pages/Landing";
 import React from "react";
-import NewAppointment from "../components/NewAppointment";
-import Calendar from "../components/Calendar";
-import AppointmentPage from "../components/AppointmentPage";
-import { LoginPage } from "../components/LoginPage";
+import NewAppointment from "../pages/NewAppointment";
+import { LoginPage } from "../pages/Login";
 import { PrivateRoute } from "../components/PrivateRoute";
-import Dashboard from "../components/DashboardPage";
-import PatientSignupPage from "../components/SignupPage/patient";
-import DoctorSignupPage from "../components/SignupPage/doctor";
+import PatientSignupPage from "../pages/Signup/patient";
+import DoctorSignupPage from "../pages/Signup/doctor";
+import Home from "../pages/Home";
+import Calendar from "../pages/Calendar";
+import Profile from "../pages/Profile";
+import Appointments from "../pages/Appointments";
 
 export default function PokedocRoutes() {
 	const { token } = useAuth();
@@ -42,7 +43,7 @@ export default function PokedocRoutes() {
 			children: [
 				{
 					path: "/",
-					element: <Dashboard />,
+					element: <Home />,
 				},
 				{
 					path: "/newsession",
@@ -53,8 +54,12 @@ export default function PokedocRoutes() {
 					element: <Calendar />,
 				},
 				{
-					path: "/appointment",
-					element: <AppointmentPage />,
+					path: "/appointments",
+					element: <Appointments />,
+				},
+				{
+					path: "/profile",
+					element: <Profile />,
 				},
 			],
 		},
