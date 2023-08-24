@@ -19,6 +19,7 @@ import { tokens } from "../../theme";
 import {
 	CalendarTodayOutlined,
 	HomeOutlined,
+	LocalHospital,
 	MenuOutlined,
 	PendingActionsOutlined,
 } from "@mui/icons-material";
@@ -154,6 +155,13 @@ function AppSidebar(props) {
 						title="Calendar"
 						to="/calendar"
 						icon={<CalendarTodayOutlined />}
+						selected={selectedMenu}
+					/>
+					{/* DOCTOS CAN SEE THEIR PATIENTS, PATIENTS CAN SEE THEIR DOCTORS */}
+					<MItem
+						title={userType === "doctor" ? "Patients" : "Doctors"}
+						to={userType === "doctor" ? "/patients" : "/doctors"}
+						icon={<LocalHospital />}
 						selected={selectedMenu}
 					/>
 				</Box>
