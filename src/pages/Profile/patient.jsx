@@ -32,7 +32,7 @@ export default function PatientProfile() {
 			</Grid>
 
 			<Grid item xs={12}>
-				<Typography variant="h2" fontWeight="bold" m={3}>
+				<Typography variant="h3" fontWeight="bold" m={3}>
 					Temporal Data
 				</Typography>
 				<PatientTimeSeries propertyData={randomData()} />
