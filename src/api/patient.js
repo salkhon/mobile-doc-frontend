@@ -113,13 +113,6 @@ export async function updatePatientInfo(userId, newData) {
     return data
 }
 
-export async function addPatientPhyAttr(userId, prevData, formData) {
-    console.log("PUT patient phy attr", formData);
-    let resp = await axios.put(`/patient/${userId}`, addedPhyAttrFormDataToPatientObj(prevData, formData));
-    console.log(resp);
-    return resp.data;
-}
-
 export function edittedPatientInfoToPatientObject(prevData, {
     name,
     email,
@@ -160,18 +153,4 @@ export function edittedPatientInfoToPatientObject(prevData, {
         },
         physical_attributes: physicalAttrs
     };
-}
-
-export function addedPhyAttrFormDataToPatientObj(prevData, {
-    name,
-    value,
-    dateAdded,
-}) {
-    return {
-        ...prevData,
-        general_information: { ...prevData.general_information },
-        physical_attributes: [...prevData.physical_attributes, {
-            name: name, value: value, date_added: dateAdded
-        }]
-    }
 }

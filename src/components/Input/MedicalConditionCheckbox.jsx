@@ -3,7 +3,7 @@ import Checkbox from "@mui/material/Checkbox";
 import { FormControlLabel, FormGroup } from "@mui/material";
 
 export default function MedicalConditionCheckbox({
-	patientGeneralInformation: formData,
+	formData,
 	valueAssignHandlerForField,
 }) {
 	function checkHandlerForCondition(condition) {

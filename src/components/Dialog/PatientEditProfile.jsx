@@ -72,7 +72,8 @@ export default function PatientEditProfile({
 		setFormData((prevData) => ({
 			...prevData,
 			physicalAttrs: rows.map((r) => ({
-				...r,
+				name: r.name,
+				value: r.value,
 				date_added: r.date_added.toISOString().split("T")[0],
 			})),
 		}));
@@ -227,9 +228,7 @@ export default function PatientEditProfile({
 
 					<Grid item xs={12}>
 						<MedicalConditionCheckbox
-							patientGeneralInformation={
-								patient?.general_information
-							}
+							formData={formData}
 							valueAssignHandlerForField={
 								valueAssignHandlerForField
 							} // field selection will be done per checkbox
