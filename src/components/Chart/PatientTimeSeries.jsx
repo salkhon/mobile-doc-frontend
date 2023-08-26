@@ -33,7 +33,7 @@ export default function PatientTimeSeries({ propertyData }) {
 				borderRadius: 3,
 				height: "60vh",
 				width: "83vw",
-				m: "4px 4px 4px 24px",
+				m: "4px 4px 12px 24px",
 			}}
 		>
 			<Typography variant="h3" m={3}>

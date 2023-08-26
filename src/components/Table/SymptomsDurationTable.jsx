@@ -36,8 +36,8 @@ export default function SymptomsDurationTable({ rows }) {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{rows.map((row) => (
-						<TableRow key={row.symptom}>
+					{rows.map((row, idx) => (
+						<TableRow key={idx}>
 							<TableCell
 								component="th"
 								scope="row"

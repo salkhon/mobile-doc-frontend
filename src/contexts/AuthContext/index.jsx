@@ -1,5 +1,5 @@
 import React from "react";
-import { createContext, useEffect, useMemo, useState } from "react";
+import { createContext, useMemo, useState } from "react";
 import axios from "axios";
 
 export const AuthContext = createContext({
@@ -22,15 +22,13 @@ export function AuthProvider({ children }) {
 	const [userType, setUserType] = useState(userInfo.userType);
 
 	// upon change of context state, update localStorage
-	useEffect(() => {
-		if (token) {
-			axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-			setLocalStorageUserInfo({ token, userId, userName, userType });
-		} else {
-			delete axios.defaults.headers.common["Authorization"];
-			removeLocalStorageUserInfo();
-		}
-	}, [token, userId, userName, userType]);
+	if (token) {
+		axios.defaults.headers["Authorization"] = `Bearer ${token}`;
+		setLocalStorageUserInfo({ token, userId, userName, userType });
+	} else {
+		delete axios.defaults.headers["Authorization"];
+		removeLocalStorageUserInfo();
+	}
 
 	const authContextVal = useMemo(
 		() => ({

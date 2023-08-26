@@ -22,6 +22,7 @@ import {
 	LocalHospital,
 	MenuOutlined,
 	PendingActionsOutlined,
+	AnalyticsOutlined,
 } from "@mui/icons-material";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { Link, useNavigate } from "react-router-dom";
@@ -158,12 +159,29 @@ function AppSidebar(props) {
 						selected={selectedMenu}
 					/>
 					{/* DOCTOS CAN SEE THEIR PATIENTS, PATIENTS CAN SEE THEIR DOCTORS */}
-					<MItem
-						title={userType === "doctor" ? "Patients" : "Doctors"}
-						to={userType === "doctor" ? "/patients" : "/doctors"}
-						icon={<LocalHospital />}
-						selected={selectedMenu}
-					/>
+					{userType === "doctor" ? (
+						<>
+							<MItem
+								title="Patients"
+								to="/patients"
+								icon={<LocalHospital />}
+								selected={selectedMenu}
+							/>
+							<MItem
+								title="Analytics"
+								to="/analytics"
+								icon={<AnalyticsOutlined />}
+								selected={selectedMenu}
+							/>
+						</>
+					) : (
+						<MItem
+							title="Doctors"
+							to="/doctors"
+							icon={<LocalHospital />}
+							selected={selectedMenu}
+						/>
+					)}
 				</Box>
 
 				<Box

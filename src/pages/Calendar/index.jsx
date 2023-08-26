@@ -5,7 +5,7 @@ import AppointmentCalendar from "../../components/Calendar/AppointmentCalendar";
 import RescheduleConfirmationDialog from "../../components/Dialog/RescheduleConfirmationDialog";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/auth";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { useAppointments } from "../../hooks/appointments";
 import { postApptTime } from "../../api/patient";
 import { getFormattedDateTime } from "../../api/session";
@@ -15,7 +15,7 @@ import Header from "../../components/Header/Header";
 export default function Calendar() {
 	const { userId, userType } = useAuth();
 	const navigate = useNavigate();
-
+	const queryClient = useQueryClient();
 	const { appointments, setAppointments, isApptsLoading } = useAppointments(
 		userId,
 		userType
@@ -89,6 +89,7 @@ export default function Calendar() {
 
 	function handleRescheduleConfirm() {
 		rescheduleQuery.refetch().then(() => {
+			queryClient.invalidateQueries(["getAppointments"]);
 			setIsReschedDialogOpen(false);
 		});
 	}

@@ -4,8 +4,7 @@
 
 import axios from "axios";
 
-export async function getPatient({ queryKey }) {
-    const [patientId] = queryKey;
+export async function getPatient(patientId) {
     console.log("GET patient", patientId);
     let resp = await axios.get(`/patient/${patientId}`);
     console.log(resp)
@@ -88,8 +87,12 @@ export async function postPatientSignup({ username, password, fullname, nid, dob
                 "Peanuts",
                 "Shellfish"
             ],
-            heart_condition: false,
-            diabetes: true
+            heart_condition: true,
+            diabetes: true,
+            smoking_history: true,
+            asthema: true,
+            liver_problem: true,
+            kidney_problem: true
         },
         physical_attributes: [
             {
@@ -101,4 +104,74 @@ export async function postPatientSignup({ username, password, fullname, nid, dob
     });
     console.log(resp)
     return resp.data;
+}
+
+export async function updatePatientInfo(userId, newData) {
+    console.log("PUT patient profile info", newData);
+    const { data } = await axios.put(`/patient/${userId}`, newData);
+    console.log(data);
+    return data
+}
+
+export async function addPatientPhyAttr(userId, prevData, formData) {
+    console.log("PUT patient phy attr", formData);
+    let resp = await axios.put(`/patient/${userId}`, addedPhyAttrFormDataToPatientObj(prevData, formData));
+    console.log(resp);
+    return resp.data;
+}
+
+export function edittedPatientInfoToPatientObject(prevData, {
+    name,
+    email,
+    dateOfBirth,
+    address,
+    phoneNum,
+    id,
+    profession,
+    bloodGroup,
+    allergies,
+    heartCondition,
+    diabetes,
+    smokingHistory,
+    asthma,
+    liverProblem,
+    kidneyProblem,
+    physicalAttrs
+}) {
+    return {
+        ...prevData,
+
+        name: name,
+        identification_no: id,
+        date_of_brth: dateOfBirth,
+        address: address,
+        phone_no: phoneNum,
+        email: email,
+        profession: profession,
+        general_information: {
+            blood_group: bloodGroup,
+            allergies: allergies,
+            heart_condition: heartCondition,
+            diabetes: diabetes,
+            smoking_history: smokingHistory,
+            asthema: asthma,
+            liver_problem: liverProblem,
+            kidney_problem: kidneyProblem,
+        },
+        physical_attributes: physicalAttrs
+    };
+}
+
+export function addedPhyAttrFormDataToPatientObj(prevData, {
+    name,
+    value,
+    dateAdded,
+}) {
+    return {
+        ...prevData,
+        general_information: { ...prevData.general_information },
+        physical_attributes: [...prevData.physical_attributes, {
+            name: name, value: value, date_added: dateAdded
+        }]
+    }
 }

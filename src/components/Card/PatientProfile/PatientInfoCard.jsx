@@ -6,7 +6,7 @@ export default function PatientInfoCard({ patient }) {
 		<Card
 			sx={{
 				borderRadius: 3,
-				height: "40vh",
+				height: "50vh",
 				width: "52vw",
 				m: "24px 4px 4px 24px",
 			}}
@@ -141,33 +141,6 @@ export default function PatientInfoCard({ patient }) {
 						<Grid item xs={12} container justifyContent="center">
 							<Typography variant="h5">
 								{patient.date_of_brth}
-							</Typography>
-						</Grid>
-					</Grid>
-
-					<Divider flexItem />
-
-					<Grid item xs={6} container justifyContent="center">
-						<Grid item xs={12} container justifyContent="center">
-							<Typography variant="h5" color="textSecondary">
-								Phone number
-							</Typography>
-						</Grid>
-						<Grid item xs={12} container justifyContent="center">
-							<Typography variant="h5">
-								{patient.phone_no}
-							</Typography>
-						</Grid>
-					</Grid>
-					<Grid item xs={6} container justifyContent="center">
-						<Grid item xs={12} container justifyContent="center">
-							<Typography variant="h5" color="textSecondary">
-								Birthday
-							</Typography>
-						</Grid>
-						<Grid item xs={12} container justifyContent="center">
-							<Typography variant="h5">
-								{patient.address}
 							</Typography>
 						</Grid>
 					</Grid>

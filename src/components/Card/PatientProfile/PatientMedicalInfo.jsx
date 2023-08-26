@@ -20,9 +20,10 @@ export default function PatientMedicalInfoCard({ patient }) {
 		<Card
 			sx={{
 				borderRadius: 3,
-				height: "40vh",
+				height: "50vh",
 				width: "30vw",
 				m: "24px 0px 4px 0px",
+				p: 4,
 			}}
 		>
 			<Grid
@@ -43,35 +44,6 @@ export default function PatientMedicalInfoCard({ patient }) {
 					<Typography variant="h4" fontWeight="bold">
 						Medical Conditions
 					</Typography>
-				</Grid>
-
-				{/* BLOOD GROUP */}
-				<Grid
-					item
-					xs={12}
-					container
-					justifyContent="center"
-					alignItems="center"
-				>
-					<Grid item xs={6} display="flex" justifyContent="flex-end">
-						<BloodtypeOutlined
-							style={{
-								fontSize: 50,
-							}}
-						/>
-					</Grid>
-					<Grid item xs={6} container justifyContent="center">
-						<Grid item xs={12}>
-							<Typography variant="h5" color="textSecondary">
-								Blood Group
-							</Typography>
-						</Grid>
-						<Grid item xs={12}>
-							<Typography variant="h4">
-								{patient?.general_information?.blood_group}
-							</Typography>
-						</Grid>
-					</Grid>
 				</Grid>
 
 				{/* ALLERGIES */}
@@ -109,8 +81,12 @@ export default function PatientMedicalInfoCard({ patient }) {
 							</Grid>
 							<Grid item xs={12} display="flex">
 								{patient?.general_information?.allergies.map(
-									(allergy) => (
-										<Typography variant="h5" mr="5px">
+									(allergy, idx) => (
+										<Typography
+											variant="h5"
+											mr="5px"
+											key={idx}
+										>
 											{allergy}
 										</Typography>
 									)
@@ -120,14 +96,44 @@ export default function PatientMedicalInfoCard({ patient }) {
 					</Grid>
 				)}
 
+				{/* BLOOD GROUP */}
+				<Grid
+					item
+					xs={6}
+					container
+					justifyContent="center"
+					alignItems="center"
+				>
+					<Grid item xs={6} display="flex" justifyContent="flex-end">
+						<BloodtypeOutlined
+							style={{
+								fontSize: 50,
+							}}
+						/>
+					</Grid>
+					<Grid item xs={6} container justifyContent="center">
+						<Grid item xs={12}>
+							<Typography variant="h5" color="textSecondary">
+								Blood Group
+							</Typography>
+						</Grid>
+						<Grid item xs={12}>
+							<Typography variant="h4">
+								{patient?.general_information?.blood_group}
+							</Typography>
+						</Grid>
+					</Grid>
+				</Grid>
+
 				{/* MEDICAL CONDITIONS */}
-				{conditions.map((condition) => (
+				{conditions.map((condition, idx) => (
 					<Grid
 						item
-						xs={12}
+						xs={6}
 						container
 						justifyContent="center"
 						alignItems="center"
+						key={idx}
 					>
 						<Grid
 							item
@@ -222,8 +228,8 @@ function extractPatientMedicalConditions(patient) {
 		},
 	].filter(
 		(condition) =>
-			patient?.general_information &&
-			patient?.general_information[condition.cond]
+			!!patient?.general_information &&
+			!!patient?.general_information[condition.cond]
 	);
 	return conditions;
 }

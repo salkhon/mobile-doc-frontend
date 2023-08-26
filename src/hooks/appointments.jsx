@@ -7,7 +7,7 @@ export function useAppointments(userId, userType) {
 	const [appointments, setAppointments] = useState([]);
 
 	const { data, isLoading, error } = useQuery(
-		[userId, userType],
+		["getAppointments", userId, userType],
 		getAppointments,
 		{
 			refetchOnMount: false,
