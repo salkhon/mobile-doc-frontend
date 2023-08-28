@@ -1,7 +1,7 @@
 import React from "react";
 import { useAuth } from "../../hooks/auth";
-import PatientProfile from "./patient";
-import DoctorProfile from "./doctor";
+import PatientProfile from "./PatientProfile";
+import DoctorProfile from "./DoctorProfile";
 
 export default function Profile() {
 	// todo: check usertype, and have two subpages for doctor and patient

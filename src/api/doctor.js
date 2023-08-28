@@ -5,11 +5,18 @@
 import axios from "axios";
 
 export async function getDoctor({ queryKey }) {
-    const [doctorId] = queryKey;
+    const [_, doctorId] = queryKey;
     console.log("GET doctor", doctorId);
-    let resp = await axios.get(`/doctor/${doctorId}`);
-    console.log(resp)
-    return resp.data.doctor;
+    let { data } = await axios.get(`/doctor/${doctorId}`);
+    console.log(data)
+    return data.doctor;
+}
+
+export async function postDoctor({ doctorId, edittedDoctor }) {
+    console.log("POST doctor", doctorId, edittedDoctor);
+    // let {data} = await axios.post(`/doctor/${userId}`, {
+        
+    // });
 }
 
 export async function postDoctorSignup({ username, fullname, email, password, degrees, speciality }) {
