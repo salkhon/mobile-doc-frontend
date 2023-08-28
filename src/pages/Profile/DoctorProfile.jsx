@@ -9,6 +9,8 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { getDoctor, postDoctor } from "../../api/doctor";
 import DoctorInfoCard from "../../components/Card/DoctorProfile/DoctorInfoCard";
 import DoctorEditProfile from "../../components/Dialog/DoctorEditProfile";
+import DoctorAvailabilityCalendar from "../../components/Calendar/DoctorAvailabilityCalendar";
+import Header from "../../components/Header/Header";
 
 export default function DoctorProfile() {
 	const { userId } = useAuth();
@@ -34,9 +36,7 @@ export default function DoctorProfile() {
 	// edit dialog
 	const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
-	if (getDoctorQuery.isFetching) {
-		return <LoadingBackdrop />;
-	}
+	// doctor availability calendar
 
 	function handleEditDialogSave(e, edittedDoctor) {
 		editDoctorMutation.mutate({
@@ -44,6 +44,10 @@ export default function DoctorProfile() {
 			edittedDoctor: edittedDoctor,
 		});
 		setIsEditDialogOpen(false);
+	}
+
+	if (getDoctorQuery.isFetching) {
+		return <LoadingBackdrop />;
 	}
 
 	return (
@@ -68,19 +72,22 @@ export default function DoctorProfile() {
 					Profile
 				</Typography>
 			</Breadcrumbs>
+
 			<Grid
 				item
 				xs={12}
 				display="flex"
-				justifyContent="flex-end"
-				sx={{
-					mr: 7,
-				}}
+				justifyContent="space-between"
+				alignItems="center"
+				mt={3}
+				ml={3}
 			>
+				<Header title="Doctor's Profile" />
 				<Button
 					variant="contained"
 					color="primary"
 					onClick={() => setIsEditDialogOpen(true)}
+					sx={{ margin: "10px 24px 28px 0" }}
 				>
 					{" "}
 					<BorderColorOutlinedIcon
@@ -89,10 +96,15 @@ export default function DoctorProfile() {
 						}}
 					/>{" "}
 					Edit Profile
-				</Button>
+				</Button>{" "}
 			</Grid>
+
 			<Grid item xs={12}>
 				<DoctorInfoCard doctor={getDoctorQuery.data} />
+			</Grid>
+
+			<Grid item xs={12} m={3} container>
+				<DoctorAvailabilityCalendar doctor={getDoctorQuery.data} />
 			</Grid>
 
 			<DoctorEditProfile

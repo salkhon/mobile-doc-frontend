@@ -20,6 +20,9 @@ export default function AppointmentCalendar({
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 
+	const oneHourBeforeCurrentDate = new Date();
+	oneHourBeforeCurrentDate.setHours(oneHourBeforeCurrentDate.getHours() - 1);
+
 	return (
 		<FullCalendar
 			height="78vh"
@@ -41,15 +44,17 @@ export default function AppointmentCalendar({
 			dayMaxEvents={true}
 			nowIndicator={true}
 			eventDurationEditable={false}
+			allDaySlot={false}
 			selectOverlap={false}
 			eventOverlap={false}
 			slotEventOverlap={false}
 			slotDuration="00:15:00"
 			slotMinTime="08:00:00"
 			slotMaxTime="22:00:00"
-			scrollTime={new Date().toLocaleTimeString("en-US", {
+			scrollTime={oneHourBeforeCurrentDate.toLocaleTimeString("en-US", {
 				hour12: false,
 			})}
+			scrollTimeReset={false}
 			select={handleDateClick}
 			eventClick={handleEventClick}
 			eventDrop={handleEventDrop}
@@ -62,7 +67,6 @@ export default function AppointmentCalendar({
 			})}
 			// eventsSet={(events) => setCurrentEvents(events)}
 			defaultTimedEventDuration={"00:15:00"}
-			firstDay={6}
 			defaultAllDay={false}
 			initialEvents={[]}
 			eventColor={`${colors.secondary[500]}${eventOpacity}`}

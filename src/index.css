@@ -72,3 +72,7 @@ body,
 .fc-event-time {
 	font-size: 0 !important;
 }
+
+.fc-doctor-avail-slotlabel {
+    background-color: #39588588;
+}

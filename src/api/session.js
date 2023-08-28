@@ -16,7 +16,7 @@ export function getFormattedDateTime(dateTimeObj) {
 }
 
 export async function getAppointments({ queryKey }) {
-    const [userId, userType] = queryKey;
+    const [_, userId, userType] = queryKey;
 
     let resp, sessions;
     console.log("GET appointments", userId, userType);
