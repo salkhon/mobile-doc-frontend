@@ -5,34 +5,64 @@ import React, { useState } from "react";
 import { Button, Grid, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import Header from "../Header/Header";
+import { useQueryClient } from "react-query";
 
 const eventOpacity = "99";
+const dayNames = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 
-export default function DoctorAvailabilityCalendar({ doctor }) {
+export default function DoctorAvailabilityCalendar({ doctor, onSave }) {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
+	const queryClient = useQueryClient();
 
-	const [isEdit, setIsEdit] = useState(false);
+	const [isAvailEdit, setIsAvailEdit] = useState(false);
 
 	const [doctorAvailability, setDoctorAvailability] = useState(
 		doctor?.availability
 	);
 
 	function handleSelect(e) {
-		console.log("select", e);
+		e?.view.calendar.unselect();
+		const dayName = dayNames[e?.start?.getDay()];
+		const timeStr = getTimeString(e?.start);
+		setDoctorAvailability((prevAvailability) => {
+			const dayIdx = prevAvailability.findIndex(
+				(weekDay) => weekDay.day_of_the_week === dayName
+			);
+			const newAvailability = [...prevAvailability];
+			newAvailability[dayIdx].day_start_times.push(timeStr);
+			return newAvailability;
+		});
 	}
 
 	function handleEventClick(e) {
+		if (!isAvailEdit) {
+			return;
+		}
+
 		console.log("event", e);
+		const dayName = dayNames[e?.event?.start?.getDay()];
+		const timeStr = getTimeString(e?.event?.start);
+		setDoctorAvailability((prevAvailability) => {
+			const dayIdx = prevAvailability.findIndex(
+				(weekday) => weekday.day_of_the_week === dayName
+			);
+			const newAvailability = [...prevAvailability];
+			const timeIdx =
+				newAvailability[dayIdx].day_start_times.indexOf(timeStr);
+			newAvailability[dayIdx].day_start_times.splice(timeIdx, 1);
+			return newAvailability;
+		});
 	}
 
 	function handleEditDoctorAvailabilityCancel() {
-		setDoctorAvailability(doctor?.availability);
-		setIsEdit(false);
+		setIsAvailEdit(false);
+		queryClient.invalidateQueries(["getDoctor", doctor?.doctor_id]);
 	}
 
 	function handleEditDoctorAvailabilitySave(e) {
-		console.log("saving doctor avail", e, doctorAvailability);
+		onSave(doctorAvailability);
+		setIsAvailEdit(false);
 	}
 
 	return (
@@ -48,7 +78,7 @@ export default function DoctorAvailabilityCalendar({ doctor }) {
 					justifyContent="flex-end"
 					alignItems="center"
 				>
-					{isEdit ? (
+					{isAvailEdit ? (
 						<>
 							<Button
 								variant="contained"
@@ -72,7 +102,7 @@ export default function DoctorAvailabilityCalendar({ doctor }) {
 					) : (
 						<Button
 							variant="contained"
-							onClick={() => setIsEdit(true)}
+							onClick={() => setIsAvailEdit(true)}
 							sx={{
 								m: 2,
 							}}
@@ -94,11 +124,8 @@ export default function DoctorAvailabilityCalendar({ doctor }) {
 					slotMinTime="08:00:00"
 					slotMaxTime="22:00:00"
 					slotEventOverlap={false}
-					editable={isEdit}
-					selectable={isEdit}
-					unselectAuto={false}
-					selectMirror={true}
-					dayMaxEvents={true}
+					editable={isAvailEdit}
+					selectable={isAvailEdit}
 					eventDurationEditable={false}
 					selectOverlap={false}
 					eventOverlap={false}
@@ -142,9 +169,14 @@ function getArrayOfDatesFromDoctorAvailability(doctorAvail) {
 					currentWeekDayAvail.day_of_the_week,
 					startTime
 				);
+				// select overlap issue
+				const endDate = new Date(date);
+				endDate.setMinutes(endDate.getMinutes() + 14);
 				return {
+					id: date.toISOString(),
 					title: formatDateWithDayAndTime(date),
 					start: date.toISOString(),
+					end: endDate.toISOString(),
 				};
 			})
 		);
@@ -156,7 +188,6 @@ function getArrayOfDatesFromDoctorAvailability(doctorAvail) {
  * @param {string} day
  */
 function getCurrentWeeksDateOnDay(day, timeStr) {
-	const dayNames = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 	let currentDate = new Date();
 	const dayShift = currentDate.getDay() - dayNames.indexOf(day);
 	currentDate.setDate(currentDate.getDate() - dayShift);
@@ -179,4 +210,15 @@ function setTimeOfDate(date, timeString) {
 	date.setSeconds(seconds);
 
 	return date;
+}
+
+/**
+ * @param {Date} dateObj
+ */
+function getTimeString(dateObj) {
+	var hours = dateObj.getHours().toString().padStart(2, "0");
+	var minutes = dateObj.getMinutes().toString().padStart(2, "0");
+	var seconds = dateObj.getSeconds().toString().padStart(2, "0");
+
+	return hours + ":" + minutes + ":" + seconds;
 }

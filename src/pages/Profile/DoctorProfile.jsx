@@ -28,15 +28,10 @@ export default function DoctorProfile() {
 			queryClient.setQueryData(["getDoctor", doctorId], edittedDoctor); // optimistic
 			// todo: handle error
 		},
-		onSettled: () => {
-			queryClient.invalidateQueries(["getDoctor", userId]);
-		},
 	});
 
 	// edit dialog
 	const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-
-	// doctor availability calendar
 
 	function handleEditDialogSave(e, edittedDoctor) {
 		editDoctorMutation.mutate({
@@ -44,6 +39,17 @@ export default function DoctorProfile() {
 			edittedDoctor: edittedDoctor,
 		});
 		setIsEditDialogOpen(false);
+	}
+
+	function handleDoctorAvailabilitySave(doctorAvail) {
+		console.log("saving,", doctorAvail);
+		editDoctorMutation.mutate({
+			doctorId: userId,
+			edittedDoctor: {
+				...getDoctorQuery.data,
+				availability: [...doctorAvail],
+			},
+		});
 	}
 
 	if (getDoctorQuery.isFetching) {
@@ -104,7 +110,10 @@ export default function DoctorProfile() {
 			</Grid>
 
 			<Grid item xs={12} m={3} container>
-				<DoctorAvailabilityCalendar doctor={getDoctorQuery.data} />
+				<DoctorAvailabilityCalendar
+					doctor={getDoctorQuery.data}
+					onSave={handleDoctorAvailabilitySave}
+				/>
 			</Grid>
 
 			<DoctorEditProfile
