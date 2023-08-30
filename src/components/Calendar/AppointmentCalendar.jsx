@@ -38,7 +38,7 @@ export default function AppointmentCalendar({
 				right: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
 			}}
 			initialView="timeGridWeek"
-			editable={true}
+			editable={userType === "doctor"}
 			selectable={true}
 			selectMirror={true}
 			dayMaxEvents={true}

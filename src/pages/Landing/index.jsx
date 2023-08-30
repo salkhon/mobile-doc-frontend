@@ -14,77 +14,80 @@ export function LandingPage() {
 	return (
 		<Grid
 			container
-			display="flex"
-			justifyContent="space-around"
-			alignItems="center"
-			alignSelf="center"
-			minHeight="100vh"
+			justifyContent="center"
+			maxHeight="20vh"
+			marginTop="30vh"
 		>
-			<Grid item container justifyContent="center" alignItems="center">
-				{/* LOGO AND TITLE */}
-				<Grid item xs={5}></Grid>
-				<Grid item xs={2}>
-					<Box
-						component="img"
-						sx={{
-							height: 50,
-							width: 50,
-							marginRight: "20px",
-						}}
-						alt="pokedoc logo"
-						src="./pokedoc-logo.png"
-					/>
-					<Header
-						title="PokéDoc"
-						subtitle="Medical treatment in your pocket"
-					/>
-				</Grid>
-				<Grid item xs={5}></Grid>
+			{/* LOGO AND TITLE */}
+			<Grid
+				item
+				xs={12}
+				display="flex"
+				justifyContent="center"
+				alignItems="center"
+			>
+				<Box
+					component="img"
+					sx={{
+						height: 50,
+						width: 50,
+						margin: "10px 10px 40px 0",
+					}}
+					alt="pokedoc logo"
+					src="./pokedoc-logo.png"
+				/>
+				<Header
+					title="PokéDoc"
+					subtitle="Medical treatment in your pocket"
+				/>
+			</Grid>
 
-				{/* BUTTONS */}
-				<Grid item xs={5}></Grid>
-				<Grid item xs={3}>
-					<Box display="flex" justifyContent="flex-start">
-						<Button
-							variant="contained"
-							color="primary"
-							onClick={() => navigate("/login")}
-							sx={{
-								marginRight: 2,
-							}}
-						>
-							Login
-						</Button>
-						<Button
-							variant="contained"
-							color="primary"
-							onClick={() => navigate("/signup")}
-							sx={{
-								marginRight: 2,
-							}}
-						>
-							Signup Patient
-						</Button>
-						<Button
-							variant="contained"
-							color="primary"
-							onClick={() => navigate("/doctorsignup")}
-							sx={{
-								marginRight: 2,
-							}}
-						>
-							Signup Doctor
-						</Button>
-						<IconButton onClick={colorModeCtx.toggleColorMode}>
-							{theme.palette.mode === "dark" ? (
-								<LightModeOutlinedIcon />
-							) : (
-								<DarkModeOutlinedIcon />
-							)}
-						</IconButton>
-					</Box>
-				</Grid>
-				<Grid item xs={4}></Grid>
+			{/* BUTTONS */}
+			<Grid
+				item
+				xs={12}
+				display="flex"
+				justifyContent="center"
+				alignItems="center"
+			>
+				<Button
+					variant="contained"
+					color="primary"
+					onClick={() => navigate("/login")}
+					sx={{
+						marginLeft: 5,
+						marginRight: 1,
+					}}
+				>
+					Login
+				</Button>
+				<Button
+					variant="contained"
+					color="primary"
+					onClick={() => navigate("/signup")}
+					sx={{
+						marginRight: 1,
+					}}
+				>
+					Signup Patient
+				</Button>
+				<Button
+					variant="contained"
+					color="primary"
+					onClick={() => navigate("/doctorsignup")}
+					sx={{
+						marginRight: 1,
+					}}
+				>
+					Signup Doctor
+				</Button>
+				<IconButton onClick={colorModeCtx.toggleColorMode}>
+					{theme.palette.mode === "dark" ? (
+						<LightModeOutlinedIcon />
+					) : (
+						<DarkModeOutlinedIcon />
+					)}
+				</IconButton>
 			</Grid>
 		</Grid>
 	);

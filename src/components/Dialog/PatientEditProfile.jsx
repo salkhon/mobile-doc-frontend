@@ -67,7 +67,7 @@ export default function PatientEditProfile({
 		}));
 	}
 
-	function handlePhyAttrChange(rows) {
+	function handlePhyAttrChange(newrow, rows) {
 		console.log("table state change", rows);
 		setFormData((prevData) => ({
 			...prevData,
@@ -243,7 +243,12 @@ export default function PatientEditProfile({
 						justifyContent="center"
 						marginTop={3}
 					>
-						<Grid item xs={12}>
+						<Grid
+							item
+							xs={12}
+							display="flex"
+							justifyContent="center"
+						>
 							<DialogContentText>
 								Physical Attributes (Time Series)
 							</DialogContentText>

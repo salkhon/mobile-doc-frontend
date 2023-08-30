@@ -7,9 +7,14 @@ import { SymptomsInput } from "../../components/Input/SymptomsInput";
 import { AppointmentConfirmationCard } from "../../components/Card/AppointmentCard";
 import { LoadingButton } from "@mui/lab";
 import { useAuth } from "../../hooks/auth";
-import { useSuggestedDoctors } from "../../hooks/suggestedDoctors";
-import { useQueries, useQueryClient } from "react-query";
-import { postApptDoctor, postApptTime } from "../../api/patient";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import {
+	getCreateNewAppt,
+	getSuggestedDoctors,
+	postApptDoctor,
+	postApptTime,
+	postSymtomsOnAppointment,
+} from "../../api/patient";
 import { getFormattedDateTime } from "../../api/session";
 
 export default function NewAppointment() {
@@ -17,54 +22,74 @@ export default function NewAppointment() {
 	const queryClient = useQueryClient();
 
 	// remove existing query cache for new appointment
+	// todo: have a clear session button
 	useEffect(() => {
 		queryClient.removeQueries();
 	}, [queryClient]);
 
-	const [symptoms, setSymptoms] = useState([]);
+	// create session
+	const getApptIdQuery = useQuery(["getApptId", userId], getCreateNewAppt, {
+		staleTime: Infinity, // create session only once
+	});
 
-	// create patient appointment and get suggested doctors
-	const { executeQuery, apptId, suggestedDoctors, isDoctorsLoading } =
-		useSuggestedDoctors(userId, userType, symptoms);
+	// with each syptoms addition, suggested symptoms is updated
+	const postSymptomMutation = useMutation(postSymtomsOnAppointment);
+
+	function handleSymptomInput(sym) {
+		console.log("symptom added", sym);
+		postSymptomMutation.mutate({
+			apptId: getApptIdQuery.data?.created_session_id,
+			userType: userType,
+			symptom: sym,
+		});
+	}
+
+	// get suggested doctors
+	const getSuggestedDoctorsQuery = useQuery(
+		["getSuggestedDoctors", getApptIdQuery?.data?.created_session_id],
+		getSuggestedDoctors,
+		{
+			enabled: false,
+		}
+	);
 
 	function handleSymptomSubmission() {
-		executeQuery();
+		getSuggestedDoctorsQuery.refetch();
 	}
 
 	// confirm appointment doctor and time
 	const [selectedDoctor, setSelectedDoctor] = useState(null);
 	const [apptDatetimeObj, setApptDatetimeObj] = useState(null);
 
-	const [postApptDoctorQuery, postApptTimeQuery] = useQueries([
-		{
-			queryKey: [apptId, selectedDoctor?.doctor_id],
-			queryFn: postApptDoctor,
-			enabled: false,
-		},
-		{
-			queryKey: [
-				apptId,
-				apptDatetimeObj ? getFormattedDateTime(apptDatetimeObj) : "",
-			],
-			queryFn: postApptTime,
-			enabled: false,
-		},
-	]);
+	const postApptDoctorMutation = useMutation(postApptDoctor);
+	const postApptTimeMutation = useMutation(postApptTime);
 
 	function handleDoctorSelection(selection) {
-		const selectedDoctor = suggestedDoctors?.find(
-			(doc) => doc.doctor_id === selection[0]
-		);
+		const selectedDoctor =
+			getSuggestedDoctorsQuery?.data?.suggested_doctors?.find(
+				(doc) => doc.doctor_id === selection[0]
+			);
 		console.log("selected", selectedDoctor);
 		setSelectedDoctor(selectedDoctor);
 	}
 
 	async function handleBookAppointment() {
-		await postApptDoctorQuery.refetch();
-		await postApptTimeQuery.refetch();
+		await postApptDoctorMutation.mutateAsync({
+			apptId: getApptIdQuery.data?.created_session_id,
+			doctorId: selectedDoctor?.doctor_id,
+		});
+		postApptTimeMutation.mutate({
+			apptId: getApptIdQuery.data?.created_session_id,
+			timeStr: apptDatetimeObj
+				? getFormattedDateTime(apptDatetimeObj)
+				: "",
+		});
 	}
 
-	if (postApptDoctorQuery.isSuccess && postApptTimeQuery.isSuccess) {
+	if (postApptDoctorMutation.isSuccess && postApptTimeMutation.isSuccess) {
+		// todo: merge?
+		queryClient.removeQueries(["getApptId"]);
+		queryClient.removeQueries(["getSuggestedDoctors"]);
 		return <Navigate to="/calendar" />;
 	}
 
@@ -80,17 +105,22 @@ export default function NewAppointment() {
 			</Box>
 
 			{/** INPUT SYMPTOMS */}
-			<SymptomsInput
-				setSymptoms={setSymptoms}
-				onSymptomsSubmission={handleSymptomSubmission}
-				isDoctorsLoading={isDoctorsLoading}
-			/>
+			<Box maxWidth="60vw">
+				<SymptomsInput
+					onChange={handleSymptomInput}
+					suggestedSymtoms={
+						postSymptomMutation.data?.correlated_symptoms
+					}
+					onSymptomsSubmission={handleSymptomSubmission}
+					isDoctorsLoading={getSuggestedDoctorsQuery.isFetching}
+				/>
+			</Box>
 
 			{/** DOCTOR SUGGESTIONS and APPOINTMENT CARD */}
 			<Box margin="20px">
-				{suggestedDoctors?.length > 0 && (
+				{getSuggestedDoctorsQuery.data && (
 					<DoctorSuggestionTable
-						suggestedDoctors={suggestedDoctors}
+						suggestedDoctors={getSuggestedDoctorsQuery.data?.suggested_doctors}
 						handleDoctorRowSelection={handleDoctorSelection}
 					/>
 				)}
@@ -112,8 +142,8 @@ export default function NewAppointment() {
 						variant="contained"
 						color="secondary"
 						loading={
-							postApptDoctorQuery.isFetching ||
-							postApptTimeQuery.isFetching
+							postApptDoctorMutation.isLoading ||
+							postApptTimeMutation.isLoading
 						}
 						onClick={handleBookAppointment}
 						disabled={!apptDatetimeObj}

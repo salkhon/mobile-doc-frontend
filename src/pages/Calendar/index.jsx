@@ -5,7 +5,7 @@ import AppointmentCalendar from "../../components/Calendar/AppointmentCalendar";
 import RescheduleConfirmationDialog from "../../components/Dialog/RescheduleConfirmationDialog";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/auth";
-import { useQuery, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { useAppointments } from "../../hooks/appointments";
 import { postApptTime } from "../../api/patient";
 import { getFormattedDateTime } from "../../api/session";
@@ -21,36 +21,13 @@ export default function Calendar() {
 		userType
 	);
 
-	// todo: write a hook
 	// reschedule
 	const [isReschedDialogOpen, setIsReschedDialogOpen] = useState(false);
 	const [rescheduleEventInfo, setRescheduleEventInfo] = useState(null);
-	const rescheduleQuery = useQuery(
-		[
-			rescheduleEventInfo?.event.id,
-			rescheduleEventInfo
-				? getFormattedDateTime(rescheduleEventInfo?.event.start)
-				: null,
-		],
-		postApptTime,
-		{
-			enabled: false,
-		}
-	);
+	const rescheduleMutation = useMutation(postApptTime);
 
 	function handleDateClick(selected) {
 		// todo: change to day vewi for that day
-		const title = prompt("Please enter a new title for your event"); // standard browser alert
-		const calendarApi = selected.view.calendar;
-		calendarApi.unselect();
-
-		if (title) {
-			calendarApi.addEvent({
-				id: `${selected.startStr}-${title}`,
-				title: title,
-				start: selected.startStr,
-			});
-		}
 	}
 
 	function handleEventClick(selected) {
@@ -88,10 +65,14 @@ export default function Calendar() {
 	}
 
 	function handleRescheduleConfirm() {
-		rescheduleQuery.refetch().then(() => {
-			queryClient.invalidateQueries(["getAppointments"]);
-			setIsReschedDialogOpen(false);
+		rescheduleMutation.mutate({
+			apptId: rescheduleEventInfo?.event.id,
+			timeStr: rescheduleEventInfo
+				? getFormattedDateTime(rescheduleEventInfo?.event.start)
+				: "",
 		});
+		queryClient.invalidateQueries(["getAppointments"]);
+		setIsReschedDialogOpen(false);
 	}
 
 	function handleRescheduleCancel(e) {
@@ -131,7 +112,7 @@ export default function Calendar() {
 				newEvent={rescheduleEventInfo?.event}
 				handleConfirm={handleRescheduleConfirm}
 				handleCancel={handleRescheduleCancel}
-				isRescheduleLoading={rescheduleQuery.isLoading}
+				isRescheduleLoading={rescheduleMutation.isLoading}
 			/>
 		</Box>
 	);

@@ -5,7 +5,7 @@
 import axios from "axios";
 
 export async function getDoctor({ queryKey }) {
-    const [_, doctorId] = queryKey;
+    const [, doctorId] = queryKey;
     console.log("GET doctor", doctorId);
     let { data } = await axios.get(`/doctor/${doctorId}`);
     console.log(data)

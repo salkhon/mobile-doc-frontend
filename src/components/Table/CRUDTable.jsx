@@ -14,34 +14,7 @@ import {
 	GridRowEditStopReasons,
 } from "@mui/x-data-grid";
 import { randomId } from "@mui/x-data-grid-generator";
-
-function EditToolbar(props) {
-	const { setRows, setRowModesModel } = props;
-
-	const handleClick = () => {
-		const id = randomId();
-		setRows((oldRows) => [
-			...oldRows,
-			{ id, name: "", age: "", isNew: true },
-		]);
-		setRowModesModel((oldModel) => ({
-			...oldModel,
-			[id]: { mode: GridRowModes.Edit, fieldToFocus: "name" },
-		}));
-	};
-
-	return (
-		<GridToolbarContainer>
-			<Button
-				color="primary"
-				startIcon={<AddIcon />}
-				onClick={handleClick}
-			>
-				Add record
-			</Button>
-		</GridToolbarContainer>
-	);
-}
+import { Chip, Stack } from "@mui/material";
 
 /**
  * `cols` prop format:
@@ -55,7 +28,13 @@ function EditToolbar(props) {
  *      valueOptions: ["Market", "Finance", "Development"],
  * }]
  */
-export default function CRUDTable({ cols, data, onChange }) {
+export default function CRUDTable({
+	cols,
+	data,
+	onChange,
+	what = "Records",
+	suggestedRows = null,
+}) {
 	data = data.map((d) => ({
 		...d,
 		id: randomId(),
@@ -106,9 +85,11 @@ export default function CRUDTable({ cols, data, onChange }) {
 
 	function processRowUpdate(newRow) {
 		const updatedRow = { ...newRow, isNew: false };
-		const updatedRows = rows.map((row) => (row.id === newRow.id ? updatedRow : row))
+		const updatedRows = rows.map((row) =>
+			row.id === newRow.id ? updatedRow : row
+		);
 		setRows(updatedRows);
-        onChange(updatedRows)
+		onChange(newRow, updatedRows);
 		return updatedRow;
 	}
 
@@ -193,9 +174,53 @@ export default function CRUDTable({ cols, data, onChange }) {
 					toolbar: EditToolbar,
 				}}
 				slotProps={{
-					toolbar: { setRows, setRowModesModel },
+					toolbar: {
+						setRows,
+						setRowModesModel,
+						cols,
+						what,
+						suggestedRows,
+					},
 				}}
 			/>
 		</Box>
+	);
+}
+
+function EditToolbar({ setRows, setRowModesModel, cols, what, suggestedRows }) {
+	function handleClick(e, rowName) {
+		const id = randomId();
+		setRows((oldRows) => [
+			...oldRows,
+			// if rowName is present (from suggestedRows) set that as first column value
+			{ id, [cols[0]?.field]: rowName ?? "", isNew: true },
+		]);
+		setRowModesModel((oldModel) => ({
+			...oldModel,
+			[id]: { mode: GridRowModes.Edit, fieldToFocus: cols[0]?.field },
+		}));
+	}
+
+	return (
+		<GridToolbarContainer>
+			<Button
+				color="primary"
+				startIcon={<AddIcon />}
+				onClick={handleClick}
+			>
+				Add {what}
+			</Button>
+
+			{suggestedRows && (
+				<Stack direction="row" overflow="auto">
+					{suggestedRows.map((row) => (
+						<Chip
+							label={row}
+							onClick={(e) => handleClick(e, row)}
+						/>
+					))}
+				</Stack>
+			)}
+		</GridToolbarContainer>
 	);
 }

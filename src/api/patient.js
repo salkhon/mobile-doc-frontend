@@ -12,7 +12,7 @@ export async function getPatient(patientId) {
 }
 
 export async function getPatientEHR({ queryKey }) {
-    const [patientId] = queryKey;
+    const [, patientId] = queryKey;
     console.log("GET patient EHR", patientId);
     let resp = await axios.get(`/patient/EHR/${patientId}`)
     console.log(resp);
@@ -20,53 +20,47 @@ export async function getPatientEHR({ queryKey }) {
 }
 
 export async function getCreateNewAppt({ queryKey }) {
-    const [userId] = queryKey
+    const [, userId] = queryKey
     console.log("GET new appt id", userId)
-    let resp = await axios.get(`/session/new/${userId}`);
-    console.log(resp)
-    return resp.data.created_session_id;
+    let { data } = await axios.get(`/session/new/${userId}`);
+    console.log(data)
+    return data;
 }
 
-export async function postSymtomsOnAppointment({ queryKey }) {
-    const [apptId, userType, symptoms] = queryKey;
-    console.log("POST symptoms on session", apptId, userType, symptoms);
-    let resp = await Promise.all(symptoms.map(symptom =>
-        axios.post(`/session/symptoms/${apptId}`, {
-            symptom_name: symptom,
-            duration: 1,
-            added_by: userType
-        })
-    ))
-    console.log(resp);
-    return resp;
+export async function postSymtomsOnAppointment({ apptId, userType, symptom }) {
+    console.log("POST symptoms on session", apptId, userType, symptom);
+    let { data } = await axios.post(`/session/symptoms/${apptId}`, {
+        symptom_name: symptom.symptom,
+        duration: symptom.duration,
+        added_by: userType
+    })
+    console.log(data);
+    return data;
 }
 
 export async function getSuggestedDoctors({ queryKey }) {
-    const [apptId] = queryKey;
+    const [, apptId] = queryKey;
     console.log("GET suggested doctors", apptId);
-    let resp = await axios.get(`/session/suggested_doctors/${apptId}`);
-    console.log(resp);
-    const suggestedDoctors = resp.data.suggested_doctors;
-    return suggestedDoctors;
+    let { data } = await axios.get(`/session/suggested_doctors/${apptId}`);
+    console.log(data);
+    return data;
 }
 
-export async function postApptDoctor({ queryKey }) {
-    const [apptId, doctorId] = queryKey;
+export async function postApptDoctor({ apptId, doctorId }) {
     console.log("POST appt doctor", apptId, doctorId);
-    let resp = await axios.post(`/session/update_session_doctor/${apptId}/?input_doctor_id=${doctorId}`);
-    console.log(resp);
-    return resp;
+    let { data } = await axios.post(`/session/update_session_doctor/${apptId}/?input_doctor_id=${doctorId}`);
+    console.log(data);
+    return data;
 }
 
-export async function postApptTime({ queryKey }) {
-    const [apptId, timeStr] = queryKey;
+export async function postApptTime({ apptId, timeStr }) {
     console.log("POST appt time", apptId, timeStr)
-    let resp = await axios.post(`/session/update_session_time/${apptId}`, {
+    let { data } = await axios.post(`/session/update_session_time/${apptId}`, {
         start_time: timeStr,
         end_time: timeStr
     })
-    console.log(resp);
-    return resp
+    console.log(data);
+    return data
 }
 
 export async function postPatientSignup({ username, password, fullname, nid, dob, address, contact, email, profession }) {

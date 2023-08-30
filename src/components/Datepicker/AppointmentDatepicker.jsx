@@ -38,7 +38,8 @@ export function AppointmentDatepicker({ setAppointmentTime, doctor }) {
 			.toLocaleString("en-US", { minimumIntegerDigits: 2 });
 
 		const isSlotAvailableInDoctorScheduleThatDay =
-			doctor.availability?.some(
+			!!doctor?.availability &&
+			doctor.availability.some(
 				(sched) =>
 					// for the week day of this date
 					sched.day_of_the_week === dateWeekDayNameShort &&
@@ -54,19 +55,18 @@ export function AppointmentDatepicker({ setAppointmentTime, doctor }) {
 					)
 			);
 
-		const isSlotConflictingWithExistingAppointment = doctor.calendar.some(
-			(appt) =>
-				view === "minutes" &&
-				new Date(appt.start_time).getTime() ===
-					new Date(value.$d).getTime()
-		);
-
-		return !(
-			// conditions to enable datetime
-			(
-				isSlotAvailableInDoctorScheduleThatDay &&
-				!isSlotConflictingWithExistingAppointment
-			)
+		const isSlotConflictingWithExistingAppointment =
+			!!doctor?.calendar &&
+			doctor.calendar.some(
+				(appt) =>
+					view === "minutes" &&
+					new Date(appt.start_time).getTime() ===
+						new Date(value.$d).getTime()
+			);
+            
+		return (
+			!isSlotAvailableInDoctorScheduleThatDay ||
+			isSlotConflictingWithExistingAppointment
 		);
 	}
 
