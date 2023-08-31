@@ -22,7 +22,7 @@ export async function postDoctor({ doctorId, edittedDoctor }) {
 
 export async function postDoctorSignup({ username, fullname, email, password, degrees, speciality }) {
     console.log("POST doctor signup", username, fullname, email, password, degrees, speciality);
-    let resp = await axios.post("/doctor/new", {
+    let { data } = await axios.post("/doctor/new", {
         doctor_id: username,
         name: fullname,
         email: email,
@@ -33,68 +33,33 @@ export async function postDoctorSignup({ username, fullname, email, password, de
         availability: [
             {
                 day_of_the_week: "mon",
-                day_start_times: [
-                    "09:00:00",
-                    "09:15:00",
-                    "09:30:00",
-                    "09:45:00"
-                ]
+                day_start_times: []
             },
             {
                 day_of_the_week: "tue",
-                day_start_times: [
-                    "09:00:00",
-                    "09:15:00",
-                    "09:30:00",
-                    "09:45:00"
-                ]
+                day_start_times: []
             },
             {
                 day_of_the_week: "wed",
-                day_start_times: [
-                    "09:00:00",
-                    "09:15:00",
-                    "09:30:00",
-                    "09:45:00"
-                ]
+                day_start_times: []
             },
             {
                 day_of_the_week: "thu",
-                day_start_times: [
-                    "09:00:00",
-                    "09:15:00",
-                    "09:30:00",
-                    "09:45:00"
-                ]
+                day_start_times: []
             },
             {
                 day_of_the_week: "fri",
-                day_start_times: [
-                    "09:00:00",
-                    "09:15:00",
-                    "09:30:00",
-                    "09:45:00"
-                ]
+                day_start_times: []
             },
             {
                 day_of_the_week: "sat",
-                day_start_times: [
-                    "09:00:00",
-                    "09:15:00",
-                    "09:30:00",
-                    "09:45:00"
-                ]
+                day_start_times: []
             },
             {
                 day_of_the_week: "sun",
-                day_start_times: [
-                    "09:00:00",
-                    "09:15:00",
-                    "09:30:00",
-                    "09:45:00"
-                ]
+                day_start_times: []
             }
         ]
     })
-    return resp.data;
+    return data;
 }

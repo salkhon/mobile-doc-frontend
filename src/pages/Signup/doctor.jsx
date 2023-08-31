@@ -8,6 +8,10 @@ import {
 	useTheme,
 	useMediaQuery,
 	InputAdornment,
+	Select,
+	MenuItem,
+	FormControl,
+	InputLabel,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
@@ -19,7 +23,6 @@ import PasswordOutlinedIcon from "@mui/icons-material/PasswordOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
-import MedicalServicesOutlinedIcon from "@mui/icons-material/MedicalServicesOutlined";
 import { postDoctorSignup } from "../../api/doctor";
 import FormBackground from "../../components/Box/FormBackground";
 
@@ -59,7 +62,7 @@ export default function DoctorSignupPage() {
 
 	return (
 		<Container maxWidth="xl" sx={{ position: "relative" }}>
-			<FormBackground mt={10}>
+			<FormBackground mt={0}>
 				<Avatar
 					sx={{
 						m: 1,
@@ -237,27 +240,35 @@ export default function DoctorSignupPage() {
 												),
 											}}
 										/>
-										<TextField
+										<FormControl
 											fullWidth
-											variant="filled"
-											type="text"
-											label="Speciality"
-											onBlur={handleBlur}
-											onChange={handleChange}
-											value={values.speciality}
-											name="speciality"
-											color="tertiary"
 											sx={{
 												gridColumn: "span 4",
 											}}
-											InputProps={{
-												startAdornment: (
-													<InputAdornment position="start">
-														<MedicalServicesOutlinedIcon />
-													</InputAdornment>
-												),
-											}}
-										/>
+										>
+											<InputLabel>Speciality</InputLabel>
+											<Select
+												fullWidth
+												variant="filled"
+												label="Speciality"
+												name="speciality"
+												value={values.speciality}
+												onChange={handleChange}
+												onBlur={handleBlur}
+												color="tertiary"
+											>
+												{specialityOptions.map(
+													(speciality, idx) => (
+														<MenuItem
+															value={speciality}
+															key={idx}
+														>
+															{speciality}
+														</MenuItem>
+													)
+												)}
+											</Select>
+										</FormControl>
 									</Box>
 									<Box
 										display="flex"
@@ -290,3 +301,14 @@ export default function DoctorSignupPage() {
 		</Container>
 	);
 }
+
+const specialityOptions = [
+	"Neurologist",
+	"Cardiologist",
+	"ENT",
+	"Gastroenterologist",
+	"Pulmonologist",
+	"Medicine",
+	"Orthopedist",
+	"OBGYN",
+];

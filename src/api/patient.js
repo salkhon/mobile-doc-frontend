@@ -76,25 +76,16 @@ export async function postPatientSignup({ username, password, fullname, nid, dob
         email: email,
         profession: profession,
         general_information: {
-            blood_group: "AB+",
-            allergies: [
-                "Peanuts",
-                "Shellfish"
-            ],
-            heart_condition: true,
-            diabetes: true,
-            smoking_history: true,
-            asthema: true,
-            liver_problem: true,
-            kidney_problem: true
+            blood_group: "",
+            allergies: [],
+            heart_condition: false,
+            diabetes: false,
+            smoking_history: false,
+            asthema: false,
+            liver_problem: false,
+            kidney_problem: false
         },
-        physical_attributes: [
-            {
-                name: "Height",
-                value: 170.5,
-                date_added: "2022-01-01"
-            }
-        ]
+        physical_attributes: []
     });
     console.log(resp)
     return resp.data;
