@@ -14,9 +14,10 @@ export async function getDoctor({ queryKey }) {
 
 export async function postDoctor({ doctorId, edittedDoctor }) {
     console.log("POST doctor", doctorId, edittedDoctor);
-    // let {data} = await axios.post(`/doctor/${userId}`, {
-        
-    // });
+    delete edittedDoctor.calendar;
+    let { data } = await axios.put(`/doctor/${doctorId}`, edittedDoctor);
+    console.log(data);
+    return data;
 }
 
 export async function postDoctorSignup({ username, fullname, email, password, degrees, speciality }) {
