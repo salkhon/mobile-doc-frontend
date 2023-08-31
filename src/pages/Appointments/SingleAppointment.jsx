@@ -24,7 +24,7 @@ export default function SingleAppointment() {
 
 	// patient data
 	const { data: patient, isFetching: isFetchingPatient } = useQuery(
-		[appointment?.patient_id],
+		["getPatientEHR", appointment?.patient_id],
 		getPatientEHR,
 		{
 			enabled: !!appointment,
@@ -33,7 +33,7 @@ export default function SingleAppointment() {
 
 	// doctor data
 	const { data: doctor, isFetching: isFetchingDoctor } = useQuery(
-		[appointment?.doctor_id],
+		["getDoctor", appointment?.doctor_id],
 		getDoctor,
 		{
 			enabled: !!appointment,

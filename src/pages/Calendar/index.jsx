@@ -32,7 +32,7 @@ export default function Calendar() {
 
 	function handleEventClick(selected) {
 		navigate({
-			pathname: "/appointment",
+			pathname: "/appointments",
 			search: `?id=${selected?.event?.id}`,
 		});
 	}
