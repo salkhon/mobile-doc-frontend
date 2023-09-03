@@ -26,10 +26,6 @@ export default function Calendar() {
 	const [rescheduleEventInfo, setRescheduleEventInfo] = useState(null);
 	const rescheduleMutation = useMutation(postApptTime);
 
-	function handleDateClick(selected) {
-		// todo: change to day vewi for that day
-	}
-
 	function handleEventClick(selected) {
 		navigate({
 			pathname: "/appointments",
@@ -101,7 +97,6 @@ export default function Calendar() {
 			<Box flex="1 1 100%" marginLeft="15px">
 				<AppointmentCalendar
 					appointments={appointments}
-					handleDateClick={handleDateClick}
 					handleEventClick={handleEventClick}
 					handleEventDrop={handleEventDrop}
 				/>

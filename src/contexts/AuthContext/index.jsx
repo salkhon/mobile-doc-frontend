@@ -66,7 +66,7 @@ function setLocalStorageUserInfo(userInfo) {
 	}
 }
 
-function removeLocalStorageUserInfo() {
+export function removeLocalStorageUserInfo() {
 	for (let key of ["token", "userId", "userName", "userType"]) {
 		localStorage.removeItem(key);
 	}

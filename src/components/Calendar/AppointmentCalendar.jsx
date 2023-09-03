@@ -12,7 +12,6 @@ const eventOpacity = "99";
 
 export default function AppointmentCalendar({
 	appointments,
-	handleDateClick,
 	handleEventClick,
 	handleEventDrop,
 }) {
@@ -55,7 +54,6 @@ export default function AppointmentCalendar({
 				hour12: false,
 			})}
 			scrollTimeReset={false}
-			select={handleDateClick}
 			eventClick={handleEventClick}
 			eventDrop={handleEventDrop}
 			events={appointments.map((event) => {
@@ -74,7 +72,7 @@ export default function AppointmentCalendar({
 	);
 }
 
-function appointmentText(appointment, userType) {
+export function appointmentText(appointment, userType) {
 	if (userType === "doctor") {
 		return appointment.patient_name ?? appointment.patient_id;
 	} else if (userType === "patient") {

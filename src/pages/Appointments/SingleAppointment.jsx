@@ -23,7 +23,7 @@ export default function SingleAppointment() {
 	);
 
 	// patient data
-	const { data: patient, isFetching: isFetchingPatient } = useQuery(
+	const { data: patient_ehr, isFetching: isFetchingPatient } = useQuery(
 		["getPatientEHR", appointment?.patient_id],
 		getPatientEHR,
 		{
@@ -44,16 +44,16 @@ export default function SingleAppointment() {
 		return <LoadingBackdrop />;
 	}
 
-	if (appointment && patient && doctor) {
+	if (appointment && patient_ehr && doctor) {
 		console.log("appt in appt page", appointment);
-		console.log("patient in appt page", patient);
+		console.log("patient in appt page", patient_ehr);
 		console.log("doctor in appt page", doctor);
 	}
 
 	return (
 		<Box margin="20px">
 			<Header
-				title={`${doctor?.name} and ${patient?.name}`}
+				title={`${doctor?.name} and ${patient_ehr?.patient_details?.name}`}
 				subtitle={`${new Date(
 					appointment?.start_time
 				).toLocaleString()}`}
@@ -88,14 +88,18 @@ export default function SingleAppointment() {
 						<Typography variant="h3">
 							General Info <hr />
 						</Typography>
-						<GeneralInfoCard patient={patient} />
+						<GeneralInfoCard
+							patient={patient_ehr?.patient_details}
+						/>
 					</Box>
 
 					<Box>
 						<Typography variant="h3">
 							Medical Info <hr />
 						</Typography>
-						<MedicalInfoCard patient={patient} />
+						<MedicalInfoCard
+							patient={patient_ehr?.patient_details}
+						/>
 					</Box>
 
 					<Typography variant="h3">
