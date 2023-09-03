@@ -6,10 +6,19 @@ import TopBar from "./topBar";
 import {
   getAppointmentsByPatientId,
 } from "../../../api/session";
+import { useEffect, useState } from "react";
+import {
+  useAuth
+}
+from "../../../hooks/auth";
+
+import LoadingBackdrop from "../../../components/Backdrop/LoadingBackdrop";
 
 
 
 const Main = (name) => {
+
+  const { userId } = useAuth();
 
   const [ appointments, setAppointments ] = useState(null);
 
@@ -18,6 +27,29 @@ const Main = (name) => {
   }, [userId]);
 
   console.log(appointments);
+
+  if (!appointments) {
+    return <LoadingBackdrop />;
+  }
+  //get names of doctors from appointments. Replace null with "Null"
+  
+  const doctorNames = appointments.map((appointment) => {
+    if (appointment.doctor_id === null) {
+      return "Null";
+    }
+    else {
+      return appointment.doctor_id;
+    }
+  });
+
+
+  console.log(doctorNames);
+
+
+  //get names of symptoms of each appointment. mutiple symptoms per appointment.symptom_list.symptom_name
+
+
+
 
   
 
@@ -31,18 +63,14 @@ const Main = (name) => {
         <div className="horizontal-container">
           <div className="left-div shadowPadMargin2">
             <h3>Ongoing Treatment</h3>
-            <DM
-              diseaseName="Fever"
-              medNames={["Paracetamol", "Paracetamol", "Paracetamol"]}
-              medDosage={["1/0/1", "1/0/1", "1/0/1"]}
-              medDaysRemaining={["2/7", "2/7", "2/7"]}
-            />
-            <DM
-              diseaseName="Fever"
-              medNames={["Paracetamol", "Paracetamol", "Paracetamol"]}
-              medDosage={["1/0/1", "1/0/1", "1/0/1"]}
-              medDaysRemaining={["2/7", "2/7", "2/7"]}
-            />
+           
+            {appointments.map((appointment) => {
+              return (
+                <DM
+                  appointment={appointment}
+                />
+              );
+            })}
           </div>
 
           <div className="right-div shadowPadMargin2">
