@@ -1,0 +1,78 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap");
+@import url("https://fonts.cdnfonts.com/css/pokemon-solid");
+
+html,
+body,
+#root,
+.app,
+.content {
+	height: 100%;
+	width: 100%;
+	font-family: "Source Sans Prod", sans-serif;
+	overflow: auto;
+	scrollbar-width: thin;
+	scroll-behavior: smooth;
+}
+
+.app {
+	display: flex;
+	position: relative;
+}
+
+::-webkit-scrollbar {
+	width: 10px;
+	background-color: transparent;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #353f57;
+	border-radius: 5px;
+}
+
+/* Full Calendar */
+:root {
+	--fc-list-event-hover-bg-color: #fe425b30;
+	--fc-list-day-cushion-bg-color: #fe425b;
+	--fc-list-table-thead-bg-color: #000;
+
+	--fc-cell-shaded-bg-color: #c52c40;
+	--fc-today-bg-color: #07265370;
+	--fc-border-color: #203f6c;
+}
+
+& .fc-list-day-cushion {
+	background-color: #395885 !important;
+}
+
+.fc-theme-standard {
+	& .fc-list {
+		border: 1px solid var(--fc-border-color);
+	}
+	& .fc-list-day-cushion {
+		background-color: #0b101b;
+	}
+}
+
+.fc-timegrid-slot {
+	height: 4.5em !important;
+	border-bottom: 0 !important;
+}
+
+.fc-event-title {
+	font-size: 1.6em !important;
+	word-wrap: break-word;
+}
+
+.fc-event-time {
+	font-size: 0 !important;
+}
+
+.fc-doctor-avail-slotlabel {
+    background-color: #39588588;
+}
