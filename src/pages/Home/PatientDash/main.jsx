@@ -3,8 +3,23 @@ import "./styles.css";
 import DM from "./diseaseMed";
 import Details from "./details";
 import TopBar from "./topBar";
+import {
+  getAppointmentsByPatientId,
+} from "../../../api/session";
+
+
 
 const Main = (name) => {
+
+  const [ appointments, setAppointments ] = useState(null);
+
+  useEffect(() => {
+    getAppointmentsByPatientId(userId).then((appointments) => setAppointments(appointments));
+  }, [userId]);
+
+  console.log(appointments);
+
+  
 
   return (
     <div>

@@ -9,6 +9,7 @@ import {
 
 } from "../../../api/patient";
 
+
 import LoadingBackdrop from "../../../components/Backdrop/LoadingBackdrop";
 import { useEffect } from "react";
 import {
@@ -33,16 +34,11 @@ const Details = () => {
     "Jun",
     "Jul",
   ];
-  const months2 = [
-    "Aug",
-    "Sep",
-    "Oct",
-  ];
+
 
   const { userId } = useAuth();
 
-  const [patient, setPatient] = useState(null);
-
+ 
   const weightHist = [60, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 55];
   const gender = "female";
   const bloodPressureSys = [
@@ -57,25 +53,34 @@ const Details = () => {
   const [weightChartVisible, setWeightChartVisible] = useState(true);
   const [bpChartVisible, setBpChartVisible] = useState(true);
 
+  const [patient, setPatient] = useState(null);
   useEffect(() => {
     getPatient(userId).then((patient) => setPatient(patient));
   }, [userId]);
 
 
-  console.log(userId);
-  // console.log(patient?.physical_attributes);
-  
+
+
+
   // create an array from patient.physical_attributes values where name=="Height"
   const heightObjects = patient?.physical_attributes.filter((item) => item.name === "Height");
 
   //create heights array by taking the values from heightObjects
   const heights = heightObjects?.map((item) => item.value);
 
-  console.log(heights);
+  //create dates array by taking the values from heightObjects
+  const dates = heightObjects?.map((item) => item.date_added);
+
+  //extract month from dates array
+  const months2 = dates?.map((item) => item.slice(8, 10));
+
+
+  // console.log(months3);
 
   if (!patient) {
     return <LoadingBackdrop />;
   }
+ 
   return (
     <div>
       <h3>Details</h3>

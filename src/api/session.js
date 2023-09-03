@@ -26,6 +26,15 @@ export async function getAppointments({ queryKey }) {
     return sessions;
 }
 
+//get appointments by patient id. dont use queryKey
+
+export async function getAppointmentsByPatientId(patientId) {
+    console.log("GET appointments by patient id", patientId);
+    let resp = await axios.get(`/patient/${patientId}/all_sessions`);
+    console.log(resp);
+    return resp.data.patient_sessions;
+}
+
 export async function getAppointment({ queryKey }) {
     const [apptId] = queryKey;
 
