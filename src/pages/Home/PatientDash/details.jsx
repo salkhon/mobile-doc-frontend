@@ -5,7 +5,7 @@ import { faIcons } from "@fortawesome/free-solid-svg-icons";
 import LineChartComponent from "./chart";
 import {
 
-	getPatient,
+  getPatient,
 
 } from "../../../api/patient";
 
@@ -15,11 +15,10 @@ import { useEffect } from "react";
 import {
   useAuth
 }
-from "../../../hooks/auth";
+  from "../../../hooks/auth";
 
 const Details = () => {
-  const age = "20";
-  const bloodGroup = "A+";
+
   const months = [
     "Aug",
     "Sep",
@@ -38,17 +37,15 @@ const Details = () => {
 
   const { userId } = useAuth();
 
- 
-  const weightHist = [60, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 55];
-  const gender = "female";
+
+  // const weightHist = [60, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 55];
+
   const bloodPressureSys = [
     120, 130, 110, 108, 120, 130, 110, 108, 120, 130, 110, 108,
   ];
   const bloodPressureDia = [
     60, 92, 110, 108, 120, 80, 110, 108, 56, 55, 110, 80,
   ];
-  const smokingHist = "Past Smoker";
-  const misc = ["Recovering from Covid"];
 
   const [weightChartVisible, setWeightChartVisible] = useState(true);
   const [bpChartVisible, setBpChartVisible] = useState(true);
@@ -59,28 +56,50 @@ const Details = () => {
   }, [userId]);
 
 
+  console.log(patient);
+
+  const date_of_birth = patient?.date_of_brth;
+
+  const age = new Date().getFullYear() - new Date(date_of_birth).getFullYear();
+
+  const blood_group = patient?.general_information.blood_group;
+  const diabetes = patient?.general_information.diabetes;
+
+  const smoking_hist = patient?.general_information.smoking_history;
+
+  const asthma = patient?.general_information.asthema;
+
+  const liver_problem = patient?.general_information.liver_problem;
+
+  const kidney_problem = patient?.general_information.kidney_problem;
+
+  const allergies = patient?.general_information.allergies;
 
 
 
-  // create an array from patient.physical_attributes values where name=="Height"
-  const heightObjects = patient?.physical_attributes.filter((item) => item.name === "Height");
+  // create an array from patient.physical_attributes values where name=="weight"
+  const weightObjects = patient?.physical_attributes.filter((item) => item.name === "Weight");
 
-  //create heights array by taking the values from heightObjects
-  const heights = heightObjects?.map((item) => item.value);
+  //create weights array by taking the values from weightObjects
+  const weights = weightObjects?.map((item) => item.value);
 
-  //create dates array by taking the values from heightObjects
-  const dates = heightObjects?.map((item) => item.date_added);
+  //create dates array by taking the values from weightObjects
+  const dates = weightObjects?.map((item) => item.date_added);
 
   //extract month from dates array
-  const months2 = dates?.map((item) => item.slice(8, 10));
 
+  console.log(dates);
+  var months2 = dates?.map((item) => item.slice(5, 10));
+
+  //sort
+  months2 = months2?.sort();
 
   // console.log(months3);
 
   if (!patient) {
     return <LoadingBackdrop />;
   }
- 
+
   return (
     <div>
       <h3>Details</h3>
@@ -93,13 +112,13 @@ const Details = () => {
       <div className="detailBar">
         <div className="detailBar2">
           <FontAwesomeIcon icon={faIcons} />
-          <div className="detailBar3">{bloodGroup}</div>
+          <div className="detailBar3">{blood_group}</div>
         </div>
       </div>
       <div className="detailBar">
         <div className="detailBar2">
           <FontAwesomeIcon icon={faIcons} />
-          <div className="detailBar3">{weightHist.slice(-1)[0]} kg</div>
+          <div className="detailBar3">{weights.slice(-1)[0]} kg</div>
         </div>
         <FontAwesomeIcon
           icon={faIcons}
@@ -107,15 +126,9 @@ const Details = () => {
         />
       </div>
       {weightChartVisible && (
-        <LineChartComponent data1={heights} months={months2} />
+        <LineChartComponent data1={weights} months={months2} />
       )}
 
-      <div className="detailBar">
-        <div className="detailBar2">
-          <FontAwesomeIcon icon={faIcons} />
-          <div className="detailBar3">{gender}</div>
-        </div>
-      </div>
       <div className="detailBar">
         <div className="detailBar2">
           <FontAwesomeIcon icon={faIcons} />
@@ -137,18 +150,49 @@ const Details = () => {
         />
       )}
 
-      <div className="detailBar">
-        <div className="detailBar2">
-          <FontAwesomeIcon icon={faIcons} />
-          <div className="detailBar3">{smokingHist}</div>
-        </div>
-      </div>
-      <div className="detailBar">
-        <div className="detailBar2">
-          <FontAwesomeIcon icon={faIcons} />
-          <div className="detailBar3">{misc}</div>
-        </div>
-      </div>
+
+      {smoking_hist && (
+        <div className="detailBar">
+          <div className="detailBar2">
+            <FontAwesomeIcon icon={faIcons} />
+            <div className="detailBar3">Smoker</div>
+          </div>
+        </div>)}
+
+      {diabetes && (
+        <div className="detailBar">
+          <div className="detailBar2">
+            <FontAwesomeIcon icon={faIcons} />
+            <div className="detailBar3">Diabetic</div>
+          </div>
+        </div>)}
+
+      {asthma && (
+        <div className="detailBar">
+          <div className="detailBar2">
+            <FontAwesomeIcon icon={faIcons} />
+            <div className="detailBar3">Asthmatic</div>
+          </div>
+        </div>)}
+      {liver_problem && (
+        <div className="detailBar">
+          <div className="detailBar2">
+            <FontAwesomeIcon icon={faIcons} />
+            <div className="detailBar3">Liver Problem: {liver_problem}</div>
+          </div>
+        </div>)}
+
+      {kidney_problem && (
+        <div className="detailBar">
+          <div className="detailBar2">
+            <FontAwesomeIcon icon={faIcons} />
+            <div className="detailBar3">Kidney Problem: {kidney_problem}</div>
+          </div>
+        </div>)}
+
+
+
+
     </div>
   );
 };
