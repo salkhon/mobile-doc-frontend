@@ -76,3 +76,7 @@ body,
 .fc-doctor-avail-slotlabel {
     background-color: #39588588;
 }
+
+.fc-event-title-container:hover {
+    cursor: pointer;
+}

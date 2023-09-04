@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	Box,
 	Container,
@@ -15,6 +15,7 @@ import { postLogin } from "../../api/auth";
 import { useQuery } from "react-query";
 import { useAuth } from "../../hooks/auth";
 import FormBackground from "../../components/Box/FormBackground";
+import { SnackbarProvider, enqueueSnackbar } from "notistack";
 
 export function LoginPage() {
 	const theme = useTheme();
@@ -28,13 +29,14 @@ export function LoginPage() {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 
-	const { data, refetch, isLoading, error } = useQuery(
+	const { data, refetch, isLoading, isError } = useQuery(
 		[username, password],
 		postLogin,
 		{
 			enabled: false,
 			refetchOnWindowFocus: false,
 			refetchOnReconnect: false,
+			retry: 1,
 		}
 	);
 
@@ -43,9 +45,14 @@ export function LoginPage() {
 		refetch();
 	}
 
-	if (error) {
-		alert("Could not login:", error.message);
-	}
+	// execute when isError changes, check if it became true, then show snackbar
+	useEffect(() => {
+		if (isError) {
+			enqueueSnackbar("Invalid Login", {
+				variant: "error",
+			});
+		}
+	}, [isError]);
 
 	if (data) {
 		console.log("Found login data in page component", data);
@@ -145,6 +152,7 @@ export function LoginPage() {
 					</Grid>
 				</Box>
 			</FormBackground>
+			<SnackbarProvider />
 		</Container>
 	);
 }

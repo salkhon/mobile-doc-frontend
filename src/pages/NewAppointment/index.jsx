@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Header from "../../components/Header/Header";
 import { Navigate } from "react-router-dom";
 import DoctorSuggestionTable from "../../components/Table/DoctorSuggestionTable";
@@ -16,10 +16,12 @@ import {
 	postSymtomsOnAppointment,
 } from "../../api/patient";
 import { getFormattedDateTime } from "../../api/session";
+import { isDatetimeInvalid } from "../../components/Datepicker/AppointmentDatepicker";
 
 export default function NewAppointment() {
 	const { userId, userType, userName } = useAuth();
 	const queryClient = useQueryClient();
+	const apptSummaryCardRef = useRef(null);
 
 	// remove existing query cache for new appointment
 	// todo: have a clear session button
@@ -59,7 +61,7 @@ export default function NewAppointment() {
 
 	// confirm appointment doctor and time
 	const [selectedDoctor, setSelectedDoctor] = useState(null);
-	const [apptDatetimeObj, setApptDatetimeObj] = useState(null);
+	const [apptDatepickerObj, setApptDatepickerObj] = useState(null);
 
 	const postApptDoctorMutation = useMutation(postApptDoctor);
 	const postApptTimeMutation = useMutation(postApptTime);
@@ -69,9 +71,17 @@ export default function NewAppointment() {
 			getSuggestedDoctorsQuery?.data?.suggested_doctors?.find(
 				(doc) => doc.doctor_id === selection[0]
 			);
-		console.log("selected", selectedDoctor);
+		console.log("selected", selectedDoctor, apptSummaryCardRef.current);
 		setSelectedDoctor(selectedDoctor);
 	}
+
+	useEffect(() => {
+		if (!!selectedDoctor) {
+			apptSummaryCardRef.current?.scrollIntoView({
+				behavior: "smooth",
+			});
+		}
+	}, [selectedDoctor]);
 
 	async function handleBookAppointment() {
 		await postApptDoctorMutation.mutateAsync({
@@ -80,8 +90,8 @@ export default function NewAppointment() {
 		});
 		postApptTimeMutation.mutate({
 			apptId: getApptIdQuery.data?.created_session_id,
-			timeStr: apptDatetimeObj
-				? getFormattedDateTime(apptDatetimeObj)
+			timeStr: apptDatepickerObj
+				? getFormattedDateTime(apptDatepickerObj.$d)
 				: "",
 		});
 	}
@@ -116,11 +126,13 @@ export default function NewAppointment() {
 				/>
 			</Box>
 
-			{/** DOCTOR SUGGESTIONS and APPOINTMENT CARD */}
+			{/** DOCTOR SUGGESTIONS */}
 			<Box margin="20px">
 				{getSuggestedDoctorsQuery.data && (
 					<DoctorSuggestionTable
-						suggestedDoctors={getSuggestedDoctorsQuery.data?.suggested_doctors}
+						suggestedDoctors={
+							getSuggestedDoctorsQuery.data?.suggested_doctors
+						}
 						handleDoctorRowSelection={handleDoctorSelection}
 					/>
 				)}
@@ -132,11 +144,12 @@ export default function NewAppointment() {
 					margin="20px"
 					display="flex"
 					justifyContent="space-between"
+					ref={apptSummaryCardRef}
 				>
 					<AppointmentConfirmationCard
 						doctor={selectedDoctor}
 						patientName={userName}
-						setAppointmentTime={setApptDatetimeObj}
+						setAppointmentTime={setApptDatepickerObj}
 					/>
 					<LoadingButton
 						variant="contained"
@@ -146,7 +159,10 @@ export default function NewAppointment() {
 							postApptTimeMutation.isLoading
 						}
 						onClick={handleBookAppointment}
-						disabled={!apptDatetimeObj}
+						disabled={
+							!apptDatepickerObj ||
+							isDatetimeInvalid(selectedDoctor, apptDatepickerObj)
+						}
 						sx={{
 							margin: "100px 74px 30px 10px",
 						}}

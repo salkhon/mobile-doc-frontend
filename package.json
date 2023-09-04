@@ -28,6 +28,7 @@
 		"axios": "^1.4.0",
 		"dayjs": "^1.11.9",
 		"formik": "^2.4.1",
+		"notistack": "^3.0.1",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"react-pro-sidebar": "^1.1.0-alpha.1",

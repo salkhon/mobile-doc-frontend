@@ -213,10 +213,11 @@ function EditToolbar({ setRows, setRowModesModel, cols, what, suggestedRows }) {
 
 			{suggestedRows && (
 				<Stack direction="row" overflow="auto">
-					{suggestedRows.map((row) => (
+					{suggestedRows.map((row, idx) => (
 						<Chip
 							label={row}
 							onClick={(e) => handleClick(e, row)}
+							key={idx}
 						/>
 					))}
 				</Stack>

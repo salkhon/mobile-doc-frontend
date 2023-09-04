@@ -12,14 +12,17 @@ import GeneralInfoCard from "../../components/Card/GeneralInfoCard";
 import MedicalInfoCard from "../../components/Card/MedicalInfoCard";
 import DoctorInfoCard from "../../components/Card/DoctorInfoCard";
 
-export default function SingleAppointment() {
+export default function DoctorAppointment() {
 	const [searchParams] = useSearchParams();
 	const apptId = searchParams.get("id");
 
-	// session data
+	// appt data
 	const { data: appointment, isFetching: isFetchingAppt } = useQuery(
-		[apptId],
-		getAppointment
+		["getAppt", apptId],
+		getAppointment,
+		{
+			refetchOnWindowFocus: false,
+		}
 	);
 
 	// patient data
