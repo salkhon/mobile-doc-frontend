@@ -35,6 +35,14 @@ export async function getAppointmentsByPatientId(patientId) {
     return resp.data.patient_sessions;
 }
 
+//get appointments by docotr id
+export async function getAppointmentsByDoctorId(doctorId) {
+    console.log("GET appointments by doctor id", doctorId);
+    let resp = await axios.get(`/doctor/${doctorId}/all_sessions`);
+    console.log(resp);
+    return resp.data.doctor_sessions;
+}
+
 export async function getAppointment({ queryKey }) {
     const [apptId] = queryKey;
 
