@@ -16,7 +16,7 @@ import {
 	postSymtomsOnAppointment,
 } from "../../api/patient";
 import { getFormattedDateTime } from "../../api/session";
-import { isDatetimeInvalid } from "../../components/Datepicker/AppointmentDatepicker";
+import { isApptDatetimeInvalid } from "../../components/Datepicker/AppointmentDatepicker";
 
 export default function NewAppointment() {
 	const { userId, userType, userName } = useAuth();
@@ -161,7 +161,7 @@ export default function NewAppointment() {
 						onClick={handleBookAppointment}
 						disabled={
 							!apptDatepickerObj ||
-							isDatetimeInvalid(selectedDoctor, apptDatepickerObj)
+							isApptDatetimeInvalid(selectedDoctor, apptDatepickerObj)
 						}
 						sx={{
 							margin: "100px 74px 30px 10px",

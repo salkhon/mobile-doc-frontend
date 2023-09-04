@@ -20,7 +20,7 @@ export function AppointmentDatepicker({ setAppointmentTime, doctor }) {
 	}
 
 	function isTimeDisabled(value, view) {
-		return isDatetimeInvalid(doctor, value, view);
+		return isApptDatetimeInvalid(doctor, value, view);
 	}
 
 	return (
@@ -46,7 +46,7 @@ export function AppointmentDatepicker({ setAppointmentTime, doctor }) {
 	);
 }
 
-export function isDatetimeInvalid(doctor, value, view = "minutes") {
+export function isApptDatetimeInvalid(doctor, value, view = "minutes") {
 	if (value.minute() % 15 !== 0) {
 		return true;
 	}
