@@ -27,7 +27,7 @@ export async function getAppointments({ queryKey }) {
 }
 
 export async function getAppointment({ queryKey }) {
-    const [apptId] = queryKey;
+    const [, apptId] = queryKey;
 
     console.log("GET appointment", apptId)
     let resp = await axios.get(`/session/${apptId}`);

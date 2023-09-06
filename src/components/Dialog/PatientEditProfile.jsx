@@ -71,11 +71,13 @@ export default function PatientEditProfile({
 		console.log("table state change", rows);
 		setFormData((prevData) => ({
 			...prevData,
-			physicalAttrs: rows.map((r) => ({
-				name: r.name,
-				value: r.value,
-				date_added: r.date_added.toISOString().split("T")[0],
-			})),
+			physicalAttrs: rows
+				.filter((r) => !!r.name && !!r.value && !!r.date_added)
+				.map((r) => ({
+					name: r.name,
+					value: r.value ?? 0,
+					date_added: r.date_added.toISOString().split("T")[0],
+				})),
 		}));
 	}
 

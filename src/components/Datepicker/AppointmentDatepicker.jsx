@@ -35,9 +35,7 @@ export function AppointmentDatepicker({ setAppointmentTime, doctor }) {
 							shouldDisableTime={isTimeDisabled}
 							disablePast
 							views={["year", "month", "day", "hours", "minutes"]}
-							onChange={(val) =>
-								setAppointmentTime(val)
-							}
+							onChange={(val) => setAppointmentTime(val)}
 						/>
 					</DemoItem>
 				</DemoContainer>
@@ -47,6 +45,7 @@ export function AppointmentDatepicker({ setAppointmentTime, doctor }) {
 }
 
 export function isApptDatetimeInvalid(doctor, value, view = "minutes") {
+	// value is a datetime picker object
 	if (value.minute() % 15 !== 0) {
 		return true;
 	}

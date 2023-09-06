@@ -161,7 +161,10 @@ export default function NewAppointment() {
 						onClick={handleBookAppointment}
 						disabled={
 							!apptDatepickerObj ||
-							isApptDatetimeInvalid(selectedDoctor, apptDatepickerObj)
+							isApptDatetimeInvalid(
+								selectedDoctor,
+								apptDatepickerObj
+							)
 						}
 						sx={{
 							margin: "100px 74px 30px 10px",
