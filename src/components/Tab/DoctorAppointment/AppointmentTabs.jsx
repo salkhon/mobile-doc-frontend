@@ -20,6 +20,7 @@ import AppointmentsTable from "../../Table/AppointmentsTable";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { getAllMeds, putPrescription } from "../../../api/session";
 import { LoadingButton } from "@mui/lab";
+import { postSymptomsOnAppointment } from "../../../api/doctor";
 
 export default function AppointmentTabs({ appt, patientEHR }) {
 	const theme = useTheme();
@@ -37,6 +38,7 @@ export default function AppointmentTabs({ appt, patientEHR }) {
 		suggested_test_list: appt.suggested_test_list ?? [],
 		suggested_medicine_list: appt.suggested_medicine_list ?? [],
 	});
+	const [newSymptoms, setNewSymptoms] = useState([]);
 
 	// if input medicines have side effects for patient
 	const [isMedicineConflict, setIsMedicineConflict] = useState(false);
@@ -60,6 +62,17 @@ export default function AppointmentTabs({ appt, patientEHR }) {
 		},
 	});
 
+	// update symptoms
+	const postSymptomMutation = useMutation(postSymptomsOnAppointment, {
+		onMutate: async ({ apptId, userType, symptoms }) => {
+			await queryClient.cancelQueries(["getAppt", appt.session_id]);
+			queryClient.setQueryData(["getAppt", appt.session_id], {
+				...appt,
+				symptom_list: symptoms,
+			});
+		},
+	});
+
 	// handle tab change
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
@@ -77,11 +90,9 @@ export default function AppointmentTabs({ appt, patientEHR }) {
 
 	// handle medicine input, check for side effects
 	function handleMedicineInput(vals) {
-		console.log("med input", vals);
 		const med = getAllMedicinesQuery.data?.all_medicines?.find((m) =>
 			vals.includes(m.name)
 		);
-		console.log("found meds", med);
 
 		if (!!med && isMedsConflict(med, patientEHR)) {
 			setIsMedicineConflict(true);
@@ -104,6 +115,11 @@ export default function AppointmentTabs({ appt, patientEHR }) {
 				diagnosis: prescription.diagnosis.join(","),
 			},
 		});
+		postSymptomMutation.mutate({
+			apptId: appt.session_id,
+			userType: "doctor",
+			symptoms: newSymptoms,
+		});
 	}
 
 	return (
@@ -120,7 +136,22 @@ export default function AppointmentTabs({ appt, patientEHR }) {
 					<Grid container spacing={1} height="100%">
 						<Grid item xs={6} height="40vh" mt={5}>
 							{/* SYMTOMS TABLE */}
-							<SymptomsTable symptoms={appt.symptom_list} />
+							<SymptomsTable
+								symptoms={[
+									...appt.symptom_list,
+									...newSymptoms,
+								]}
+								onChange={(newRow, updatedRows) =>
+									setNewSymptoms((oldSymptoms) => [
+										...oldSymptoms,
+										{
+											symptom_name: newRow.symptom_name,
+											duration: newRow.duration,
+											added_by: "doctor",
+										},
+									])
+								}
+							/>
 						</Grid>
 						<Grid
 							item
@@ -139,6 +170,8 @@ export default function AppointmentTabs({ appt, patientEHR }) {
 										"diagnosis"
 									)}
 									disabled={userType !== "doctor"}
+									variant="filled"
+									color="info"
 								/>
 							</Grid>
 							<Grid item xs={12}>
@@ -151,6 +184,7 @@ export default function AppointmentTabs({ appt, patientEHR }) {
 										"suggested_test_list"
 									)}
 									disabled={userType !== "doctor"}
+									color="success"
 								/>
 							</Grid>
 							<Grid item xs={12}>
@@ -169,6 +203,7 @@ export default function AppointmentTabs({ appt, patientEHR }) {
 											)}
 											onChange={handleMedicineInput}
 											disabled={userType !== "doctor"}
+											color="info"
 										/>
 										<Collapse in={isMedicineConflict}>
 											<Alert severity="warning">

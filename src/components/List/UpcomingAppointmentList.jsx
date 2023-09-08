@@ -65,48 +65,61 @@ export default function UpcomingAppointmentList() {
 							</ListItemAvatar>
 							<ListItemText
 								primary={
-									<Typography
-										sx={{ display: "inline" }}
-										component="span"
-										variant="h5"
-										color="text.primary"
-										m="5px"
-									>
-										{appointmentText(appt, userType)}
-									</Typography>
-								}
-								secondary={
 									<Grid
-										item
-										xs={12}
-										display="flex"
+										container
+										justifyContent="center"
 										alignItems="center"
 									>
-										<CalendarToday fontSize="small" />
-										<Typography
-											sx={{ display: "inline" }}
-											component="span"
-											variant="body1"
-											color="text.primary"
-											m="5px"
+										<Grid item xs={6}>
+											<Typography
+												sx={{ display: "inline" }}
+												component="span"
+												variant="h5"
+												color="text.primary"
+												m="5px"
+											>
+												{appointmentText(
+													appt,
+													userType
+												)}
+											</Typography>
+										</Grid>
+										<Grid
+											item
+											xs={6}
+											container
+											justifyContent="center"
+											alignItems="center"
 										>
-											{new Date(
-												appt.start_time
-											).toDateString()}
-										</Typography>
-
-										<AccessTime fontSize="small" />
-										<Typography
-											sx={{ display: "inline" }}
-											component="span"
-											variant="body1"
-											color="text.primary"
-											m="5px"
-										>
-											{new Date(
-												appt.start_time
-											).toTimeString()}
-										</Typography>
+											<Grid item xs={12}>
+												<CalendarToday fontSize="small" />
+												<Typography
+													sx={{ display: "inline" }}
+													component="span"
+													variant="body1"
+													color="text.primary"
+													m="5px"
+												>
+													{new Date(
+														appt.start_time
+													).toDateString()}
+												</Typography>
+											</Grid>
+											<Grid item xs={12}>
+												<AccessTime fontSize="small" />
+												<Typography
+													sx={{ display: "inline" }}
+													component="span"
+													variant="body1"
+													color="text.primary"
+													m="5px"
+												>
+													{new Date(
+														appt.start_time
+													).toTimeString()}
+												</Typography>
+											</Grid>
+										</Grid>
 									</Grid>
 								}
 							/>

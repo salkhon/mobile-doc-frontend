@@ -13,7 +13,7 @@ import {
 	getSuggestedDoctors,
 	postApptDoctor,
 	postApptTime,
-	postSymtomsOnAppointment,
+	postSymtomOnAppointment,
 } from "../../api/patient";
 import { getFormattedDateTime } from "../../api/session";
 import { isApptDatetimeInvalid } from "../../components/Datepicker/AppointmentDatepicker";
@@ -35,7 +35,7 @@ export default function NewAppointment() {
 	});
 
 	// with each syptoms addition, suggested symptoms is updated
-	const postSymptomMutation = useMutation(postSymtomsOnAppointment);
+	const postSymptomMutation = useMutation(postSymtomOnAppointment);
 
 	function handleSymptomInput(sym) {
 		console.log("symptom added", sym);

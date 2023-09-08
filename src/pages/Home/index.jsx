@@ -5,7 +5,7 @@ import Header from "../../components/Header/Header";
 import DoctorHome from "./DoctorHome";
 import PatientHome from "./PatientHome";
 
-export function Home() {
+export default function Home() {
 	const { userName, userType } = useAuth();
 
 	return (
@@ -26,5 +26,3 @@ export function Home() {
 		</Grid>
 	);
 }
-
-export default Home;

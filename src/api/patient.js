@@ -27,8 +27,8 @@ export async function getCreateNewAppt({ queryKey }) {
     return data;
 }
 
-export async function postSymtomsOnAppointment({ apptId, userType, symptom }) {
-    console.log("POST symptoms on session", apptId, userType, symptom);
+export async function postSymtomOnAppointment({ apptId, userType, symptom }) {
+    console.log("POST symptom on session", apptId, userType, symptom);
     let { data } = await axios.post(`/session/symptoms/${apptId}`, {
         symptom_name: symptom.symptom,
         duration: symptom.duration,

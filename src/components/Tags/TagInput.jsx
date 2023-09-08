@@ -7,6 +7,8 @@ export default function TagInput({
 	options = [],
 	onChange,
 	disabled = false,
+	color = "default",
+	variant = "outlined",
 }) {
 	return (
 		<Box>
@@ -20,10 +22,11 @@ export default function TagInput({
 				renderTags={(value, getTagProps) =>
 					value.map((option, idx) => (
 						<Chip
-							variant="outlined"
+							variant={variant}
 							label={option}
 							{...getTagProps({ idx })}
 							key={idx}
+							color={color}
 						/>
 					))
 				}

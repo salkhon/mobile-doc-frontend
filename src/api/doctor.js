@@ -63,3 +63,10 @@ export async function postDoctorSignup({ username, fullname, email, password, de
     })
     return data;
 }
+
+export async function postSymptomsOnAppointment({ apptId, userType, symptoms }) {
+    console.log("POST multiple symptoms on session", apptId, userType, symptoms);
+    const data = symptoms.map(async (s) => await axios.post(`/session/symptoms/${apptId}`, s),)
+    console.log(data);
+    return data;
+}

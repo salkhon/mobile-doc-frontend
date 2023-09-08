@@ -115,10 +115,14 @@ export default function PastDiagnosisList() {
 								justifyContent="center"
 								alignItems="center"
 							>
-								<Chip
-									variant="outlined"
-									label={appt.diagnosis}
-								/>
+								{appt.diagnosis?.split(",").map((d, idx) => (
+									<Chip
+										variant="outlined"
+										label={d}
+										key={idx}
+										sx={{ margin: 1 }}
+									/>
+								))}
 							</Grid>
 						</ListItemButton>
 						<Divider variant="inset" component="li" />
