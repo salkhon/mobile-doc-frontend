@@ -64,6 +64,10 @@ body,
 	border-bottom: 0 !important;
 }
 
+.fc-timegrid-slot:hover {
+    background-color: #203f6c55;
+}
+
 .fc-event-title {
 	font-size: 1.6em !important;
 	word-wrap: break-word;

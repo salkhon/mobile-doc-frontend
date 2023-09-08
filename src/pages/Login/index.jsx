@@ -36,7 +36,7 @@ export function LoginPage() {
 			enabled: false,
 			refetchOnWindowFocus: false,
 			refetchOnReconnect: false,
-			retry: 1,
+			retry: false,
 		}
 	);
 

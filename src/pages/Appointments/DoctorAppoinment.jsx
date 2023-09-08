@@ -7,6 +7,7 @@ import LoadingBackdrop from "../../components/Backdrop/LoadingBackdrop";
 import { getPatientEHR } from "../../api/patient";
 import { getDoctor } from "../../api/doctor";
 import PatientInfoCard from "../../components/Card/DoctorAppointment/PatientInfoCard";
+import AppointmentTabs from "../../components/Tab/DoctorAppointment/AppointmentTabs";
 
 export default function DoctorAppointment() {
 	const [searchParams] = useSearchParams();
@@ -56,7 +57,12 @@ export default function DoctorAppointment() {
 			<Grid item xs={3} m={3}>
 				<PatientInfoCard patientEHR={getPatientEHRQuery.data} />
 			</Grid>
-			<Grid item xs={8} m={3}></Grid>
+			<Grid item xs={8.09} m={3}>
+				<AppointmentTabs
+					appt={getApptQuery.data}
+					patientEHR={getPatientEHRQuery.data}
+				/>
+			</Grid>
 		</Grid>
 	);
 }

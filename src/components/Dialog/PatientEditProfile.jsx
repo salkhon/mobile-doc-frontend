@@ -10,10 +10,10 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import BasicDatePicker from "../Datepicker/BasicDatePicker";
-import AllergiesTagInput from "../Input/AllergiesTagInput";
 import MedicalConditionCheckbox from "../Input/MedicalConditionCheckbox";
 import { LoadingButton } from "@mui/lab";
 import CRUDTable from "../Table/CRUDTable";
+import TagInput from "../Tags/TagInput";
 
 export default function PatientEditProfile({
 	patient,
@@ -210,8 +210,9 @@ export default function PatientEditProfile({
 					</Grid>
 
 					<Grid item xs={12}>
-						<AllergiesTagInput
-							patientAllergies={formData.allergies}
+						<TagInput
+							label="Allergies"
+							values={formData.allergies}
 							onChange={valueAssignHandlerForField("allergies")}
 						/>
 					</Grid>

@@ -35,10 +35,12 @@ export default function CRUDTable({
 	what = "Records",
 	suggestedRows = null,
 }) {
-	data = data.map((d) => ({
-		...d,
-		id: randomId(),
-	}));
+	data = !!data
+		? data?.map((d) => ({
+				...d,
+				id: randomId(),
+		  }))
+		: [];
 
 	const [rows, setRows] = React.useState(data);
 	const [rowModesModel, setRowModesModel] = React.useState({});
@@ -152,7 +154,7 @@ export default function CRUDTable({
 	return (
 		<Box
 			sx={{
-				height: 500,
+				height: "100%",
 				width: "100%",
 				"& .actions": {
 					color: "text.secondary",
@@ -181,6 +183,9 @@ export default function CRUDTable({
 						what,
 						suggestedRows,
 					},
+				}}
+				sx={{
+					borderColor: "text.secondary",
 				}}
 			/>
 		</Box>
@@ -211,7 +216,7 @@ function EditToolbar({ setRows, setRowModesModel, cols, what, suggestedRows }) {
 				Add {what}
 			</Button>
 
-			{suggestedRows && (
+			{!!suggestedRows && (
 				<Stack direction="row" overflow="auto">
 					{suggestedRows.map((row, idx) => (
 						<Chip

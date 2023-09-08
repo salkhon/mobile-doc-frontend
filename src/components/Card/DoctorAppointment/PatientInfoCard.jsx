@@ -15,10 +15,11 @@ export default function PatientInfoCard({ patientEHR }) {
 	return (
 		<Card
 			sx={{
+				height: "100%",
 				boxShadow: 3,
 			}}
 		>
-			<Grid container p="30px 0">
+			<Grid container p="30px 0" alignItems="center">
 				<CenteredGrid item xs={12}>
 					<Avatar
 						alt={patientEHR?.patient_details?.name}
@@ -34,7 +35,7 @@ export default function PatientInfoCard({ patientEHR }) {
 					xs={12}
 					display="flex"
 					justifyContent="center"
-					m="30px 0"
+					m="20px 0"
 				>
 					<Typography variant="h3">
 						{patientEHR?.patient_details?.name}
@@ -140,13 +141,15 @@ const KeyValueGrid = styled(Grid)(({ theme }) => ({
 const KeyTypography = styled(Typography)(({ theme }) => ({
 	fontSize: 14,
 	color: "grey",
+	margin: "4px",
 }));
 
 const ValueTypography = styled(Typography)(({ theme }) => ({
-	fontSize: 20,
+	fontSize: 18,
 }));
 
 function getPatientLatestAttrs(patientPhysicalAttrs) {
+	if (!patientPhysicalAttrs) return {};
 	return patientPhysicalAttrs.reduce((result, phyAttr) => {
 		if (
 			!result[phyAttr.name] ||

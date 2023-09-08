@@ -1,14 +1,21 @@
 import { Autocomplete, Box, Chip, TextField } from "@mui/material";
 import React from "react";
 
-export default function AllergiesTagInput({ patientAllergies, onChange }) {
+export default function TagInput({
+	label,
+	values,
+	options = [],
+	onChange,
+	disabled = false,
+}) {
 	return (
 		<Box>
 			<Autocomplete
 				multiple
 				id="tags-filled"
-				options={[]}
-				value={patientAllergies}
+				disabled={disabled}
+				options={options}
+				value={values}
 				freeSolo
 				renderTags={(value, getTagProps) =>
 					value.map((option, idx) => (
@@ -20,15 +27,16 @@ export default function AllergiesTagInput({ patientAllergies, onChange }) {
 						/>
 					))
 				}
-				renderInput={(params) => (
+				renderInput={(params, idx) => (
 					<TextField
 						{...params}
 						variant="standard"
-						label="Allergies"
+						label={label}
 						fullWidth
 						sx={{
 							m: 1,
 						}}
+						key={idx}
 					/>
 				)}
 				onChange={(e, val) => onChange(val)}
