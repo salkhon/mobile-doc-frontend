@@ -21,18 +21,14 @@ const doctorBar = ({
         <div>{doctorTime}</div>
 
         <button type="button" className="btn btn-info">
-              Book an Appointment
-            </button>
-        {/* <Popup
-          trigger={
-            
-          }
-          position="center center"
-        >
-          <div className="modal">GeeksforGeeks</div>
-          <button>Click here</button>
-        </Popup> */}
-        
+          Book an Appointment
+        </button>
+
+
+      </div>
+
+      <div className="right-div shadowPadMargin2">
+        <Details />
       </div>
     </div>
   );

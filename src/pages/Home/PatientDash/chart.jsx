@@ -9,15 +9,6 @@ import {
   Legend,
 } from "recharts";
 
-// const data = [
-//   { name: 'Jan', value: 300 },
-//   { name: 'Feb', value: 600 },
-//   { name: 'Mar', value: 800 },
-//   { name: 'Apr', value: 400 },
-//   { name: 'May', value: 700 },
-//   { name: 'Jun', value: 500 },
-//   // Add more data points as needed
-// ];
 
 const LineChartComponent = ({ data1, data2, months }) => {
   let line_data1 = [];
@@ -50,7 +41,6 @@ const LineChartComponent = ({ data1, data2, months }) => {
         type="monotone"
         dataKey="months"
         stroke="#8884d8"
-        // activeDot={{ r: 8 }}
       />
       {data2 && (
         <Line

@@ -56,8 +56,6 @@ const Details = () => {
   }, [userId]);
 
 
-  console.log(patient);
-
   const date_of_birth = patient?.date_of_brth;
 
   const age = new Date().getFullYear() - new Date(date_of_birth).getFullYear();
@@ -87,14 +85,11 @@ const Details = () => {
   const dates = weightObjects?.map((item) => item.date_added);
 
   //extract month from dates array
-
-  console.log(dates);
   var months2 = dates?.map((item) => item.slice(5, 10));
 
   //sort
   months2 = months2?.sort();
 
-  // console.log(months3);
 
   if (!patient) {
     return <LoadingBackdrop />;

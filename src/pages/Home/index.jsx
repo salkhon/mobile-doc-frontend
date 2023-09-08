@@ -1,19 +1,19 @@
 import React from "react";
 import { useAuth } from "../../hooks/auth";
-import PDB from "./DoctorDash/main";
-import PDB2 from "./PatientDash/main";
+import DoctorDash from "./DoctorDash/main";
+import PatientDash from "./PatientDash/main";
 export function Home() {
 	const { userName, userType } = useAuth();
 
 	if (userType === "doctor") {
 		return (
-			<PDB />
+			<DoctorDash />
 		);
 	}
 
 	if (userType === "patient") {
 		return (
-			<PDB2 />
+			<PatientDash />
 		);
 	}
 

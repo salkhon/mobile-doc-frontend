@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import {
   useAuth
 }
-from "../../../hooks/auth";
+  from "../../../hooks/auth";
 
 import LoadingBackdrop from "../../../components/Backdrop/LoadingBackdrop";
 
@@ -20,19 +20,18 @@ const Main = (name) => {
 
   const { userId } = useAuth();
 
-  const [ appointments, setAppointments ] = useState(null);
+  const [appointments, setAppointments] = useState(null);
 
   useEffect(() => {
     getAppointmentsByPatientId(userId).then((appointments) => setAppointments(appointments));
   }, [userId]);
 
-  console.log(appointments);
 
   if (!appointments) {
     return <LoadingBackdrop />;
   }
   //get names of doctors from appointments. Replace null with "Null"
-  
+
   const doctorNames = appointments.map((appointment) => {
     if (appointment.doctor_id === null) {
       return "Null";
@@ -43,7 +42,6 @@ const Main = (name) => {
   });
 
 
-  console.log(doctorNames);
 
 
   //get names of symptoms of each appointment. mutiple symptoms per appointment.symptom_list.symptom_name
@@ -51,32 +49,32 @@ const Main = (name) => {
 
 
 
-  
+
 
   return (
     <div>
       <TopBar
-        name = {name}
+        name={name}
       />
 
 
-        <div className="horizontal-container">
-          <div className="left-div shadowPadMargin2">
-            <h3>Ongoing Treatment</h3>
-           
-            {appointments.map((appointment) => {
-              return (
-                <DM
-                  appointment={appointment}
-                />
-              );
-            })}
-          </div>
+      <div className="horizontal-container">
+        <div className="left-div shadowPadMargin2">
+          <h3>Ongoing Treatment</h3>
 
-          <div className="right-div shadowPadMargin2">
-            <Details />
-          </div>
+          {appointments.map((appointment) => {
+            return (
+              <DM
+                appointment={appointment}
+              />
+            );
+          })}
         </div>
+
+        <div className="right-div shadowPadMargin2">
+          <Details />
+        </div>
+      </div>
 
 
     </div>
