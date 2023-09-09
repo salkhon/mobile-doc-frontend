@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
@@ -21,6 +21,8 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { getAllMeds, putPrescription } from "../../../api/session";
 import { LoadingButton } from "@mui/lab";
 import { postSymptomsOnAppointment } from "../../../api/doctor";
+import PatientPhysicalAttributes from "../../General/PatientPhysicalAttributes";
+import { SnackbarProvider, enqueueSnackbar } from "notistack";
 
 export default function AppointmentTabs({ appt, patientEHR }) {
 	const theme = useTheme();
@@ -33,7 +35,7 @@ export default function AppointmentTabs({ appt, patientEHR }) {
 
 	// temporary store modification before PUTing to server todo: put these temp values into the children component
 	const [prescription, setPrescription] = useState({
-		diagnosis: appt.diagnosis?.split(",") ?? [],
+		diagnosis: (appt.diagnosis?.split(",") ?? []).filter((d) => !!d),
 		advice: appt.advice ?? "",
 		suggested_test_list: appt.suggested_test_list ?? [],
 		suggested_medicine_list: appt.suggested_medicine_list ?? [],
@@ -72,6 +74,18 @@ export default function AppointmentTabs({ appt, patientEHR }) {
 			});
 		},
 	});
+
+	// snackbar effects
+	useEffect(() => {
+		if (
+			putPrescriptionMutation.isSuccess &&
+			postSymptomMutation.isSuccess
+		) {
+			enqueueSnackbar("Symptoms and Prescription Updated", {
+				variant: "success",
+			});
+		}
+	}, [putPrescriptionMutation.isSuccess, postSymptomMutation.isSuccess]);
 
 	// handle tab change
 	const handleChange = (event, newValue) => {
@@ -129,9 +143,11 @@ export default function AppointmentTabs({ appt, patientEHR }) {
 					<TabList onChange={handleChange}>
 						<Tab label="Prescription" value="1" />
 						<Tab label="Patient History" value="2" />
-						<Tab label="Item Three" value="3" />
+						<Tab label="Patient Attributes" value="3" />
 					</TabList>
 				</Box>
+
+				{/* TAB 1 */}
 				<TabPanel value="1" sx={{ height: "94%" }}>
 					<Grid container spacing={1} height="100%">
 						<Grid item xs={6} height="40vh" mt={5}>
@@ -142,6 +158,7 @@ export default function AppointmentTabs({ appt, patientEHR }) {
 									...newSymptoms,
 								]}
 								onChange={(newRow, updatedRows) =>
+									// @ts-ignore
 									setNewSymptoms((oldSymptoms) => [
 										...oldSymptoms,
 										{
@@ -184,7 +201,6 @@ export default function AppointmentTabs({ appt, patientEHR }) {
 										"suggested_test_list"
 									)}
 									disabled={userType !== "doctor"}
-									color="success"
 								/>
 							</Grid>
 							<Grid item xs={12}>
@@ -250,6 +266,8 @@ export default function AppointmentTabs({ appt, patientEHR }) {
 						</Grid>
 					</Grid>
 				</TabPanel>
+
+				{/* TAB 2 */}
 				<TabPanel
 					value="2"
 					sx={{
@@ -257,11 +275,21 @@ export default function AppointmentTabs({ appt, patientEHR }) {
 					}}
 				>
 					<Grid container height="100%">
-						<AppointmentsTable patientEHR={patientEHR} />
+						<AppointmentsTable
+							appts={patientEHR.patient_sessions}
+							userType="patient"
+						/>
 					</Grid>
 				</TabPanel>
-				<TabPanel value="3">Test Results</TabPanel>
+
+				{/* TAB 3 */}
+				<TabPanel value="3">
+					<PatientPhysicalAttributes
+						patient={patientEHR.patient_details}
+					/>
+				</TabPanel>
 			</TabContext>
+			<SnackbarProvider />
 		</Box>
 	);
 }

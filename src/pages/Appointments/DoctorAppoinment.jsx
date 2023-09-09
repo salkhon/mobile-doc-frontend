@@ -46,10 +46,10 @@ export default function DoctorAppointment() {
 		return <LoadingBackdrop />;
 	}
 
-	if (getApptQuery.data && getPatientEHRQuery.data && getDoctorQuery.data) {
+	if (getApptQuery.data && getPatientEHRQuery.data && getDoctorQuery.data.doctor) {
 		console.log("appt in appt page", getApptQuery.data);
 		console.log("patient in appt page", getPatientEHRQuery.data);
-		console.log("doctor in appt page", getDoctorQuery.data);
+		console.log("doctor in appt page", getDoctorQuery.data.doctor);
 	}
 
 	return (

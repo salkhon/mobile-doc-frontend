@@ -19,7 +19,8 @@ export default function PatientTimeSeries({ propertyData }) {
 	formattedData[0].data = useMemo(() => {
 		propertyData.sort(
 			(data1, data2) =>
-				new Date(data1.date_added) - new Date(data2.date_added)
+				new Date(data1.date_added).getTime() -
+				new Date(data2.date_added).getTime()
 		);
 		return propertyData.map((val, idx) => ({
 			x: val.date_added,
@@ -31,9 +32,9 @@ export default function PatientTimeSeries({ propertyData }) {
 		<Card
 			sx={{
 				borderRadius: 3,
-				height: "60vh",
-				width: "83vw",
-				m: "4px 4px 12px 24px",
+				height: "55vh",
+				width: "55vw",
+				mr: 1,
 			}}
 		>
 			<Typography variant="h3" m={3}>

@@ -4,28 +4,28 @@ import QueryStatsOutlinedIcon from "@mui/icons-material/QueryStatsOutlined";
 
 export default function PatientLatestPhyAttr({ attr, val }) {
 	return (
-		<Paper variant="outlined" sx={{ border: 1 }}>
+		<Paper variant="outlined" sx={{ border: 1, borderRadius: 2 }}>
 			<Grid container justifyContent="center" alignItems="center">
-				<Grid item xs={4} pl={1}>
+				<Grid item xs={2} p={0.5}>
 					<QueryStatsOutlinedIcon
 						sx={{
-							fontSize: 40,
+							fontSize: 15,
 						}}
 					/>
 				</Grid>
 				<Grid
 					item
-					xs={8}
+					xs={10}
 					container
 					justifyContent="center"
 					alignItems="center"
-					p={2}
+					p="10px 20px 10px 15px"
 				>
 					<Grid item xs={12}>
 						<Typography>{attr}</Typography>
 					</Grid>
 					<Grid item xs={12}>
-						<Typography variant="h4" fontWeight="light">
+						<Typography variant="h5" fontWeight="light">
 							{val}
 						</Typography>
 					</Grid>

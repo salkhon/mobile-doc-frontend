@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import React from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
 import CRUDTable from "../Table/CRUDTable";
@@ -10,19 +10,21 @@ export function SymptomsInput({
 	isDoctorsLoading,
 }) {
 	return (
-		<Box margin="20px">
-			<Box margin="10px" display="flex">
+		<Grid item xs={12} container>
+			<Grid item xs={12} mb={3}>
 				<Typography variant="h3">Enter Symptoms</Typography>
-			</Box>
-			<Box margin="10px" display="flex" flexDirection="column">
-				<CRUDTable
-					cols={symptomCols}
-					data={[]}
-					onChange={onChange}
-					what="Symptom"
-					suggestedRows={suggestedSymtoms}
-				/>
-				<Box marginTop="10px">
+			</Grid>
+			<Grid item xs={12} container>
+				<Grid item xs={12}>
+					<CRUDTable
+						cols={symptomCols}
+						data={[]}
+						onChange={onChange}
+						what="Symptom"
+						suggestedRows={suggestedSymtoms}
+					/>
+				</Grid>
+				<Grid item xs={12} mt={1}>
 					<LoadingButton
 						variant="contained"
 						color="secondary"
@@ -31,9 +33,9 @@ export function SymptomsInput({
 					>
 						Submit
 					</LoadingButton>
-				</Box>
-			</Box>
-		</Box>
+				</Grid>
+			</Grid>
+		</Grid>
 	);
 }
 

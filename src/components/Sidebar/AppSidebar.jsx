@@ -19,7 +19,6 @@ import { tokens } from "../../theme";
 import {
 	CalendarTodayOutlined,
 	HomeOutlined,
-	LocalHospital,
 	MenuOutlined,
 	PendingActionsOutlined,
 	AnalyticsOutlined,
@@ -158,27 +157,11 @@ function AppSidebar(props) {
 						icon={<CalendarTodayOutlined />}
 						selected={selectedMenu}
 					/>
-					{/* DOCTOS CAN SEE THEIR PATIENTS, PATIENTS CAN SEE THEIR DOCTORS */}
-					{userType === "doctor" ? (
-						<>
-							<MItem
-								title="Patients"
-								to="/patients"
-								icon={<LocalHospital />}
-								selected={selectedMenu}
-							/>
-							<MItem
-								title="Analytics"
-								to="/analytics"
-								icon={<AnalyticsOutlined />}
-								selected={selectedMenu}
-							/>
-						</>
-					) : (
+					{userType === "doctor" && (
 						<MItem
-							title="Doctors"
-							to="/doctors"
-							icon={<LocalHospital />}
+							title="Analytics"
+							to="/analytics"
+							icon={<AnalyticsOutlined />}
 							selected={selectedMenu}
 						/>
 					)}

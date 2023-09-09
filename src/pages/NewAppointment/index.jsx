@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Grid } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import Header from "../../components/Header/Header";
 import { Navigate } from "react-router-dom";
@@ -104,18 +104,13 @@ export default function NewAppointment() {
 	}
 
 	return (
-		<Box>
-			<Box
-				display="flex"
-				justifyContent="space-between"
-				alignItems="center"
-				margin="20px"
-			>
+		<Grid container m={3} width="97.2%">
+			<Grid item xs={12}>
 				<Header title="Session" subtitle={`Create new session`} />
-			</Box>
+			</Grid>
 
 			{/** INPUT SYMPTOMS */}
-			<Box maxWidth="60vw">
+			<Grid item xs={12} container>
 				<SymptomsInput
 					onChange={handleSymptomInput}
 					suggestedSymtoms={
@@ -124,10 +119,10 @@ export default function NewAppointment() {
 					onSymptomsSubmission={handleSymptomSubmission}
 					isDoctorsLoading={getSuggestedDoctorsQuery.isFetching}
 				/>
-			</Box>
+			</Grid>
 
 			{/** DOCTOR SUGGESTIONS */}
-			<Box margin="20px">
+			<Grid item xs={12} container mt={5}>
 				{getSuggestedDoctorsQuery.data && (
 					<DoctorSuggestionTable
 						suggestedDoctors={
@@ -136,44 +131,40 @@ export default function NewAppointment() {
 						handleDoctorRowSelection={handleDoctorSelection}
 					/>
 				)}
-			</Box>
+			</Grid>
 
 			{/* CONFIRM APPOINTMENT */}
 			{selectedDoctor && (
-				<Box
-					margin="20px"
-					display="flex"
-					justifyContent="space-between"
-					ref={apptSummaryCardRef}
-				>
-					<AppointmentConfirmationCard
-						doctor={selectedDoctor}
-						patientName={userName}
-						setAppointmentTime={setApptDatepickerObj}
-					/>
-					<LoadingButton
-						variant="contained"
-						color="secondary"
-						loading={
-							postApptDoctorMutation.isLoading ||
-							postApptTimeMutation.isLoading
-						}
-						onClick={handleBookAppointment}
-						disabled={
-							!apptDatepickerObj ||
-							isApptDatetimeInvalid(
-								selectedDoctor,
-								apptDatepickerObj
-							)
-						}
-						sx={{
-							margin: "100px 74px 30px 10px",
-						}}
-					>
-						Book Appointment
-					</LoadingButton>
-				</Box>
+				<Grid ref={apptSummaryCardRef} container mt={5}>
+					<Grid item xs={12} container>
+						<AppointmentConfirmationCard
+							doctor={selectedDoctor}
+							patientName={userName}
+							setAppointmentTime={setApptDatepickerObj}
+						/>
+					</Grid>
+					<Grid item xs={12} mt={1}>
+						<LoadingButton
+							variant="contained"
+							color="secondary"
+							loading={
+								postApptDoctorMutation.isLoading ||
+								postApptTimeMutation.isLoading
+							}
+							onClick={handleBookAppointment}
+							disabled={
+								!apptDatepickerObj ||
+								isApptDatetimeInvalid(
+									selectedDoctor,
+									apptDatepickerObj
+								)
+							}
+						>
+							Book Appointment
+						</LoadingButton>
+					</Grid>
+				</Grid>
 			)}
-		</Box>
+		</Grid>
 	);
 }

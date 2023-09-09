@@ -9,7 +9,7 @@ export async function getDoctor({ queryKey }) {
     console.log("GET doctor", doctorId);
     let { data } = await axios.get(`/doctor/${doctorId}`);
     console.log(data)
-    return data.doctor;
+    return data;
 }
 
 export async function postDoctor({ doctorId, edittedDoctor }) {

@@ -4,11 +4,12 @@
 
 import axios from "axios";
 
-export async function getPatient(patientId) {
+export async function getPatient({ queryKey }) {
+    const [, patientId] = queryKey;
     console.log("GET patient", patientId);
-    let resp = await axios.get(`/patient/${patientId}`);
-    console.log(resp)
-    return resp.data.patient;
+    let { data } = await axios.get(`/patient/${patientId}`);
+    console.log(data)
+    return data;
 }
 
 export async function getPatientEHR({ queryKey }) {
@@ -91,7 +92,7 @@ export async function postPatientSignup({ username, password, fullname, nid, dob
     return resp.data;
 }
 
-export async function updatePatientInfo(userId, newData) {
+export async function putPatient(userId, newData) {
     console.log("PUT patient profile info", newData);
     const { data } = await axios.put(`/patient/${userId}`, newData);
     console.log(data);

@@ -11,8 +11,6 @@ import Home from "../pages/Home";
 import Calendar from "../pages/Calendar";
 import Profile from "../pages/Profile";
 import Appointments from "../pages/Appointments";
-import Patients from "../pages/Patients";
-import Doctors from "../pages/Doctors";
 import Analytics from "../pages/Analytics";
 
 export default function PokedocRoutes() {
@@ -41,20 +39,11 @@ export default function PokedocRoutes() {
 	// only authenticated users can access these
 	const doctorOnlyRoutes = [
 		{
-			path: "/patients",
-			element: <Patients />,
-		},
-		{
 			path: "/analytics",
 			element: <Analytics />,
 		},
 	];
-	const patientOnlyRoutes = [
-		{
-			path: "/doctors",
-			element: <Doctors />,
-		},
-	];
+	const patientOnlyRoutes = [];
 	const routesForAuthOnly = [
 		{
 			path: "/",
@@ -80,7 +69,6 @@ export default function PokedocRoutes() {
 					path: "/profile",
 					element: <Profile />,
 				},
-				// DOCTORS CAN SEE THEIR PATIENTS, PATIENTS CAN SEE THEIR DOCTORS and other doctors
 				...(userType === "doctor"
 					? doctorOnlyRoutes
 					: patientOnlyRoutes),

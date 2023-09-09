@@ -154,8 +154,6 @@ export default function CRUDTable({
 	return (
 		<Box
 			sx={{
-				height: "100%",
-				width: "100%",
 				"& .actions": {
 					color: "text.secondary",
 				},

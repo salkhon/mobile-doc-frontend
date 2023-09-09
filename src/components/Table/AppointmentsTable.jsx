@@ -1,9 +1,7 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
-import { useDemoData } from "@mui/x-data-grid-generator";
 import { darken, lighten, styled } from "@mui/material/styles";
-import { Chip } from "@mui/material";
+import { Chip, Stack } from "@mui/material";
 
 const getBackgroundColor = (color, mode) =>
 	mode === "dark" ? darken(color, 0.7) : lighten(color, 0.7);
@@ -92,39 +90,52 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
 	},
 }));
 
-export default function AppointmentsTable({ patientEHR }) {
-	const { data } = useDemoData({
-		dataSet: "Commodity",
-		rowLength: 100,
-	});
+export default function AppointmentsTable({
+	appts,
+	userType,
+	navigate = null,
+}) {
+	const userSpecificCols = React.useMemo(
+		() => [
+			userType === "doctor"
+				? {
+						field: "patientId",
+						headerName: "Patient ID",
+				  }
+				: {
+						field: "doctorId",
+						headerName: "Doctor ID",
+				  },
+			...apptCols,
+		],
+		[userType]
+	);
 
-	console.log("demo data", data);
-	console.log("appt table ehr", patientEHR);
 	return (
-		<Box height="76vh" width="100%">
-			<StyledDataGrid
-				rows={patientEHR?.patient_sessions
-					?.filter(
-						(appt) =>
-							!!appt.symptom_list &&
-							!!appt.doctor_id &&
-							!!appt.start_time
-					)
-					.map(getRowFromAppt)}
-				columns={apptCols}
-				getRowClassName={
-					(params) => `appt-row-${params.row.diagnosis.length}` // num diagnosis
-				}
-			/>
-		</Box>
+		<StyledDataGrid
+			rows={appts
+				?.filter(
+					(appt) =>
+						!!appt.symptom_list &&
+						!!appt.doctor_id &&
+						!!appt.start_time
+				)
+				.map(getRowFromAppt)}
+			columns={userSpecificCols}
+			getRowClassName={
+				(params) => `appt-row-${params.row.diagnosis.length}` // num diagnosis
+			}
+			style={{
+				height: "100%",
+			}}
+			onRowClick={(params) => {
+				if (navigate) navigate(`/appointments?id=${params.id}`);
+			}}
+		/>
 	);
 }
 
 const apptCols = [
-	{
-		field: "doctorId",
-		headerName: "Doctor",
-	},
 	{
 		field: "startTime",
 		headerName: "Date",
@@ -133,28 +144,39 @@ const apptCols = [
 	{
 		field: "symptoms",
 		headerName: "Symptoms",
-		renderCell: (params) =>
-			params.value?.map((symptom, idx) => (
-				<Chip
-					label={symptom.symptom_name}
-					sx={{ margin: "1px" }}
-					key={idx}
-				/>
-			)),
+		renderCell: (params) => (
+			<Stack direction="row" overflow="auto">
+				{params.value?.map((symptom, idx) => (
+					<Chip
+						label={symptom.symptom_name}
+						sx={{ margin: "1px" }}
+						key={idx}
+					/>
+				))}
+			</Stack>
+		),
 		flex: 1,
 	},
 	{
 		field: "suggestedTests",
-		renderCell: (params) =>
-			params.value?.map((test, idx) => <Chip label={test} key={idx} />),
+		renderCell: (params) => (
+			<Stack direction="row" overflow="auto">
+				{params.value?.map((test, idx) => (
+					<Chip label={test} key={idx} />
+				))}
+			</Stack>
+		),
 		flex: 1,
 	},
 	{
 		field: "diagnosis",
-		renderCell: (params) =>
-			params.value?.map((diagnosis, idx) => (
-				<Chip variant="outlined" label={diagnosis} key={idx} />
-			)),
+		renderCell: (params) => (
+			<Stack direction="row" overflow="auto">
+				{params.value?.map((diagnosis, idx) => (
+					<Chip variant="outlined" label={diagnosis} key={idx} />
+				))}
+			</Stack>
+		),
 		flex: 1,
 	},
 	{ field: "advice", flex: 1 },
@@ -165,6 +187,7 @@ function getRowFromAppt(appt) {
 		id: appt.session_id,
 		advice: appt.advice,
 		doctorId: appt.doctor_id,
+		patientId: appt.patient_id,
 		startTime: appt.start_time,
 		suggestedTests: appt.suggested_test_list,
 		symptoms: appt.symptom_list,

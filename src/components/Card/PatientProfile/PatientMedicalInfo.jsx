@@ -155,7 +155,7 @@ export default function PatientMedicalInfoCard({ patient }) {
 	);
 }
 
-function extractPatientMedicalConditions(patient) {
+export function extractPatientMedicalConditions(patient) {
 	if (!patient) {
 		return [];
 	}
@@ -166,7 +166,7 @@ function extractPatientMedicalConditions(patient) {
 			icon: (
 				<MonitorHeartOutlined
 					style={{
-						fontSize: 50,
+						fontSize: 25,
 					}}
 				/>
 			),
@@ -177,7 +177,7 @@ function extractPatientMedicalConditions(patient) {
 			icon: (
 				<MedicalInformationOutlined
 					style={{
-						fontSize: 50,
+						fontSize: 25,
 					}}
 				/>
 			),
@@ -188,7 +188,7 @@ function extractPatientMedicalConditions(patient) {
 			icon: (
 				<SmokingRoomsOutlined
 					style={{
-						fontSize: 50,
+						fontSize: 25,
 					}}
 				/>
 			),
@@ -199,7 +199,7 @@ function extractPatientMedicalConditions(patient) {
 			icon: (
 				<AirOutlined
 					style={{
-						fontSize: 50,
+						fontSize: 25,
 					}}
 				/>
 			),
@@ -210,7 +210,7 @@ function extractPatientMedicalConditions(patient) {
 			icon: (
 				<MedicalInformationOutlined
 					style={{
-						fontSize: 50,
+						fontSize: 25,
 					}}
 				/>
 			),
@@ -221,7 +221,7 @@ function extractPatientMedicalConditions(patient) {
 			icon: (
 				<OpacityOutlined
 					style={{
-						fontSize: 50,
+						fontSize: 25,
 					}}
 				/>
 			),

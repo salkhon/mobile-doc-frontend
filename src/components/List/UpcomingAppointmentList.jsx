@@ -9,7 +9,7 @@ import { useQuery } from "react-query";
 import { useAuth } from "../../hooks/auth";
 import { getAppointments } from "../../api/session";
 import { appointmentText } from "../Calendar/AppointmentCalendar";
-import { Grid, ListItemButton, Skeleton, Stack } from "@mui/material";
+import { Chip, Grid, ListItemButton, Skeleton, Stack } from "@mui/material";
 import { AccessTime, CalendarToday } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
@@ -39,6 +39,8 @@ export default function UpcomingAppointmentList() {
 	if (getApptsQuery.data?.filter(isShowAppt).length === 0) {
 		return <Typography m={3}>No appointements to show</Typography>;
 	}
+
+	console.log("in appt list", getApptsQuery.data);
 
 	return (
 		<List sx={{ width: "100%" }}>
@@ -70,19 +72,38 @@ export default function UpcomingAppointmentList() {
 										justifyContent="center"
 										alignItems="center"
 									>
-										<Grid item xs={6}>
-											<Typography
-												sx={{ display: "inline" }}
-												component="span"
-												variant="h5"
-												color="text.primary"
-												m="5px"
-											>
-												{appointmentText(
-													appt,
-													userType
+										<Grid item xs={6} container>
+											<Grid item xs={12}>
+												<Typography
+													sx={{ display: "inline" }}
+													component="span"
+													variant="h5"
+													color="text.primary"
+													m="5px"
+												>
+													{appointmentText(
+														appt,
+														userType
+													)}
+												</Typography>
+											</Grid>
+											<Grid item xs={12}>
+												{appt.symptom_list.map(
+													(symptom, idx) => (
+														<Chip
+															color="secondary"
+															variant="outlined"
+															label={
+																symptom.symptom_name
+															}
+															sx={{
+																margin: "1px",
+															}}
+															key={idx}
+														/>
+													)
 												)}
-											</Typography>
+											</Grid>
 										</Grid>
 										<Grid
 											item

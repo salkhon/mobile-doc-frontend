@@ -1,33 +1,26 @@
-import {
-	Box,
-	Card,
-	CardContent,
-	Grid,
-	Typography,
-	useTheme,
-} from "@mui/material";
+import { Card, CardContent, Grid, Typography, useTheme } from "@mui/material";
 import React from "react";
 import { AppointmentDatepicker } from "../Datepicker/AppointmentDatepicker";
 import { tokens } from "../../theme";
 
-export function AppointmentConfirmationCard({ doctor, patientName, setAppointmentTime }) {
+export function AppointmentConfirmationCard({
+	doctor,
+	patientName,
+	setAppointmentTime,
+}) {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 	console.log(doctor);
 
 	return (
-		<Box
-			display="flex"
-			flexDirection="column"
-			width="80%"
-			marginLeft="10px"
-		>
-			<Typography variant="h3">Appointment Summary</Typography>
-			<Box display="flex" marginTop="10px" width="100%" height="100%">
+		<Grid item xs={8} container>
+			<Grid item xs={12}>
+				<Typography variant="h3">Appointment Summary</Typography>
+			</Grid>
+			<Grid item xs={12} mt={3}>
 				<Card
 					sx={{
 						backgroundColor: colors.greenAccent[800],
-						width: "100%",
 					}}
 				>
 					<CardContent>
@@ -64,8 +57,8 @@ export function AppointmentConfirmationCard({ doctor, patientName, setAppointmen
 						</Grid>
 					</CardContent>
 				</Card>
-			</Box>
-		</Box>
+			</Grid>
+		</Grid>
 	);
 }
 

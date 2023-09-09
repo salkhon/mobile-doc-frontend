@@ -46,7 +46,7 @@ export default function DoctorProfile() {
 		editDoctorMutation.mutate({
 			doctorId: userId,
 			edittedDoctor: {
-				...getDoctorQuery.data,
+				...getDoctorQuery.data.doctor,
 				availability: [...doctorAvail],
 			},
 		});
@@ -106,18 +106,18 @@ export default function DoctorProfile() {
 			</Grid>
 
 			<Grid item xs={12}>
-				<DoctorInfoCard doctor={getDoctorQuery.data} />
+				<DoctorInfoCard doctor={getDoctorQuery.data.doctor} />
 			</Grid>
 
 			<Grid item xs={12} m={3} container>
 				<DoctorAvailabilityCalendar
-					doctor={getDoctorQuery.data}
+					doctor={getDoctorQuery.data.doctor}
 					onSave={handleDoctorAvailabilitySave}
 				/>
 			</Grid>
 
 			<DoctorEditProfile
-				doctor={getDoctorQuery.data}
+				doctor={getDoctorQuery.data.doctor}
 				open={isEditDialogOpen}
 				onSave={handleEditDialogSave}
 				onCancel={(e, edittedDoctor) => setIsEditDialogOpen(false)}

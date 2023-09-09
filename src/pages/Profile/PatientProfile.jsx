@@ -1,50 +1,51 @@
 import { Breadcrumbs, Button, Grid, Typography } from "@mui/material";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useState } from "react";
 import PatientInfoCard from "../../components/Card/PatientProfile/PatientInfoCard";
 import { useAuth } from "../../hooks/auth";
 import {
 	edittedPatientInfoToPatientObject,
 	getPatient,
-	updatePatientInfo,
+	putPatient,
 } from "../../api/patient";
 import LoadingBackdrop from "../../components/Backdrop/LoadingBackdrop";
 import PatientMedicalInfoCard from "../../components/Card/PatientProfile/PatientMedicalInfo";
-import PatientTimeSeries from "../../components/Chart/PatientTimeSeries";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import PatientEditProfile from "../../components/Dialog/PatientEditProfile";
 import { Link } from "react-router-dom";
 import { HomeOutlined } from "@mui/icons-material";
+import PatientPhysicalAttributes from "../../components/General/PatientPhysicalAttributes";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 export default function PatientProfile() {
 	const { userId } = useAuth();
 
-	// getting patient
-	const [patient, setPatient] = useState(null);
-	useEffect(() => {
-		getPatient(userId).then((patient) => setPatient(patient));
-	}, [userId]);
+	// patient
+	const queryClient = useQueryClient();
+	const getPatientQuery = useQuery(["getPatient", userId], getPatient, {
+		refetchOnWindowFocus: false,
+	});
+	const putPatientMutation = useMutation(putPatient, {
+		onMutate: async ({ userId, newData }) => {
+			await queryClient.cancelQueries(["getPatient", userId]);
+			queryClient.setQueryData(["getPatient", userId], newData);
+		},
+	});
 
 	// edit dialog
 	const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-	const [isEditDialogLoading, setIsEditDialogLoading] = useState(false);
-
-	// time series
-	const patientGroupedPhysicalAttrs = useMemo(
-		() => groupPatientPhysicalAttrs(patient?.physical_attributes),
-		[patient]
-	);
-
-	if (!patient) {
-		return <LoadingBackdrop />;
-	}
 
 	function handleEditDialogSave(e, formData) {
-		setIsEditDialogLoading(true);
-		const newData = edittedPatientInfoToPatientObject(patient, formData);
-		updatePatientInfo(userId, newData)
-			.then(() => setPatient(newData))
-			.then(() => setIsEditDialogLoading(false))
-			.then(() => setIsEditDialogOpen(false));
+		const newData = edittedPatientInfoToPatientObject(
+			getPatientQuery.data.patient,
+			formData
+		);
+		putPatientMutation.mutate({ userId, newData });
+		setIsEditDialogOpen(false);
+		putPatient(userId, newData);
+	}
+
+	if (getPatientQuery.isFetching) {
+		return <LoadingBackdrop />;
 	}
 
 	return (
@@ -93,10 +94,12 @@ export default function PatientProfile() {
 				</Button>
 			</Grid>
 			<Grid item xs={7.5}>
-				<PatientInfoCard patient={patient} />
+				<PatientInfoCard patient={getPatientQuery.data.patient} />
 			</Grid>
 			<Grid item xs={4.5}>
-				<PatientMedicalInfoCard patient={patient} />
+				<PatientMedicalInfoCard
+					patient={getPatientQuery.data.patient}
+				/>
 			</Grid>
 
 			<Grid item xs={12} container>
@@ -112,41 +115,20 @@ export default function PatientProfile() {
 				</Grid>
 
 				{/* TIME SERIES FOR EACH PROPERTY */}
-				{Object.keys(patientGroupedPhysicalAttrs).map((attr, idx) => {
-					return (
-						<PatientTimeSeries
-							propertyData={patientGroupedPhysicalAttrs[attr]}
-							key={idx}
-						/>
-					);
-				})}
+				<Grid item xs={12} pl={3}>
+					<PatientPhysicalAttributes
+						patient={getPatientQuery.data.patient}
+					/>
+				</Grid>
 			</Grid>
 
 			<PatientEditProfile
-				patient={patient}
+				patient={getPatientQuery.data.patient}
 				open={isEditDialogOpen}
 				onSave={handleEditDialogSave}
 				onCancel={(e, formData) => setIsEditDialogOpen(false)}
-				isLoading={isEditDialogLoading}
+				isLoading={putPatientMutation.isLoading}
 			/>
 		</Grid>
 	);
-}
-
-function groupPatientPhysicalAttrs(patientPhysicalAttrs) {
-	if (!patientPhysicalAttrs) {
-		return {};
-	}
-
-	return patientPhysicalAttrs.reduce((result, phyAttr) => {
-		if (!result[phyAttr.name]) {
-			result[phyAttr.name] = [];
-		}
-		result[phyAttr.name].push({
-			name: phyAttr.name,
-			value: phyAttr.value,
-			date_added: phyAttr.date_added,
-		});
-		return result;
-	}, {});
 }

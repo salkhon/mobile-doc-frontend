@@ -1,17 +1,23 @@
 import styled from "@emotion/styled";
-import { Avatar, Card, Grid, Typography } from "@mui/material";
+import { Avatar, Card, Chip, Grid, Typography } from "@mui/material";
 import React, { useMemo } from "react";
 import PatientLatestPhyAttr from "../../Paper/PatientLatestPhyAttr";
+import { extractPatientMedicalConditions } from "../PatientProfile/PatientMedicalInfo";
 
 export default function PatientInfoCard({ patientEHR }) {
 	const patientLatestPhyAttrs = useMemo(
 		() =>
 			getPatientLatestAttrs(
-				patientEHR?.patient_details?.physical_attributes
+				patientEHR.patient_details?.physical_attributes
 			),
-		[patientEHR?.patient_details?.physical_attributes]
+		[patientEHR.patient_details?.physical_attributes]
 	);
-	console.log("latest", patientLatestPhyAttrs);
+	const patientMedicalConditions = useMemo(
+		() => extractPatientMedicalConditions(patientEHR.patient_details),
+		[patientEHR.patient_details]
+	);
+
+	console.log("conditions in card", patientMedicalConditions);
 	return (
 		<Card
 			sx={{
@@ -19,14 +25,14 @@ export default function PatientInfoCard({ patientEHR }) {
 				boxShadow: 3,
 			}}
 		>
-			<Grid container p="30px 0" alignItems="center">
+			<Grid container p="30px 10px" alignItems="center">
 				<CenteredGrid item xs={12}>
 					<Avatar
-						alt={patientEHR?.patient_details?.name}
+						alt={patientEHR.patient_details?.name}
 						src="#"
 						sx={{
-							width: 100,
-							height: 100,
+							width: 70,
+							height: 70,
 						}}
 					/>
 				</CenteredGrid>
@@ -37,8 +43,8 @@ export default function PatientInfoCard({ patientEHR }) {
 					justifyContent="center"
 					m="20px 0"
 				>
-					<Typography variant="h3">
-						{patientEHR?.patient_details?.name}
+					<Typography variant="h4">
+						{patientEHR.patient_details?.name}
 					</Typography>
 				</Grid>
 
@@ -101,29 +107,46 @@ export default function PatientInfoCard({ patientEHR }) {
 						{patientEHR.patient_details?.address}
 					</ValueTypography>
 				</KeyValueGrid>
-			</Grid>
 
-			<CenteredGrid>
-				<Typography variant="overline" fontSize={14} color="grey">
-					Current Physical Attributes
-				</Typography>
-			</CenteredGrid>
-			<CenteredGrid container spacing={1} padding="0 24px 24px 24px">
-				{Object.keys(patientLatestPhyAttrs).map((attr, idx) => (
-					<Grid
-						item
-						xs={6}
-						display="flex"
-						justifyContent="center"
-						key={idx}
-					>
-						<PatientLatestPhyAttr
-							attr={attr}
-							val={patientLatestPhyAttrs[attr]?.value}
-						/>
-					</Grid>
-				))}
-			</CenteredGrid>
+				<CenteredGrid item xs={12}>
+					<Typography variant="overline" fontSize={14} color="grey">
+						Current Physical Attributes
+					</Typography>
+				</CenteredGrid>
+				<CenteredGrid container spacing={1} padding="0 24px 0 24px">
+					{Object.keys(patientLatestPhyAttrs).map((attr, idx) => (
+						<Grid
+							item
+							xs={4}
+							display="flex"
+							justifyContent="center"
+							key={idx}
+						>
+							<PatientLatestPhyAttr
+								attr={attr}
+								val={patientLatestPhyAttrs[attr]?.value}
+							/>
+						</Grid>
+					))}
+				</CenteredGrid>
+				<CenteredGrid item xs={12}>
+					<Typography variant="overline" fontSize={14} color="grey">
+						Medical Conditions
+					</Typography>
+				</CenteredGrid>
+				<CenteredGrid container spacing={1}>
+					{/* {patientEHR.patient_details} */}
+					{patientMedicalConditions.map((cond, idx) => (
+						<Grid item xs={4} key={idx}>
+							<Chip
+								icon={cond.icon}
+								label={cond.text}
+								sx={{ margin: 0.15 }}
+							/>
+						</Grid>
+					))}
+				</CenteredGrid>
+			</Grid>
 		</Card>
 	);
 }
@@ -139,13 +162,13 @@ const KeyValueGrid = styled(Grid)(({ theme }) => ({
 }));
 
 const KeyTypography = styled(Typography)(({ theme }) => ({
-	fontSize: 14,
+	fontSize: 12,
 	color: "grey",
 	margin: "4px",
 }));
 
 const ValueTypography = styled(Typography)(({ theme }) => ({
-	fontSize: 18,
+	fontSize: 16,
 }));
 
 function getPatientLatestAttrs(patientPhysicalAttrs) {
