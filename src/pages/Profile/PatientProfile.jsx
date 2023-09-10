@@ -21,13 +21,13 @@ export default function PatientProfile() {
 
 	// patient
 	const queryClient = useQueryClient();
-	const getPatientQuery = useQuery(["getPatient", userId], getPatient, {
-		refetchOnWindowFocus: false,
-	});
+	const getPatientQuery = useQuery(["getPatient", userId], getPatient);
 	const putPatientMutation = useMutation(putPatient, {
 		onMutate: async ({ userId, newData }) => {
 			await queryClient.cancelQueries(["getPatient", userId]);
-			queryClient.setQueryData(["getPatient", userId], newData);
+			queryClient.setQueryData(["getPatient", userId], {
+				patient: newData,
+			});
 		},
 	});
 
@@ -39,9 +39,9 @@ export default function PatientProfile() {
 			getPatientQuery.data.patient,
 			formData
 		);
+		console.log("form data", formData, newData);
 		putPatientMutation.mutate({ userId, newData });
 		setIsEditDialogOpen(false);
-		putPatient(userId, newData);
 	}
 
 	if (getPatientQuery.isFetching) {

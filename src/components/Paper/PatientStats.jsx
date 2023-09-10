@@ -1,38 +1,57 @@
 import { useQuery } from "react-query";
 import { useAuth } from "../../hooks/auth";
-import { getDoctor } from "../../api/doctor";
 import { Grid, Paper, Skeleton, Stack, Typography } from "@mui/material";
-import React from "react";
+import React, { useMemo } from "react";
 import styled from "@emotion/styled";
 import PermContactCalendarOutlinedIcon from "@mui/icons-material/PermContactCalendarOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-import ScheduleOutlinedIcon from "@mui/icons-material/ScheduleOutlined";
 import { getAppointments } from "../../api/session";
+import { getPatient } from "../../api/patient";
 
-export default function DoctorStats() {
+export default function PatientStats() {
 	const { userId } = useAuth();
-	const getDoctorQuery = useQuery(["getDoctor", userId], getDoctor, {
-		refetchOnWindowFocus: false,
-	});
+	const getPatientQuery = useQuery(["getPatient", userId], getPatient);
 	const getApptsQuery = useQuery(
-		["getAppts", userId, "doctor"],
+		["getAppts", userId, "patient"],
 		getAppointments,
 		{
-			refetchOnWindowFocus: false,
+			staleTime: 100e3,
 		}
 	);
 
-	if (getDoctorQuery.isFetching || getApptsQuery.isFetching) {
+	const numAppts = useMemo(
+		() =>
+			getApptsQuery.data?.filter(
+				(appt) =>
+					!!appt.doctor_id && !!appt.symptom_list && !!appt.start_time
+			).length ?? 0,
+		[getApptsQuery.data]
+	);
+	const totalDocs = useMemo(
+		() =>
+			getApptsQuery.data
+				?.filter(
+					(appt) =>
+						!!appt.doctor_id &&
+						!!appt.symptom_list &&
+						!!appt.start_time
+				)
+				.reduce((docSet, appt) => docSet.add(appt.doctor_id), new Set())
+				.size ?? 0,
+		[getApptsQuery.data]
+	);
+
+	if (getPatientQuery.isFetching || getApptsQuery.isFetching) {
 		return (
 			<Stack direction="row" pb={5} spacing={3}>
-				<Skeleton variant="rectangular" height="15vh" width="20vw" />
 				<Skeleton variant="rectangular" height="15vh" width="20vw" />
 				<Skeleton variant="rectangular" height="15vh" width="20vw" />
 			</Stack>
 		);
 	}
 
-	console.log("doctor stats", getDoctorQuery.data, getApptsQuery.data);
+	console.log("patient stats", getPatientQuery.data, getApptsQuery.data);
+
 	return (
 		<Stack direction="row" pb={5} spacing={3} alignItems="center">
 			<StyledPaper elevation={5}>
@@ -55,7 +74,7 @@ export default function DoctorStats() {
 						</Grid>
 						<Grid item xs={12}>
 							<Typography variant="h2" color="green">
-								{getDoctorQuery.data.doctor.calendar.length}
+								{numAppts}
 							</Typography>
 						</Grid>
 					</Grid>
@@ -77,48 +96,12 @@ export default function DoctorStats() {
 								fontWeight="light"
 								color="grey"
 							>
-								Total Patients
+								Total Doctors
 							</Typography>
 						</Grid>
 						<Grid item xs={12}>
 							<Typography variant="h2" color="blue">
-								{
-									getApptsQuery.data.reduce(
-										(res, appt) => res.add(appt.patient_id),
-										new Set()
-									).size
-								}
-							</Typography>
-						</Grid>
-					</Grid>
-				</Grid>
-			</StyledPaper>
-
-			<StyledPaper elevation={5}>
-				<Grid container>
-					<CenteredGrid item xs={4}>
-						<ScheduleOutlinedIcon
-							fontSize="large"
-							sx={{ color: "rebeccapurple" }}
-						/>
-					</CenteredGrid>
-					<Grid item xs={8} container>
-						<Grid item xs={12}>
-							<Typography
-								variant="h5"
-								fontWeight="light"
-								color="grey"
-							>
-								Weekly Appointments
-							</Typography>
-						</Grid>
-						<Grid item xs={12}>
-							<Typography variant="h2" color="rebeccapurple">
-								{getDoctorQuery.data.doctor.availability.reduce(
-									(res, weekday) =>
-										(res += weekday.day_start_times.length),
-									0
-								)}{" "}
+								{totalDocs}
 							</Typography>
 						</Grid>
 					</Grid>

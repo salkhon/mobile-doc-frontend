@@ -14,8 +14,8 @@ export default function TagInput({
 		<Box>
 			<Autocomplete
 				multiple
+				fullWidth
 				id="tags-filled"
-				disabled={disabled}
 				options={options}
 				value={values}
 				freeSolo
@@ -36,9 +36,7 @@ export default function TagInput({
 						variant="standard"
 						label={label}
 						fullWidth
-						sx={{
-							m: 1,
-						}}
+						disabled={disabled}
 						key={idx}
 					/>
 				)}

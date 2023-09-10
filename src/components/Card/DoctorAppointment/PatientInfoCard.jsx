@@ -21,7 +21,7 @@ export default function PatientInfoCard({ patientEHR }) {
 	return (
 		<Card
 			sx={{
-				height: "100%",
+				height: "86vh",
 				boxShadow: 3,
 			}}
 		>

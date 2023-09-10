@@ -27,6 +27,8 @@ import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/auth";
 import { useSelectedRoute } from "../../hooks/sidebarRouteSelection";
+import ReviewsIcon from "@mui/icons-material/Reviews";
+import BiotechIcon from '@mui/icons-material/Biotech';
 
 const sideBarOpacity = "50";
 
@@ -158,12 +160,30 @@ function AppSidebar(props) {
 						selected={selectedMenu}
 					/>
 					{userType === "doctor" && (
-						<MItem
-							title="Analytics"
-							to="/analytics"
-							icon={<AnalyticsOutlined />}
-							selected={selectedMenu}
-						/>
+						<>
+							<MItem
+								title="Review"
+								to="/review"
+								icon={<ReviewsIcon />}
+								selected={selectedMenu}
+							/>
+							<MItem
+								title="Analytics"
+								to="/analytics"
+								icon={<AnalyticsOutlined />}
+								selected={selectedMenu}
+							/>
+						</>
+					)}
+                    {userType === "patient" && (
+						<>
+                        	<MItem
+								title="Test Results"
+								to="/testresults"
+								icon={<BiotechIcon />}
+								selected={selectedMenu}
+							/>
+						</>
 					)}
 				</Box>
 

@@ -23,11 +23,7 @@ export default function PastAdvicesList() {
 	const navigate = useNavigate();
 	const getApptsQuery = useQuery(
 		["getAppts", userId, "patient"],
-		getAppointments,
-		{
-			refetchOnWindowFocus: false,
-			staleTime: 60e3,
-		}
+		getAppointments
 	);
 
 	if (getApptsQuery.isFetching) {
@@ -114,7 +110,13 @@ export default function PastAdvicesList() {
 								justifyContent="center"
 								alignItems="center"
 							>
-								<Typography variant="h5">
+								<Typography
+									variant="h5"
+									border={1}
+									borderColor="royalblue"
+									borderRadius={3}
+									p={2}
+								>
 									{appt.advice}
 								</Typography>
 							</Grid>

@@ -16,7 +16,11 @@ export function useSelectedRoute() {
 		selected = "Profile";
 	} else if (pathname.startsWith("/analytics")) {
 		selected = "Analytics";
-	}
+	} else if (pathname.startsWith("/review")) {
+		selected = "Review";
+	} else if (pathname.startsWith("/testresults")) {
+        selected = "Test Results"
+    }
 
 	return selected;
 }

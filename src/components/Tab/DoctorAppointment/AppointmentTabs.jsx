@@ -12,17 +12,18 @@ import {
 	TextareaAutosize,
 	useTheme,
 } from "@mui/material";
-import SymptomsTable from "../../Table/DoctorAppointment/SymtomsTable";
+import SymptomsCrudTable from "../../Table/DoctorAppointment/SymtomsTable";
 import TagInput from "../../Tags/TagInput";
 import { useAuth } from "../../../hooks/auth";
 import { tokens } from "../../../theme";
-import AppointmentsTable from "../../Table/AppointmentsTable";
+import AppointmentsTable from "../../Table/AllAppointments/AppointmentsTable";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { getAllMeds, putPrescription } from "../../../api/session";
 import { LoadingButton } from "@mui/lab";
 import { postSymptomsOnAppointment } from "../../../api/doctor";
 import PatientPhysicalAttributes from "../../General/PatientPhysicalAttributes";
 import { SnackbarProvider, enqueueSnackbar } from "notistack";
+import TestResultsList from "../../General/TestResultsList";
 
 export default function AppointmentTabs({ appt, patientEHR }) {
 	const theme = useTheme();
@@ -46,9 +47,7 @@ export default function AppointmentTabs({ appt, patientEHR }) {
 	const [isMedicineConflict, setIsMedicineConflict] = useState(false);
 
 	// get med list
-	const getAllMedicinesQuery = useQuery(["getAllMeds"], getAllMeds, {
-		refetchOnWindowFocus: false,
-	});
+	const getAllMedicinesQuery = useQuery(["getAllMeds"], getAllMeds);
 
 	// update prescription
 	const putPrescriptionMutation = useMutation(putPrescription, {
@@ -144,15 +143,21 @@ export default function AppointmentTabs({ appt, patientEHR }) {
 						<Tab label="Prescription" value="1" />
 						<Tab label="Patient History" value="2" />
 						<Tab label="Patient Attributes" value="3" />
+						<Tab label="Test Results" value="4" />
 					</TabList>
 				</Box>
 
 				{/* TAB 1 */}
 				<TabPanel value="1" sx={{ height: "94%" }}>
-					<Grid container spacing={1} height="100%">
+					<Grid
+						container
+						height="100%"
+						display="flex"
+						justifyContent="space-between"
+					>
 						<Grid item xs={6} height="40vh" mt={5}>
 							{/* SYMTOMS TABLE */}
-							<SymptomsTable
+							<SymptomsCrudTable
 								symptoms={[
 									...appt.symptom_list,
 									...newSymptoms,
@@ -170,14 +175,8 @@ export default function AppointmentTabs({ appt, patientEHR }) {
 								}
 							/>
 						</Grid>
-						<Grid
-							item
-							xs={6}
-							container
-							spacing={2}
-							alignItems="center"
-						>
-							<Grid item xs={12} justifyContent="center">
+						<Grid item xs={5} container alignItems="center" p={3}>
+							<Grid item xs={12} alignItems="center" p={1}>
 								{/* DIAGNOSIS */}
 								<TagInput
 									label="Diagnosis"
@@ -191,7 +190,7 @@ export default function AppointmentTabs({ appt, patientEHR }) {
 									color="info"
 								/>
 							</Grid>
-							<Grid item xs={12}>
+							<Grid item xs={12} alignItems="center" p={1}>
 								{/* SUGGESTED TESTS */}
 								<TagInput
 									label="Suggested Tests"
@@ -203,7 +202,7 @@ export default function AppointmentTabs({ appt, patientEHR }) {
 									disabled={userType !== "doctor"}
 								/>
 							</Grid>
-							<Grid item xs={12}>
+							<Grid item xs={12} alignItems="center" p={1}>
 								{/* SUGGESTED MEDICINE */}
 								{getAllMedicinesQuery.isFetching ? (
 									<Skeleton variant="rectangular" />
@@ -287,6 +286,11 @@ export default function AppointmentTabs({ appt, patientEHR }) {
 					<PatientPhysicalAttributes
 						patient={patientEHR.patient_details}
 					/>
+				</TabPanel>
+
+				{/* TAB 4 */}
+				<TabPanel value="4">
+					<TestResultsList patientEHR={patientEHR} />
 				</TabPanel>
 			</TabContext>
 			<SnackbarProvider />

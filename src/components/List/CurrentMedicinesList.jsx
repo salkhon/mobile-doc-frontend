@@ -19,7 +19,7 @@ import { CalendarToday } from "@mui/icons-material";
 import { getAppointments } from "../../api/session";
 import { useNavigate } from "react-router-dom";
 
-export default function PastDiagnosisList() {
+export default function CurrentMedicinesList() {
 	const { userId } = useAuth();
 	const navigate = useNavigate();
 	const getApptsQuery = useQuery(
@@ -37,12 +37,12 @@ export default function PastDiagnosisList() {
 		);
 	}
 
-	console.log("advice data", getApptsQuery.data);
+	console.log("medicines data", getApptsQuery.data);
 
 	return (
 		<List sx={{ width: "100%" }}>
 			{getApptsQuery?.data
-				?.filter(isShowApptDiagnosis)
+				?.filter(isShowApptMed)
 				.sort(
 					(appt1, appt2) =>
 						new Date(appt2.start_time).getTime() -
@@ -111,14 +111,16 @@ export default function PastDiagnosisList() {
 								justifyContent="center"
 								alignItems="center"
 							>
-								{appt.diagnosis?.split(",").map((d, idx) => (
-									<Chip
-										color="secondary"
-										label={d}
-										key={idx}
-										sx={{ margin: 1 }}
-									/>
-								))}
+								{appt.suggested_medicine_list.map(
+									(med, idx) => (
+										<Chip
+											color="warning"
+											label={med}
+											key={idx}
+											sx={{ margin: 1 }}
+										/>
+									)
+								)}
 							</Grid>
 						</ListItemButton>
 						<Divider variant="inset" component="li" />
@@ -128,10 +130,11 @@ export default function PastDiagnosisList() {
 	);
 }
 
-function isShowApptDiagnosis(appt) {
+function isShowApptMed(appt) {
 	// diagnosis exists, and appt time was in the past
 	return (
 		!!appt.diagnosis &&
+		appt.suggested_medicine_list?.length > 0 &&
 		!!appt.start_time &&
 		new Date(appt.start_time) < new Date()
 	);

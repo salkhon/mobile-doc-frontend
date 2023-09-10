@@ -19,11 +19,7 @@ export default function UpcomingAppointmentList() {
 
 	const getApptsQuery = useQuery(
 		["getAppts", userId, userType],
-		getAppointments,
-		{
-			refetchOnWindowFocus: false,
-			staleTime: 60e3,
-		}
+		getAppointments
 	);
 
 	if (getApptsQuery.isFetching) {
@@ -91,13 +87,13 @@ export default function UpcomingAppointmentList() {
 												{appt.symptom_list.map(
 													(symptom, idx) => (
 														<Chip
-															color="secondary"
-															variant="outlined"
 															label={
 																symptom.symptom_name
 															}
 															sx={{
 																margin: "1px",
+																bgcolor:
+																	"green",
 															}}
 															key={idx}
 														/>

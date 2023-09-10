@@ -1,6 +1,6 @@
 import { Grid, Skeleton, Stack } from "@mui/material";
 import React from "react";
-import AppointmentsTable from "../../components/Table/AppointmentsTable";
+import AppointmentsTable from "../../components/Table/AllAppointments/AppointmentsTable";
 import { useAuth } from "../../hooks/auth";
 import { useQuery } from "react-query";
 import { getAppointments } from "../../api/session";
@@ -13,7 +13,9 @@ export default function AllAppointments() {
 	const getApptsQuery = useQuery(
 		["getAppts", userId, userType],
 		getAppointments,
-		{ refetchOnWindowFocus: false }
+		{
+			staleTime: 60e3,
+		}
 	);
 
 	if (getApptsQuery.isFetching) {
@@ -37,7 +39,7 @@ export default function AllAppointments() {
 			<AppointmentsTable
 				appts={getApptsQuery.data.filter(
 					(appt) =>
-						!!appt.symptom_list &&
+						appt.symptom_list?.length > 0 &&
 						!!appt.doctor_id &&
 						!!appt.start_time
 				)}

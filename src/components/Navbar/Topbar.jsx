@@ -6,7 +6,6 @@ import { tokens } from "../../theme";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined.js";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined.js";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined.js";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined.js";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined.js";
 import SearchIcon from "@mui/icons-material/Search.js";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -57,10 +56,6 @@ function Topbar() {
 				</IconButton>
 				<IconButton>
 					<NotificationsOutlinedIcon />
-				</IconButton>
-
-				<IconButton>
-					<SettingsOutlinedIcon />
 				</IconButton>
 
 				<IconButton>

@@ -9,7 +9,15 @@ import { removeLocalStorageUserInfo } from "./contexts/AuthContext";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            refetchOnWindowFocus: false,
+            staleTime: 30e3,
+            retry: false
+        }
+    }
+});
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL
 axios.defaults.headers.post["Content-Type"] = "application/json";

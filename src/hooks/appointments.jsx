@@ -8,12 +8,7 @@ export function useAppointments(userId, userType) {
 
 	const { data, isLoading, error } = useQuery(
 		["getAppts", userId, userType],
-		getAppointments,
-		{
-			refetchOnMount: false,
-			refetchOnReconnect: false,
-			refetchOnWindowFocus: false,
-		}
+		getAppointments
 	);
 
 	useEffect(() => {

@@ -1,5 +1,5 @@
 import React from "react";
-import { createContext, useMemo, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 
 export const AuthContext = createContext({
@@ -30,8 +30,18 @@ export function AuthProvider({ children }) {
 		removeLocalStorageUserInfo();
 	}
 
-	const authContextVal = useMemo(
-		() => ({
+	let [authContextVal, setAuthContextVal] = useState({
+		token,
+		setToken,
+		userId,
+		setUserId,
+		userName,
+		setUserName,
+		userType,
+		setUserType,
+	});
+	useEffect(() => {
+		setAuthContextVal({
 			token,
 			setToken,
 			userId,
@@ -40,9 +50,8 @@ export function AuthProvider({ children }) {
 			setUserName,
 			userType,
 			setUserType,
-		}),
-		[token, userId, userName, userType]
-	);
+		});
+	}, [token, userId, userName, userType]);
 
 	return (
 		<AuthContext.Provider value={authContextVal}>

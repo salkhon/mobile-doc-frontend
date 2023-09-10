@@ -68,7 +68,11 @@ export default function CRUDTable({
 	}
 
 	function handleDeleteClick(id) {
-		return () => setRows(rows.filter((row) => row.id !== id));
+		return () => {
+			const updatedRows = rows.filter((row) => row.id !== id);
+			setRows(updatedRows);
+			onChange(null, updatedRows);
+		};
 	}
 
 	function handleCancelClick(id) {
@@ -153,6 +157,8 @@ export default function CRUDTable({
 
 	return (
 		<Box
+			height="100%"
+			width="100%"
 			sx={{
 				"& .actions": {
 					color: "text.secondary",

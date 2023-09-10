@@ -17,9 +17,7 @@ export default function DoctorProfile() {
 	const queryClient = useQueryClient();
 
 	// getting doctor
-	const getDoctorQuery = useQuery(["getDoctor", userId], getDoctor, {
-		refetchOnWindowFocus: false,
-	});
+	const getDoctorQuery = useQuery(["getDoctor", userId], getDoctor);
 
 	// edit doctor
 	const editDoctorMutation = useMutation(postDoctor, {

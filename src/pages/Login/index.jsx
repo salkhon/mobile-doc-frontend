@@ -34,8 +34,6 @@ export function LoginPage() {
 		postLogin,
 		{
 			enabled: false,
-			refetchOnWindowFocus: false,
-			refetchOnReconnect: false,
 			retry: false,
 		}
 	);

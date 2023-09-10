@@ -12,6 +12,8 @@ import Calendar from "../pages/Calendar";
 import Profile from "../pages/Profile";
 import Appointments from "../pages/Appointments";
 import Analytics from "../pages/Analytics";
+import Review from "../pages/Review";
+import TestResults from "../pages/TestResults";
 
 export default function PokedocRoutes() {
 	const { token, userType } = useAuth();
@@ -42,8 +44,17 @@ export default function PokedocRoutes() {
 			path: "/analytics",
 			element: <Analytics />,
 		},
+		{
+			path: "/review",
+			element: <Review />,
+		},
 	];
-	const patientOnlyRoutes = [];
+	const patientOnlyRoutes = [
+		{
+			path: "/testresults",
+			element: <TestResults />,
+		},
+	];
 	const routesForAuthOnly = [
 		{
 			path: "/",

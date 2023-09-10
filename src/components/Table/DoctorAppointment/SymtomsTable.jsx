@@ -1,7 +1,7 @@
 import React from "react";
 import CRUDTable from "../CRUDTable";
 
-export default function SymptomsTable({ symptoms, onChange }) {
+export default function SymptomsCrudTable({ symptoms, onChange }) {
     return (
         <CRUDTable
             cols={symptomCols}

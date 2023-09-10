@@ -66,7 +66,22 @@ export async function postDoctorSignup({ username, fullname, email, password, de
 
 export async function postSymptomsOnAppointment({ apptId, userType, symptoms }) {
     console.log("POST multiple symptoms on session", apptId, userType, symptoms);
-    const data = symptoms.map(async (s) => await axios.post(`/session/symptoms/${apptId}`, s),)
+    const data = symptoms.map(async (s) => await axios.post(`/session/symptoms/${apptId}`, s),);
     console.log(data);
+    return data;
+}
+
+export async function getPendingReviews({ queryKey }) {
+    const [, userId] = queryKey;
+    console.log("GET pending peer reviews", userId);
+    const { data } = await axios.get(`/review/doctor/${userId}`);
+    console.log(data);
+    return data;
+}
+
+export async function postSubmitReview({ apptId, review }) {
+    console.log("POST submit review", apptId, review);
+    const { data } = await axios.post(`/review/submit/${apptId}?review=${review}`);
+    console.log(data)
     return data;
 }

@@ -5,7 +5,6 @@ import { useQuery } from "react-query";
 import { getAppointment } from "../../api/session";
 import LoadingBackdrop from "../../components/Backdrop/LoadingBackdrop";
 import { getPatientEHR } from "../../api/patient";
-import { getDoctor } from "../../api/doctor";
 import PatientInfoCard from "../../components/Card/DoctorAppointment/PatientInfoCard";
 import AppointmentTabs from "../../components/Tab/DoctorAppointment/AppointmentTabs";
 
@@ -14,9 +13,7 @@ export default function DoctorAppointment() {
 	const apptId = searchParams.get("id");
 
 	// appt data
-	const getApptQuery = useQuery(["getAppt", apptId], getAppointment, {
-		refetchOnWindowFocus: false,
-	});
+	const getApptQuery = useQuery(["getAppt", apptId], getAppointment);
 
 	// patient data
 	const getPatientEHRQuery = useQuery(
@@ -24,36 +21,20 @@ export default function DoctorAppointment() {
 		getPatientEHR,
 		{
 			enabled: !!getApptQuery.data, // get patient data after appt data is fetched,
-			refetchOnWindowFocus: false,
 		}
 	);
 
-	// doctor data
-	const getDoctorQuery = useQuery(
-		["getDoctor", getApptQuery.data?.doctor_id],
-		getDoctor,
-		{
-			enabled: !!getApptQuery.data, // get doctor data after appt data is fetched,
-			refetchOnWindowFocus: false,
-		}
-	);
-
-	if (
-		getApptQuery.isFetching ||
-		getPatientEHRQuery.isFetching ||
-		getDoctorQuery.isFetching
-	) {
+	if (getApptQuery.isFetching || getPatientEHRQuery.isFetching) {
 		return <LoadingBackdrop />;
 	}
 
-	if (getApptQuery.data && getPatientEHRQuery.data && getDoctorQuery.data.doctor) {
+	if (getApptQuery.data && getPatientEHRQuery.data) {
 		console.log("appt in appt page", getApptQuery.data);
 		console.log("patient in appt page", getPatientEHRQuery.data);
-		console.log("doctor in appt page", getDoctorQuery.data.doctor);
 	}
 
 	return (
-		<Grid container height="91%">
+		<Grid container>
 			<Grid item xs={3} m={3}>
 				<PatientInfoCard patientEHR={getPatientEHRQuery.data} />
 			</Grid>

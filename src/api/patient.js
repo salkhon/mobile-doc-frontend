@@ -92,52 +92,51 @@ export async function postPatientSignup({ username, password, fullname, nid, dob
     return resp.data;
 }
 
-export async function putPatient(userId, newData) {
+export async function putPatient({ userId, newData }) {
     console.log("PUT patient profile info", newData);
     const { data } = await axios.put(`/patient/${userId}`, newData);
     console.log(data);
     return data
 }
 
+export async function postReviewRequest({ queryKey }) {
+    const [, apptId] = queryKey;
+    console.log("POST review request", apptId);
+    const { data } = await axios.post(`/review/request/${apptId}`);
+    console.log(data)
+    return data;
+}
+
+export async function getReview({ queryKey }) {
+    const [, apptId] = queryKey;
+    console.log("GET appt review", apptId);
+    const { data } = await axios.get(`/review/${apptId}`);
+    console.log(data);
+    return data
+}
+
 /* API utils */
-export function edittedPatientInfoToPatientObject(prevData, {
-    name,
-    email,
-    dateOfBirth,
-    address,
-    phoneNum,
-    id,
-    profession,
-    bloodGroup,
-    allergies,
-    heartCondition,
-    diabetes,
-    smokingHistory,
-    asthma,
-    liverProblem,
-    kidneyProblem,
-    physicalAttrs
-}) {
+export function edittedPatientInfoToPatientObject(prevData, formData) {
     return {
         ...prevData,
 
-        name: name,
-        identification_no: id,
-        date_of_brth: dateOfBirth,
-        address: address,
-        phone_no: phoneNum,
-        email: email,
-        profession: profession,
+        name: formData.name,
+        identification_no: formData.id,
+        date_of_brth: formData.dateOfBirth,
+        address: formData.address,
+        phone_no: formData.phoneNum,
+        email: formData.email,
+        profession: formData.profession,
         general_information: {
-            blood_group: bloodGroup,
-            allergies: allergies,
-            heart_condition: heartCondition,
-            diabetes: diabetes,
-            smoking_history: smokingHistory,
-            asthema: asthma,
-            liver_problem: liverProblem,
-            kidney_problem: kidneyProblem,
+            blood_group: formData.bloodGroup,
+            allergies: formData.allergies,
+            heart_condition: formData.heartCondition,
+            diabetes: formData.diabetes,
+            smoking_history: formData.smokingHistory,
+            asthema: formData.asthma,
+            liver_problem: formData.liverProblem,
+            kidney_problem: formData.kidneyProblem,
         },
-        physical_attributes: physicalAttrs
+        physical_attributes: formData.physicalAttrs
     };
 }
