@@ -118,7 +118,7 @@ export async function getReview({ queryKey }) {
 export async function postTestResult({ testResult }) {
     console.log("POST test result", testResult);
     const { data } = await axios.post(`/test_result`, {
-        schema_name: "CBC",
+        schema_name: "",
         test_result: testResult,
         api_key: "your_api_key_here"
     });

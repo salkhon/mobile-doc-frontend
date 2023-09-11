@@ -94,21 +94,25 @@ export default function AppointmentsTable({
 	appts,
 	userType,
 	navigate = null,
+	redacted = false,
 }) {
-	const userSpecificCols = React.useMemo(
-		() => [
-			userType === "doctor"
-				? {
-						field: "patientId",
-						headerName: "Patient ID",
-				  }
-				: {
-						field: "doctorId",
-						headerName: "Doctor ID",
-				  },
-			...apptCols,
-		],
-		[userType]
+	let userSpecificCols = React.useMemo(
+		() =>
+			redacted
+				? apptCols
+				: [
+						userType === "doctor"
+							? {
+									field: "patientId",
+									headerName: "Patient ID",
+							  }
+							: {
+									field: "doctorId",
+									headerName: "Doctor ID",
+							  },
+						...apptCols,
+				  ],
+		[userType, redacted]
 	);
 
 	return (

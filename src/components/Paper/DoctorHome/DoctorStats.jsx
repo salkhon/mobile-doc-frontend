@@ -67,7 +67,7 @@ export default function DoctorStats() {
 						</Grid>
 						<Grid item xs={12}>
 							<Typography variant="h2" color="green">
-								{getDoctorQuery.data.doctor.calendar.length}
+								{getApptsQuery.data.length}
 							</Typography>
 						</Grid>
 					</Grid>

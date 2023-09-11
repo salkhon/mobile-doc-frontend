@@ -25,7 +25,11 @@ import PatientPhysicalAttributes from "../../General/PatientPhysicalAttributes";
 import { SnackbarProvider, enqueueSnackbar } from "notistack";
 import TestResultsList from "../../General/TestResultsList";
 
-export default function AppointmentTabs({ appt, patientEHR }) {
+export default function AppointmentTabs({
+	appt,
+	patientEHR,
+	redacted = false,
+}) {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 	const { userType } = useAuth();
@@ -136,7 +140,7 @@ export default function AppointmentTabs({ appt, patientEHR }) {
 	}
 
 	return (
-		<Box sx={{ width: "100%", height: "100%", typography: "body1" }}>
+		<Box sx={{ width: "100%", height: "93vh", typography: "body1" }}>
 			<TabContext value={value}>
 				<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
 					<TabList onChange={handleChange}>
@@ -277,6 +281,7 @@ export default function AppointmentTabs({ appt, patientEHR }) {
 						<AppointmentsTable
 							appts={patientEHR.patient_sessions}
 							userType="patient"
+							redacted={redacted}
 						/>
 					</Grid>
 				</TabPanel>

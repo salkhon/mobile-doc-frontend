@@ -59,7 +59,12 @@ export default function TestResults() {
 	}
 
 	function handleSubmit(e) {
-		postTestResultsMutation.mutate({ testResult: dialogData });
+		postTestResultsMutation.mutate({
+			testResult: {
+				...dialogData,
+				patient_id: userId,
+			},
+		});
 		setIsDialogOpen(false);
 		setDialogData(initDialogData);
 	}

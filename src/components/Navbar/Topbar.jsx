@@ -88,7 +88,10 @@ function Topbar() {
 					}}
 					onClose={() => setAnchorEl(null)}
 				>
-					<Stack direction="column" sx={{ p: 1 }}>
+					<Stack
+						direction="column"
+						sx={{ p: 1, height: 300, width: 300, overflow: "auto" }}
+					>
 						{getNotificationsQuery.data?.notifications
 							?.sort(
 								(n1, n2) =>

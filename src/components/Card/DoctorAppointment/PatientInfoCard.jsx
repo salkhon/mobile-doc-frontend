@@ -4,7 +4,7 @@ import React, { useMemo } from "react";
 import PatientLatestPhyAttr from "../../Paper/PatientLatestPhyAttr";
 import { extractPatientMedicalConditions } from "../PatientProfile/PatientMedicalInfo";
 
-export default function PatientInfoCard({ patientEHR }) {
+export default function PatientInfoCard({ patientEHR, redacted = false }) {
 	const patientLatestPhyAttrs = useMemo(
 		() =>
 			getPatientLatestAttrs(
@@ -21,93 +21,100 @@ export default function PatientInfoCard({ patientEHR }) {
 	return (
 		<Card
 			sx={{
-				height: "86%",
+				height: "90vh",
 				boxShadow: 3,
 			}}
 		>
 			<Grid container p="30px 10px" alignItems="center">
-				<CenteredGrid item xs={12}>
-					<Avatar
-						alt={patientEHR.patient_details?.name}
-						src="#"
-						sx={{
-							width: 70,
-							height: 70,
-						}}
-					/>
-				</CenteredGrid>
-				<Grid
-					item
-					xs={12}
-					display="flex"
-					justifyContent="center"
-					m="20px 0"
-				>
-					<Typography variant="h4">
-						{patientEHR.patient_details?.name}
-					</Typography>
-				</Grid>
+				{!redacted && (
+					<>
+						<CenteredGrid item xs={12}>
+							<Avatar
+								alt={patientEHR.patient_details?.name}
+								src="#"
+								sx={{
+									width: 70,
+									height: 70,
+								}}
+							/>
+						</CenteredGrid>
+						<Grid
+							item
+							xs={12}
+							display="flex"
+							justifyContent="center"
+							m="20px 0"
+						>
+							<Typography variant="h4">
+								{patientEHR.patient_details?.name}
+							</Typography>
+						</Grid>
 
-				<CenteredGrid item xs={12}>
-					<Typography variant="overline" fontSize={14} color="grey">
-						General Info
-					</Typography>
-				</CenteredGrid>
+						<CenteredGrid item xs={12}>
+							<Typography
+								variant="overline"
+								fontSize={14}
+								color="grey"
+							>
+								General Info
+							</Typography>
+						</CenteredGrid>
 
-				<KeyValueGrid item xs={4}>
-					<KeyTypography>Name:</KeyTypography>
-				</KeyValueGrid>
-				<KeyValueGrid item xs={8}>
-					<ValueTypography>
-						{patientEHR.patient_details?.name}
-					</ValueTypography>
-				</KeyValueGrid>
+						<KeyValueGrid item xs={4}>
+							<KeyTypography>Name:</KeyTypography>
+						</KeyValueGrid>
+						<KeyValueGrid item xs={8}>
+							<ValueTypography>
+								{patientEHR.patient_details?.name}
+							</ValueTypography>
+						</KeyValueGrid>
 
-				<KeyValueGrid item xs={4}>
-					<KeyTypography>Date of Birth:</KeyTypography>
-				</KeyValueGrid>
-				<KeyValueGrid item xs={8}>
-					<ValueTypography>
-						{patientEHR.patient_details?.date_of_brth}
-					</ValueTypography>
-				</KeyValueGrid>
+						<KeyValueGrid item xs={4}>
+							<KeyTypography>Date of Birth:</KeyTypography>
+						</KeyValueGrid>
+						<KeyValueGrid item xs={8}>
+							<ValueTypography>
+								{patientEHR.patient_details?.date_of_brth}
+							</ValueTypography>
+						</KeyValueGrid>
 
-				<KeyValueGrid item xs={4}>
-					<KeyTypography>Phone:</KeyTypography>
-				</KeyValueGrid>
-				<KeyValueGrid item xs={8}>
-					<ValueTypography>
-						{patientEHR.patient_details?.phone_no}
-					</ValueTypography>
-				</KeyValueGrid>
+						<KeyValueGrid item xs={4}>
+							<KeyTypography>Phone:</KeyTypography>
+						</KeyValueGrid>
+						<KeyValueGrid item xs={8}>
+							<ValueTypography>
+								{patientEHR.patient_details?.phone_no}
+							</ValueTypography>
+						</KeyValueGrid>
 
-				<KeyValueGrid item xs={4}>
-					<KeyTypography>Professsion:</KeyTypography>
-				</KeyValueGrid>
-				<KeyValueGrid item xs={8}>
-					<ValueTypography>
-						{patientEHR.patient_details?.profession}
-					</ValueTypography>
-				</KeyValueGrid>
+						<KeyValueGrid item xs={4}>
+							<KeyTypography>Professsion:</KeyTypography>
+						</KeyValueGrid>
+						<KeyValueGrid item xs={8}>
+							<ValueTypography>
+								{patientEHR.patient_details?.profession}
+							</ValueTypography>
+						</KeyValueGrid>
 
-				<KeyValueGrid item xs={4}>
-					<KeyTypography>ID:</KeyTypography>
-				</KeyValueGrid>
-				<KeyValueGrid item xs={8}>
-					<ValueTypography>
-						{patientEHR.patient_details?.identification_no}
-					</ValueTypography>
-				</KeyValueGrid>
+						<KeyValueGrid item xs={4}>
+							<KeyTypography>ID:</KeyTypography>
+						</KeyValueGrid>
+						<KeyValueGrid item xs={8}>
+							<ValueTypography>
+								{patientEHR.patient_details?.identification_no}
+							</ValueTypography>
+						</KeyValueGrid>
 
-				<KeyValueGrid item xs={4}>
-					<KeyTypography>Address:</KeyTypography>
-				</KeyValueGrid>
-				<KeyValueGrid item xs={8}>
-					<ValueTypography>
-						{patientEHR.patient_details?.address}
-					</ValueTypography>
-				</KeyValueGrid>
-
+						<KeyValueGrid item xs={4}>
+							<KeyTypography>Address:</KeyTypography>
+						</KeyValueGrid>
+						<KeyValueGrid item xs={8}>
+							<ValueTypography>
+								{patientEHR.patient_details?.address}
+							</ValueTypography>
+						</KeyValueGrid>
+					</>
+				)}
 				<CenteredGrid item xs={12}>
 					<Typography variant="overline" fontSize={14} color="grey">
 						Current Physical Attributes

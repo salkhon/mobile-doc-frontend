@@ -168,9 +168,9 @@ export default function DoctorInfoCard({ doctor, appt }) {
 										alignItems="center"
 									>
 										<TextareaAutosize
-											value={getReviewQuery.data.review.join(
-												"\n"
-											)}
+											value={getReviewQuery.data.review
+												.map((r) => r.review)
+												.join("\n")}
 											contentEditable={false}
 											style={{
 												fontFamily: "Source Sans Pro",
