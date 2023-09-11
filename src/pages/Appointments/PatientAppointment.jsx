@@ -8,6 +8,7 @@ import { getPatientEHR } from "../../api/patient";
 import { getDoctor } from "../../api/doctor";
 import DoctorInfoCard from "../../components/Card/PatientAppointment/DoctorInfoCard";
 import PresciptionCard from "../../components/Card/PatientAppointment/PrescriptionCard";
+import AppointmentSummaryCard from "../../components/Card/DoctorAppointment/AppointmentSummaryCard";
 
 export default function PatientAppointment() {
 	const [searchParams] = useSearchParams();
@@ -40,6 +41,21 @@ export default function PatientAppointment() {
 		getDoctorQuery.isFetching
 	) {
 		return <LoadingBackdrop />;
+	} else if (
+		!getApptQuery.data?.doctor_id ||
+		!getApptQuery.data?.start_time
+	) {
+		return (
+			<Grid
+				item
+				xs={12}
+				display="flex"
+				justifyContent="center"
+				alignItems="center"
+			>
+				Session Is Incomplete
+			</Grid>
+		);
 	}
 
 	if (
@@ -54,8 +70,11 @@ export default function PatientAppointment() {
 	}
 
 	return (
-		<Grid container height="91%">
-			<Grid item xs={8.09} m={3}>
+		<Grid container width="97%" m={2}>
+			<Grid item xs={12} m={1}>
+				<AppointmentSummaryCard appt={getApptQuery.data} />
+			</Grid>
+			<Grid item xs={8.09} m={1}>
 				<PresciptionCard
 					patient={getPatientEHRQuery.data.patient_details}
 					doctor={getDoctorQuery.data.doctor}
@@ -65,10 +84,10 @@ export default function PatientAppointment() {
 			<Grid
 				item
 				xs={3}
-				m={3}
 				display="flex"
 				justifyContent="center"
 				alignItems="center"
+				m={1}
 			>
 				<DoctorInfoCard
 					doctor={getDoctorQuery.data?.doctor}

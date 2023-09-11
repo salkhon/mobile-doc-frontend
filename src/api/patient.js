@@ -115,6 +115,17 @@ export async function getReview({ queryKey }) {
     return data
 }
 
+export async function postTestResult({ testResult }) {
+    console.log("POST test result", testResult);
+    const { data } = await axios.post(`/test_result`, {
+        schema_name: "CBC",
+        test_result: testResult,
+        api_key: "your_api_key_here"
+    });
+    console.log(data)
+    return data;
+}
+
 /* API utils */
 export function edittedPatientInfoToPatientObject(prevData, formData) {
     return {

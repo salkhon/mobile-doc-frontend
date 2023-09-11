@@ -8,7 +8,7 @@ import {
 	Grid,
 	useTheme,
 } from "@mui/material";
-import { Navigate, useLocation, Link } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
 import { tokens } from "../../theme";
 import { postLogin } from "../../api/auth";
@@ -21,8 +21,7 @@ export function LoginPage() {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 
-	const location = useLocation();
-	const next = location.state?.from?.pathname || "/";
+	const next = "/";
 
 	const { setToken, setUserId, setUserName, setUserType } = useAuth();
 

@@ -3,7 +3,6 @@ import React from "react";
 import TestResultPaper from "../../components/Paper/TestResult/TestResultPaper";
 
 export default function TestResultsList({ patientEHR }) {
-    console.log("ehr in test result tab", patientEHR)
 	return (
 		<Grid item xs={12} m={3} container>
 			<Grid item xs={12}>

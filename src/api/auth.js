@@ -10,3 +10,11 @@ export async function postLogin({ queryKey }) {
     console.log("LOGIN RESPONSE", resp)
     return resp.data;
 }
+
+export async function getNotifications({ queryKey }) {
+    const [, userId] = queryKey;
+    console.log("GET notification", userId);
+    const { data } = await axios.get("/notification");
+    console.log(data);
+    return data;
+}

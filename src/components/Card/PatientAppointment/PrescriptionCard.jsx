@@ -17,9 +17,9 @@ export default function PresciptionCard({ patient, doctor, appt }) {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 
-	console.log("appt in prescription card", appt, patient, doctor);
+	console.log("in prescription card", appt, patient, doctor);
 	return (
-		<Card sx={{ width: "100%", height: "100%" }}>
+		<Card>
 			<Grid
 				container
 				height="100%"
@@ -100,6 +100,7 @@ export default function PresciptionCard({ patient, doctor, appt }) {
 							fontFamily: "Source Sans Pro",
 							lineHeight: "1.5",
 							padding: "12px",
+							marginTop: "12px",
 							borderRadius: "12px 12px 0 12px",
 							border: `1px solid ${colors.primary[600]}`,
 							backgroundColor: `${theme.palette.neutral.dark}`,

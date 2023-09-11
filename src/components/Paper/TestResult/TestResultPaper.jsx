@@ -3,7 +3,6 @@ import { DataGrid } from "@mui/x-data-grid";
 import React from "react";
 
 export default function TestResultPaper({ testResult }) {
-	console.log("test res in paper", testResult);
 	return (
 		<Paper
 			sx={{ width: "100%", margin: "12px 0", padding: 5 }}
@@ -31,7 +30,9 @@ export default function TestResultPaper({ testResult }) {
 				</Grid>
 
 				<Grid item xs={6} p={3}>
-					<Typography variant="h5">Numeric Results</Typography>
+					<Typography variant="h4" mb={1}>
+						Numeric Results
+					</Typography>
 					{!!testResult.numeric_results && (
 						<DataGrid
 							rows={testResult.numeric_results.map(
@@ -43,7 +44,9 @@ export default function TestResultPaper({ testResult }) {
 				</Grid>
 
 				<Grid item xs={6} p={3}>
-					<Typography variant="h5">Files</Typography>
+					<Typography variant="h4" mb={1}>
+						Files
+					</Typography>
 					{!!testResult.test_files && (
 						<DataGrid
 							rows={testResult.test_files.map(
