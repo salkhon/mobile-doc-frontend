@@ -92,13 +92,8 @@ function Topbar() {
 						direction="column"
 						sx={{ p: 1, height: 300, width: 300, overflow: "auto" }}
 					>
-						{getNotificationsQuery.data?.notifications
-							?.sort(
-								(n1, n2) =>
-									new Date(n2.timestamp).getTime() -
-									new Date(n1.timestamp).getTime()
-							)
-							.map((n, idx) => (
+						{getNotificationsQuery.data?.notifications.map(
+							(n, idx) => (
 								<Box key={idx} display="flex">
 									<Typography
 										variant="h5"
@@ -133,7 +128,8 @@ function Topbar() {
 										minutes ago
 									</Typography>
 								</Box>
-							))}
+							)
+						)}
 					</Stack>
 				</Popover>
 
