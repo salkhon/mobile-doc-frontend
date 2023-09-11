@@ -1,4 +1,4 @@
-import { Card, Grid, Typography } from "@mui/material";
+import { Card, Grid, Link, Typography } from "@mui/material";
 import React from "react";
 
 export default function AppointmentSummaryCard({ appt }) {
@@ -22,6 +22,12 @@ export default function AppointmentSummaryCard({ appt }) {
 					<Typography variant="h4">
 						{new Date(appt.start_time).toLocaleString()}
 					</Typography>
+				</Grid>
+				<Grid item xs={12}>
+					Meeting Link:
+					<Link href={appt.video_call_link ?? ""}>
+						{appt.video_call_link ?? ""}
+					</Link>
 				</Grid>
 			</Grid>
 		</Card>
