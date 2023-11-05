@@ -22,7 +22,7 @@ This is a webapp that connects patients and doctors online.
 
 <img src="https://raw.githubusercontent.com/salkhon/mobile-doc-frontend/master/public/features/patient-home.png" alt="Pokedoc">
 
-### Doctor Home Page
+### Doctor Home
 
 <img src="https://raw.githubusercontent.com/salkhon/mobile-doc-frontend/master/public/features/doc-home.png" alt="Pokedoc">
 
