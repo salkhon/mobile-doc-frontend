@@ -92,7 +92,7 @@ function Topbar() {
 						direction="column"
 						sx={{ p: 1, height: 300, width: 300, overflow: "auto" }}
 					>
-						{getNotificationsQuery.data?.notifications.map(
+						{getNotificationsQuery.data?.notifications?.map(
 							(n, idx) => (
 								<Box key={idx} display="flex">
 									<Typography

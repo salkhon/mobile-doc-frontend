@@ -44,7 +44,7 @@ export default function PatientProfile() {
 		setIsEditDialogOpen(false);
 	}
 
-	if (getPatientQuery.isFetching) {
+	if (getPatientQuery.isFetching || !getPatientQuery.data) {
 		return <LoadingBackdrop />;
 	}
 
@@ -97,18 +97,11 @@ export default function PatientProfile() {
 				<PatientInfoCard patient={getPatientQuery.data.patient} />
 			</Grid>
 			<Grid item xs={4.5}>
-				<PatientMedicalInfoCard
-					patient={getPatientQuery.data.patient}
-				/>
+				<PatientMedicalInfoCard patient={getPatientQuery.data.patient} />
 			</Grid>
 
 			<Grid item xs={12} container>
-				<Grid
-					item
-					xs={12}
-					display="flex"
-					justifyContent="space-between"
-				>
+				<Grid item xs={12} display="flex" justifyContent="space-between">
 					<Typography variant="h3" fontWeight="bold" m={3}>
 						Temporal Data
 					</Typography>
@@ -116,9 +109,7 @@ export default function PatientProfile() {
 
 				{/* TIME SERIES FOR EACH PROPERTY */}
 				<Grid item xs={12} pl={3}>
-					<PatientPhysicalAttributes
-						patient={getPatientQuery.data.patient}
-					/>
+					<PatientPhysicalAttributes patient={getPatientQuery.data.patient} />
 				</Grid>
 			</Grid>
 
