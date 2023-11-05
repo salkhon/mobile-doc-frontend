@@ -18,5 +18,30 @@ This is a webapp that connects patients and doctors online.
 
 ## Feature Screenshots
 
-### Home Page
+### Patient Home
 
+<img src="https://raw.githubusercontent.com/salkhon/mobile-doc-frontend/master/public/features/patient-home.png" alt="Pokedoc">
+
+### Doctor Home Page
+
+<img src="https://raw.githubusercontent.com/salkhon/mobile-doc-frontend/master/public/features/doc-home.png" alt="Pokedoc">
+
+### Doctor Profile
+
+<img src="https://raw.githubusercontent.com/salkhon/mobile-doc-frontend/master/public/features/doctor-profile.png" alt="Pokedoc">
+
+### Patient Profile
+
+<img src="https://raw.githubusercontent.com/salkhon/mobile-doc-frontend/master/public/features/charts.png" alt="Pokedoc">
+
+### Appointment Calendar
+
+<img src="https://raw.githubusercontent.com/salkhon/mobile-doc-frontend/master/public/features/calendar.png" alt="Pokedoc">
+
+### Patient Prescription
+
+<img src="https://raw.githubusercontent.com/salkhon/mobile-doc-frontend/master/public/features/patient-appt.png" alt="Pokedoc">
+
+### Doctor Prescription
+
+<img src="https://raw.githubusercontent.com/salkhon/mobile-doc-frontend/master/public/features/doctor-appt.png" alt="Pokedoc">
